@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>随便说点啥吧 | Pangzi‘s homepage</title>
+    <title>关于java中的Null | Pangzi‘s homepage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Lujunqiu">
     
 
     
-    <meta name="description" content="关于博客&amp;#160;&amp;#160;&amp;#160;&amp;#160;其实在2016年本科毕业决定继续在华中科技大学读研究生的时候，我就想过要开始写博客。有几方面原因吧，写博客可以记录下平时学习过程中的笔记啥的，其次还可以当作日记来用。在我最初的认知里面，写博客应该是件文艺青年爱干的事（btw,现在写博客的大部分是程序员？文艺青年都去写朋友圈软文了？）。说不定多写写东西，可以让我看起来文艺一点，或许还能帮我追女">
+    <meta name="description" content="关键字NullJava中，Null是一个很有“意思”的关键字，设计之初用来标识一个不确定的对象或者一个缺失的对象。同时Null作为java中的关键字，如同public，static等等是大小写敏感的。但是Null说到底还是一个值，可以赋给任何引用变量但是不能将Null赋值给java的8种基本数据类型变量。如果在定义了变量类型之后，没有给变量赋值初始化，那么Null关键字是所有引用类型变量的默认初始">
 <meta property="og:type" content="article">
-<meta property="og:title" content="随便说点啥吧">
-<meta property="og:url" content="http://yoursite.com/2017/03/07/随便说点啥吧/index.html">
+<meta property="og:title" content="关于java中的Null">
+<meta property="og:url" content="http://yoursite.com/2017/03/08/关于null/index.html">
 <meta property="og:site_name" content="Pangzi‘s homepage">
-<meta property="og:description" content="关于博客&amp;#160;&amp;#160;&amp;#160;&amp;#160;其实在2016年本科毕业决定继续在华中科技大学读研究生的时候，我就想过要开始写博客。有几方面原因吧，写博客可以记录下平时学习过程中的笔记啥的，其次还可以当作日记来用。在我最初的认知里面，写博客应该是件文艺青年爱干的事（btw,现在写博客的大部分是程序员？文艺青年都去写朋友圈软文了？）。说不定多写写东西，可以让我看起来文艺一点，或许还能帮我追女">
-<meta property="og:updated_time" content="2017-03-07T04:10:54.000Z">
+<meta property="og:description" content="关键字NullJava中，Null是一个很有“意思”的关键字，设计之初用来标识一个不确定的对象或者一个缺失的对象。同时Null作为java中的关键字，如同public，static等等是大小写敏感的。但是Null说到底还是一个值，可以赋给任何引用变量但是不能将Null赋值给java的8种基本数据类型变量。如果在定义了变量类型之后，没有给变量赋值初始化，那么Null关键字是所有引用类型变量的默认初始">
+<meta property="og:updated_time" content="2017-03-08T16:23:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="随便说点啥吧">
-<meta name="twitter:description" content="关于博客&amp;#160;&amp;#160;&amp;#160;&amp;#160;其实在2016年本科毕业决定继续在华中科技大学读研究生的时候，我就想过要开始写博客。有几方面原因吧，写博客可以记录下平时学习过程中的笔记啥的，其次还可以当作日记来用。在我最初的认知里面，写博客应该是件文艺青年爱干的事（btw,现在写博客的大部分是程序员？文艺青年都去写朋友圈软文了？）。说不定多写写东西，可以让我看起来文艺一点，或许还能帮我追女">
+<meta name="twitter:title" content="关于java中的Null">
+<meta name="twitter:description" content="关键字NullJava中，Null是一个很有“意思”的关键字，设计之初用来标识一个不确定的对象或者一个缺失的对象。同时Null作为java中的关键字，如同public，static等等是大小写敏感的。但是Null说到底还是一个值，可以赋给任何引用变量但是不能将Null赋值给java的8种基本数据类型变量。如果在定义了变量类型之后，没有给变量赋值初始化，那么Null关键字是所有引用类型变量的默认初始">
 
     
     <link rel="alternative" href="/atom.xml" title="Pangzi‘s homepage" type="application/atom+xml">
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/07/随便说点啥吧/" title="随便说点啥吧" itemprop="url">随便说点啥吧</a>
+      <a href="/2017/03/08/关于null/" title="关于java中的Null" itemprop="url">关于java中的Null</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-07T01:02:03.000Z" itemprop="datePublished"> Published 2017-03-07</time>
+    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> Published 2017-03-08</time>
     
   </p>
 </header>
@@ -96,39 +96,20 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于博客"><span class="toc-number">1.</span> <span class="toc-text">关于博客</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Flag"><span class="toc-number">1.1.</span> <span class="toc-text">Flag</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mac-os搭建博客教程（hexo-amp-amp-github）"><span class="toc-number">1.2.</span> <span class="toc-text">mac os搭建博客教程（hexo&&github）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后说点啥？"><span class="toc-number">1.3.</span> <span class="toc-text">最后说点啥？</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关键字Null"><span class="toc-number">1.</span> <span class="toc-text">关键字Null</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-billion-dollar-mistake"><span class="toc-number">2.</span> <span class="toc-text">a billion-dollar mistake</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NullPointerException"><span class="toc-number">3.</span> <span class="toc-text">NullPointerException</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Avoid-Nulls"><span class="toc-number">4.</span> <span class="toc-text">Avoid Nulls</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h1><p>&#160;&#160;&#160;&#160;其实在2016年本科毕业决定继续在华中科技大学读研究生的时候，我就想过要开始写博客。有几方面原因吧，写博客可以记录下平时学习过程中的笔记啥的，其次还可以当作日记来用。在我最初的认知里面，写博客应该是件文艺青年爱干的事（btw,现在写博客的大部分是程序员？文艺青年都去写朋友圈软文了？）。说不定多写写东西，可以让我看起来文艺一点，或许还能帮我追女生. </p>
-<p>&#160;&#160;&#160;&#160;说了这么多，为什么过了半年才开始写？这个说来话长，原因各种各样，搭建博客的环境配置,etc…诶，其实就是懒。但是我并不是啥也没干，我选择了一种比较轻松的方法来做这件事情。我已经用有道云笔记来记录学习笔记很久了（我还是比较推荐印象笔记，有道云的多终端仓库同步时不时会宕机）。其实写笔记和写博客还是有很大区别的，写笔记是给自己看的，写的时候就很随意，自己懂了就ctrl ＋ c &amp;&amp; ctrl ＋ v。写博客说到底还是写给别人看的。一篇技术文档，自己看懂和看懂之后能写下来让别人也看懂还是有区别的，在工作的时候这种交际能力算是必备的。说到工作，最近这几天实验室的学长都在找实习，我就在一边吃瓜围观。我发现一个长期坚持写的不错的博客就是一份简历，用比较功利的话说就是坚持写有意义的博客是会在找工作的时候加分的（传说中的集齐BAT offer召唤神龙）。</p>
-<h2 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h2><p>&#160;&#160;&#160;&#160;既然选择了开始做这件事情，我还是希望自己能坚持下来，养成一个习惯确实没那么简单。我想了想，有道云笔记还是要用的，毕竟方便啊，知乎和微博里面的文章一键collet，晚上我会选择比较有意思的那部分整理到博客里来。还有我之前很多在有道云里面的笔记，找个假期回头看看也可以整理一下。</p>
-<p>&#160;&#160;&#160;&#160;第一次写markdown文档，排版很low，也没有什么图文并茂。现在要做的应该是把博客的外观弄起来看着舒服一点，毕竟这是一劳永逸的工作。</p>
-<h2 id="mac-os搭建博客教程（hexo-amp-amp-github）"><a href="#mac-os搭建博客教程（hexo-amp-amp-github）" class="headerlink" title="mac os搭建博客教程（hexo&amp;&amp;github）"></a>mac os搭建博客教程（hexo&amp;&amp;github）</h2><ul>
-<li><p>本地安装</p>
-<ul>
-<li><p>homebrew(挺好用的套件管理器):ruby -e “$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install" target="_blank" rel="external">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)”</p>
-</li>
-<li><p>Node.js:brew install node</p>
-</li>
-<li><p>hexo:sudo npm install –unsafe-perm –verbose -g hexo </p>
-</li>
-<li><p>创建一个文件件名为hexo:mkdir hexo;进入目录:cd hexo</p>
-</li>
-<li><p>hexo init</p>
-</li>
-<li><p>npm install</p>
-</li>
-<li><p>hexo deploy</p>
-</li>
-<li><p>hexo server</p>
-</li>
-</ul>
-</li>
-<li>到此已经在本地搭建好了博客，后续只需要在github上利用Pages的功能托管就ok了</li>
-<li>具体git以及github的使用，我会在后面的博客中提及</li>
-</ul>
-<h2 id="最后说点啥？"><a href="#最后说点啥？" class="headerlink" title="最后说点啥？"></a>最后说点啥？</h2><p>&#160;&#160;&#160;&#160;真的很久很久很久没写能成文的字了，现在往回看，好像确实挺low的。anyway，反正也没几个人看。慢慢改进吧，第一篇文章弄了一上午，先去吃饭了。</p>
+		<h2 id="关键字Null"><a href="#关键字Null" class="headerlink" title="关键字Null"></a>关键字Null</h2><p>Java中，Null是一个很有“意思”的关键字，设计之初用来标识一个不确定的对象或者一个缺失的对象。同时Null作为java中的关键字，如同public，static等等是大小写敏感的。但是Null说到底还是一个值，可以赋给任何引用变量但是不能将Null赋值给java的8种基本数据类型变量。如果在定义了变量类型之后，没有给变量赋值初始化，那么Null关键字是所有引用类型变量的默认初始值。在JVM的视线内，值为Null的引用变量是不会再被任何对象引用了，该变量将会被垃圾回收，从而释放内存。</p>
+<h2 id="a-billion-dollar-mistake"><a href="#a-billion-dollar-mistake" class="headerlink" title="a billion-dollar mistake"></a>a billion-dollar mistake</h2><p>java语言的设计者曾经说过Null关键字的使用是billion-dollar mistake，为什么这么说？如果我们只是用Null作为一个值来传递是不会有任何问题的。可是一旦通过值为Null的引用变量来访问其引用对象(解引用操作)就会出问题，也就是我们时常会在写代码的时候遇到的空指针异常(java.lang.NullPointerException)<br>在编程的时候如果对Null不在意，甚至随意使用Null，后果是非常严重的。</p>
+<h2 id="NullPointerException"><a href="#NullPointerException" class="headerlink" title="NullPointerException"></a>NullPointerException</h2><p>参考RednaxelaFX在知乎上的关于<a href="https://www.zhihu.com/question/47997295" target="_blank" rel="external">return Null是否安全的回答</a></p>
+<p>在java中，对Null引用变量解引用就会抛出NPE异常。哪些操作包含了解引用呢？</p>
+<ul><li>读字段（字节码 getfield）：x.y，当x为null时抛NPE；</li><li>写字段（字节码 putfield）：x.y = z，当x为null时抛NPE。注意：z的值是什么没关系；</li><li>读数组长度（字节码 arraylength）：a.length，当a为null时抛NPE；</li><li>读数组元素（字节码 &lt;x&gt;aload，&lt;x&gt;为类型前缀）：a[i]，当a为null时抛NPE；</li><li>写数组元素（字节码 &lt;x&gt;astore，&lt;x&gt;为类型前缀）：a[i] = x，当a为null时抛NPE。注意：x的值时什么没关系；</li><li>调用成员方法（字节码 invokevirtual、invokeinterface、invokespecial）：obj.foo(x, y, z)，当obj为null时抛NPE。注意：参数的值是什么没关系；</li><li>增强for循环（也叫foreach循环）：</li><ul><li>对数组时（实际隐含a.length操作）：for (E e : a) { … } ， 当a为null时抛NPE；</li><li>对Iterable时（实际隐含对Iterable.iterator()的调用）：for (E e : es) { … } ，当es为null时抛NPE；</li></ul><li>自动拆箱（实际隐含 &lt;XXX&gt;.&lt;xxx&gt;Value() 的调用，&lt;XXX&gt;为包装类型名，&lt;xxx&gt;为对应的原始类型名）： (int) integerObj，当integerObj为null时抛NPE；</li><li>对String做switch（实际隐含的操作包含对String.hashCode()的调用）：switch (s) { case “abc”: … } ，当s为null时抛NPE；</li><li>创建内部类对象实例（字节码 new，但这里特指创建内部类实例的情况）：outer.new Inner(x, y, z)，当outer为null时抛NPE；</li><li>抛异常（字节码 athrow）：throw obj，当obj（throw表达式的参数）为null时抛NPE；</li><li>用synchronized关键字给对象加锁（字节码 monitorenter / monitorexit）：synchronized (obj) { … }，当obj为null时抛NPE。</li></ul>
+
+<h2 id="Avoid-Nulls"><a href="#Avoid-Nulls" class="headerlink" title="Avoid Nulls"></a>Avoid Nulls</h2><p>尽量避免使用空值。不要返回 Null 的集合，可以选择返回一个 empty 的集合。</p>
+<p>如果你确实准备使用 Null，可以考虑使用 @Nullable注解。IntelliJ IDEA 内置支持 @Nullable 注解。</p>
+<p>注解@Nullable和@NotNull的作用：用来标注方法是否能传入null值，如果可以传入Null值，则标记为Nullbale，如果不可以则标注为NotNull. 在我们做了一些不安全严谨的编码操作的时候,这些注释会给我们一些警告。</p>
+<p>如果使用了Java 8，推荐优秀的 Optional 类型来包裹Null引用。<br>使用 Optional 唯一不好的是标准库对 Optional 的支持并不是很好，所以对 null 的处理仍然是必要的。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -136,13 +117,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/一本正经/">一本正经</a>
+  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/胡说八道/">胡说八道</a>
+  <span></span> <a href="/tags/学习笔记/">学习笔记</a>
   </div>
 
 </div>
@@ -151,7 +132,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/03/07/随便说点啥吧/" data-title="随便说点啥吧 | Pangzi‘s homepage" data-tsina="2831891302" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/03/08/关于null/" data-title="关于java中的Null | Pangzi‘s homepage" data-tsina="2831891302" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -164,19 +145,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/03/08/关于null/" title="关于java中的Null">
-  <strong>上一篇：</strong><br/>
-  <span>
-  关于java中的Null</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/03/06/hello-world/"  title="Hello World">
+<a href="/2017/03/07/随便说点啥吧/"  title="随便说点啥吧">
  <strong>下一篇：</strong><br/> 
- <span>Hello World
+ <span>随便说点啥吧
 </span>
 </a>
 </div>
@@ -191,7 +164,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#关于博客"><span class="toc-number">1.</span> <span class="toc-text">关于博客</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Flag"><span class="toc-number">1.1.</span> <span class="toc-text">Flag</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mac-os搭建博客教程（hexo-amp-amp-github）"><span class="toc-number">1.2.</span> <span class="toc-text">mac os搭建博客教程（hexo&&github）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后说点啥？"><span class="toc-number">1.3.</span> <span class="toc-text">最后说点啥？</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关键字Null"><span class="toc-number">1.</span> <span class="toc-text">关键字Null</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-billion-dollar-mistake"><span class="toc-number">2.</span> <span class="toc-text">a billion-dollar mistake</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NullPointerException"><span class="toc-number">3.</span> <span class="toc-text">NullPointerException</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Avoid-Nulls"><span class="toc-number">4.</span> <span class="toc-text">Avoid Nulls</span></a></li></ol>
  
   </div>
 
