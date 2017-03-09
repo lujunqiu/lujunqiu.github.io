@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html >
 <head>
   <meta charset="UTF-8">
   
@@ -47,7 +47,7 @@
 				<h1 class="site-name"><a href="/" title="Pangzi‘s homepage">Pangzi‘s homepage</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -63,7 +63,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -88,7 +88,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-09T14:57:47.000Z" itemprop="datePublished"> 發表於 2017-03-09</time>
+    <time datetime="2017-03-09T14:57:47.000Z" itemprop="datePublished"> Published 2017-03-09</time>
     
   </p>
 </header>
@@ -100,7 +100,7 @@
 <li>它自身没有任何的语义<br> 尤其是，它代表了在静态类型语言中一种错误的方式对缺失的变量值的建模</li>
 </ul>
 <h2 id="Optional类"><a href="#Optional类" class="headerlink" title="Optional类"></a>Optional类</h2><p>java8中引人了一个新的类java.util.Optional&lt; T &gt;。<br>代码示例 1：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</div><div class="line"><span class="keyword">private</span> Optional &lt; Car &gt; car;</div><div class="line"><span class="keyword">public</span> Optional&lt; Car&gt; getCar()&#123;<span class="keyword">return</span> car;&#125; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</div><div class="line"><span class="keyword">private</span> Optional&lt; Insurance&gt; insurance;</div><div class="line"><span class="keyword">public</span> Optional&lt; Insurance&gt; getInsurance()&#123;<span class="keyword">return</span> insurance;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">pubic <span class="class"><span class="keyword">class</span> <span class="title">Insurance</span></span>&#123;</div><div class="line"><span class="keyword">private</span> String name;</div><div class="line"><span class="function">pulic String <span class="title">getName</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> name;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>当变量存在的时候，Optional类只是对类的简单封装。变量不存在的时候，缺失的值会被建模成为一个”空”的Optional对象，该对象可以由方法Optional.empty()返回，同时解引用这个Optional类的有效的”空”对象是完成不会出事的。</p>
+<p>当变量存在的时候，Optional类只是对类的简单封装。变量不存在的时候，缺失的值会被建模成为一个”空”的Optional对象，该对象可以由方法Optional.empty()返回，同时解引用这个Optional类的有效的”空”对象是完全不会出事的。</p>
 <p>上述的代码示例中:</p>
 <ul>
 <li>Person类表示某个人（实例）可能有车，也可能没车，因此将这个字段声明为Optional,表明Person是允许缺失的，通过Optional为缺失null安全建模；</li>
@@ -170,7 +170,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-08T16:33:32.000Z" itemprop="datePublished"> 發表於 2017-03-09</time>
+    <time datetime="2017-03-08T16:33:32.000Z" itemprop="datePublished"> Published 2017-03-09</time>
     
   </p>
 </header>
@@ -245,7 +245,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> 發表於 2017-03-08</time>
+    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> Published 2017-03-08</time>
     
   </p>
 </header>
@@ -261,6 +261,7 @@
 <p>如果你确实准备使用 Null，可以考虑使用 @Nullable注解。IntelliJ IDEA 内置支持 @Nullable 注解。</p>
 <p>注解@Nullable和@NotNull的作用：用来标注方法是否能传入null值，如果可以传入Null值，则标记为Nullbale，如果不可以则标注为NotNull. 在我们做了一些不安全严谨的编码操作的时候,这些注释会给我们一些警告。</p>
 <p>如果使用了Java 8，推荐优秀的 Optional 类型来包裹Null引用。<br>使用 Optional 唯一不好的是标准库对 Optional 的支持并不是很好，所以对 null 的处理仍然是必要的。</p>
+<p><img src="https://lujunqiu.github.io/2017/03/09/Optional/" alt="关于Optional的介绍"></p>
 
         
         
@@ -314,7 +315,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-07T01:02:03.000Z" itemprop="datePublished"> 發表於 2017-03-07</time>
+    <time datetime="2017-03-07T01:02:03.000Z" itemprop="datePublished"> Published 2017-03-07</time>
     
   </p>
 </header>
@@ -402,7 +403,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-06T10:40:43.000Z" itemprop="datePublished"> 發表於 2017-03-06</time>
+    <time datetime="2017-03-06T10:40:43.000Z" itemprop="datePublished"> Published 2017-03-06</time>
     
   </p>
 </header>
@@ -449,10 +450,10 @@
 
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
@@ -460,7 +461,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -481,7 +482,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -489,11 +490,11 @@
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
@@ -505,7 +506,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
     </ul>
@@ -515,11 +516,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -669,7 +670,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

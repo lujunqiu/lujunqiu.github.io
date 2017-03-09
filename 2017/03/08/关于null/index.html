@@ -1,6 +1,6 @@
 
  <!DOCTYPE HTML>
-<html lang="zh-Hans">
+<html >
 <head>
   <meta charset="UTF-8">
   
@@ -17,10 +17,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/03/08/关于null/index.html">
 <meta property="og:site_name" content="Pangzi‘s homepage">
 <meta property="og:description" content="关键字NullJava中，Null是一个很有“意思”的关键字，设计之初用来标识一个不确定的对象或者一个缺失的对象。同时Null作为java中的关键字，如同public，static等等是大小写敏感的。但是Null说到底还是一个值，可以赋给任何引用变量但是不能将Null赋值给java的8种基本数据类型变量。如果在定义了变量类型之后，没有给变量赋值初始化，那么Null关键字是所有引用类型变量的默认初始">
-<meta property="og:updated_time" content="2017-03-08T16:23:38.000Z">
+<meta property="og:image" content="https://lujunqiu.github.io/2017/03/09/Optional/">
+<meta property="og:updated_time" content="2017-03-09T15:51:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于java中的Null">
 <meta name="twitter:description" content="关键字NullJava中，Null是一个很有“意思”的关键字，设计之初用来标识一个不确定的对象或者一个缺失的对象。同时Null作为java中的关键字，如同public，static等等是大小写敏感的。但是Null说到底还是一个值，可以赋给任何引用变量但是不能将Null赋值给java的8种基本数据类型变量。如果在定义了变量类型之后，没有给变量赋值初始化，那么Null关键字是所有引用类型变量的默认初始">
+<meta name="twitter:image" content="https://lujunqiu.github.io/2017/03/09/Optional/">
 
     
     <link rel="alternative" href="/atom.xml" title="Pangzi‘s homepage" type="application/atom+xml">
@@ -48,7 +50,7 @@
 				<h1 class="site-name"><a href="/" title="Pangzi‘s homepage">Pangzi‘s homepage</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -64,7 +66,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -87,14 +89,14 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> 發表於 2017-03-08</time>
+    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> Published 2017-03-08</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目錄</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关键字Null"><span class="toc-number">1.</span> <span class="toc-text">关键字Null</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-billion-dollar-mistake"><span class="toc-number">2.</span> <span class="toc-text">a billion-dollar mistake</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NullPointerException"><span class="toc-number">3.</span> <span class="toc-text">NullPointerException</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Avoid-Nulls"><span class="toc-number">4.</span> <span class="toc-text">Avoid Nulls</span></a></li></ol>
 		
@@ -110,6 +112,7 @@
 <p>如果你确实准备使用 Null，可以考虑使用 @Nullable注解。IntelliJ IDEA 内置支持 @Nullable 注解。</p>
 <p>注解@Nullable和@NotNull的作用：用来标注方法是否能传入null值，如果可以传入Null值，则标记为Nullbale，如果不可以则标注为NotNull. 在我们做了一些不安全严谨的编码操作的时候,这些注释会给我们一些警告。</p>
 <p>如果使用了Java 8，推荐优秀的 Optional 类型来包裹Null引用。<br>使用 Optional 唯一不好的是标准库对 Optional 的支持并不是很好，所以对 null 的处理仍然是必要的。</p>
+<p><img src="https://lujunqiu.github.io/2017/03/09/Optional/" alt="关于Optional的介绍"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -167,17 +170,17 @@
 	
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目錄</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关键字Null"><span class="toc-number">1.</span> <span class="toc-text">关键字Null</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-billion-dollar-mistake"><span class="toc-number">2.</span> <span class="toc-text">a billion-dollar mistake</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NullPointerException"><span class="toc-number">3.</span> <span class="toc-text">NullPointerException</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Avoid-Nulls"><span class="toc-number">4.</span> <span class="toc-text">Avoid Nulls</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
@@ -185,7 +188,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -206,7 +209,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -214,11 +217,11 @@
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
@@ -230,7 +233,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
     </ul>
@@ -240,11 +243,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -471,7 +474,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
