@@ -28,8 +28,7 @@ Optional类java8中引人了一个新的类java.util.Optional&amp;lt; T &amp;gt;
 
 Optional类java8中引人了一个新的类java.util.Optional&amp;lt; T &amp;gt;。代码示例 1">
 <meta property="og:image" content="https://raw.githubusercontent.com/lujunqiu/lujunqiu.github.io/blob/master/img/20170309221204.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/20170309221204.png">
-<meta property="og:updated_time" content="2017-03-09T15:38:53.000Z">
+<meta property="og:updated_time" content="2017-03-09T15:39:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Optional">
 <meta name="twitter:description" content="Null 带来的问题：
@@ -137,7 +136,7 @@ Optional类java8中引人了一个新的类java.util.Optional&amp;lt; T &amp;gt;
 </li>
 <li>利用map，flatmap从Optional对象中提取值<br>参考java8中java.util.Optional函数Api可以得知map，flatmap的用法以及区别。借助上述的代码示例1，比较map方法与flatmap方法的用法。<br><code>Optional&lt;Insurance&gt; optInsurance =     Optional.ofNullable(insurance);</code><br><code>Optional&lt;String&gt; name = optInsurance.map(Insurance :: getName);</code><br>这里的map用方法和流中的map用法几乎一致，map操作会将提供的函数应用于流的每个元素，这里我们将Optional对象看作一种特殊的集合，至少包含一个元素。如果Optional包含一个值，那函数就将改值作为参数传递给map，最后对将得到的值用Optional类包装。如果Optional为空，那就什么都不做。<br>但是注意以下代码：<br> <code>Optional&lt;Person&gt; optPerson = Optional.of(person);</code><br>这里optPerson是Optional<person>类型的变量，调用map方法没有问题，但是其中包含的Person.getCar返回的是一个Optional<car>类型的对象，导致<code>optPerson.map(Person :: getCar);</code>的结果是返回一个Optional<optional<car>&gt;类型的变量。这个时候我们需要用到flatmap方法，可以将多层Optional包裹的值合并为一个Optional返回函数结果。</optional<car></car></person></li>
 <li><p>使用Optional解引用的过程</p>
-<p><img src="https://raw.githubusercontent.com/lujunqiu/lujunqiu.github.io/blob/master/img/20170309221204.png" alt=""><br><img src="../../../../img/20170309221204.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/lujunqiu/lujunqiu.github.io/blob/master/img/20170309221204.png" alt=""></p>
 </li>
 </ol>
 <p><strong>注意：Optional类并没有实现Serializable接口</strong></p>
@@ -241,11 +240,11 @@ Optional类java8中引人了一个新的类java.util.Optional&amp;lt; T &amp;gt;
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/胡说八道/" title="胡说八道">胡说八道<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/胡说八道/" title="胡说八道">胡说八道<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 		</ul>
