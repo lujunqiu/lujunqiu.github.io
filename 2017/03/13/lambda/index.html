@@ -1,0 +1,563 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>lambda | Pangzi‘s homepage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lujunqiu">
+    
+
+    
+    <meta name="description" content="前言函数式编程：没有共享的可变数据 + 将方法和函数（代码）作为一等值来传递
+行为参数化：一个方法接收多个不同的行为作为参数，并在内部使用它们，完成不同行为的能力
+名词解释：
+
+predicate（谓词）：函数以及方法引用。
+
+lambda表达式：匿名函数
+
+
+java8主要的新特性：
+
+lambda表达式
+方法引用
+流（Collections用来存储和访问数据 ；Stream描述对数据的计算，用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lambda">
+<meta property="og:url" content="http://yoursite.com/2017/03/13/lambda/index.html">
+<meta property="og:site_name" content="Pangzi‘s homepage">
+<meta property="og:description" content="前言函数式编程：没有共享的可变数据 + 将方法和函数（代码）作为一等值来传递
+行为参数化：一个方法接收多个不同的行为作为参数，并在内部使用它们，完成不同行为的能力
+名词解释：
+
+predicate（谓词）：函数以及方法引用。
+
+lambda表达式：匿名函数
+
+
+java8主要的新特性：
+
+lambda表达式
+方法引用
+流（Collections用来存储和访问数据 ；Stream描述对数据的计算，用">
+<meta property="og:updated_time" content="2017-03-13T15:28:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lambda">
+<meta name="twitter:description" content="前言函数式编程：没有共享的可变数据 + 将方法和函数（代码）作为一等值来传递
+行为参数化：一个方法接收多个不同的行为作为参数，并在内部使用它们，完成不同行为的能力
+名词解释：
+
+predicate（谓词）：函数以及方法引用。
+
+lambda表达式：匿名函数
+
+
+java8主要的新特性：
+
+lambda表达式
+方法引用
+流（Collections用来存储和访问数据 ；Stream描述对数据的计算，用">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Pangzi‘s homepage" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Pangzi‘s homepage" title="Pangzi‘s homepage"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Pangzi‘s homepage">Pangzi‘s homepage</a></h1>
+				<h2 class="blog-motto">大道唯有自成。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/13/lambda/" title="lambda" itemprop="url">lambda</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-13T15:22:22.000Z" itemprop="datePublished"> Published 2017-03-13</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过行为参数传递代码"><span class="toc-number">2.</span> <span class="toc-text">通过行为参数传递代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda表达式"><span class="toc-number">3.</span> <span class="toc-text">Lambda表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在哪可以使用Lambda表达式"><span class="toc-number">4.</span> <span class="toc-text">在哪可以使用Lambda表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于Lambda表达式使用局部变量："><span class="toc-number">4.0.1.</span> <span class="toc-text">关于Lambda表达式使用局部变量：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单介绍方法引用"><span class="toc-number">5.</span> <span class="toc-text">简单介绍方法引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复合Lambda表达式的有用方法"><span class="toc-number">6.</span> <span class="toc-text">复合Lambda表达式的有用方法</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>函数式编程：没有共享的可变数据 + 将方法和函数（代码）作为一等值来传递</p>
+<p>行为参数化：一个方法接收多个不同的行为作为参数，并在内部使用它们，完成不同行为的能力</p>
+<p>名词解释：</p>
+<ul>
+<li><p>predicate（谓词）：函数以及方法引用。</p>
+</li>
+<li><p>lambda表达式：匿名函数</p>
+</li>
+</ul>
+<p>java8主要的新特性：</p>
+<ul>
+<li>lambda表达式</li>
+<li>方法引用</li>
+<li>流（Collections用来存储和访问数据 ；Stream描述对数据的计算，用来并行的处理数据）</li>
+<li>默认方法（扩展接口）</li>
+</ul>
+<h2 id="通过行为参数传递代码"><a href="#通过行为参数传递代码" class="headerlink" title="通过行为参数传递代码"></a>通过行为参数传递代码</h2><p>将行为参数化是可以帮助我们处理频繁变更的需求的一种软件开发模式，它能够轻松的适应不断变化的需要，可以把一个行为(一段代码)封装起来，并通过传递和使用创建的行为(创建实现谓词的接口的类的实例)将方法的行为参数化。</p>
+<p>在java8之前，我们会定义一个接口(谓词)来将行为参数化。然后我们创建不同的实现类继承该接口来实现不同的行为，最后将不同实现类的实例对象传递给对应的函数就完成了行为(代码)传递工作。这种做法就类似于在内联”传递代码”，将需要传递的代码包裹在一个实现了接口的类里面传递给调用的方法。</p>
+<p>同时为了改善代码，让它更加简洁，我们面对很多只要实例化一次的类，可以采用匿名类来同时声明和实例化一个类，也就是说匿名类允许我们随建随用。</p>
+<p>但是使用匿名类还是不够好，代码不易读，我们还是需要创建一个对象，明确地实现一个方法来定义一个新的行为。为了更加契合软件工程中DPY原则(Don’t Repeat Yourself)，java8引人了lambda表达式（匿名函数）！</p>
+<h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><p>Lambda表达式：匿名的方法，可以作为参数传递或者存储在变量中</p>
+<p>Lambda表达式语法结构：</p>
+<ul>
+<li>(parameters) -&gt; expression</li>
+<li>(parameters) -&gt; {statements;}</li>
+</ul>
+<p>parameters是参数列表，后续是Lambda表达式的主体，主体内如果是表达式则不需要花括号和分号，如果是语句的化则需要花括号与分号。注意区分。</p>
+<p>例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Comparator&lt;Apple&gt; byWeight = <span class="keyword">new</span> Comparator&lt;Apple&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Apple o1, Apple o2)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> o1.getWeight().compareTo(o2.getWeight());</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>我们使用Lambda表达式(直接赋值给变量)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Comparator&lt;Apple&gt; byWeight = (Apple a1,Apple a2) -&gt; a1.getWeight().compareTo(a2.getWeight());</div></pre></td></tr></table></figure>
+<h2 id="在哪可以使用Lambda表达式"><a href="#在哪可以使用Lambda表达式" class="headerlink" title="在哪可以使用Lambda表达式"></a>在哪可以使用Lambda表达式</h2><p>函数式接口：只定义了一个抽象方法的接口；</p>
+<p>在定义函数式接口时我们为该接口添加了@FunctionalInterface注解，用于标记该接口是函数式接口，不过这个接口是可选的，当添加了该接口之后，编译器就限制了该接口只允许有一个抽象方法，否则报错，所以推荐为函数式接口添加该注解。</p>
+<p>Lambda表达式允许我们直接以内联的形式为函数式接口的抽象方法提供实现，并把整个表达式作为函数式接口的实例。(具体来说，是函数式接口的一个具体实现的实例)当然，我们使用匿名类同样可以完成这个操作，只不过是比较笨拙。</p>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Runnable r1 = () -&gt; System.out.println(<span class="string">"Hello World 1"</span>) ;</div><div class="line">Runnable r2 = <span class="keyword">new</span> Runnable()&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"Hello World 2"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(Runnable r)</span></span>&#123;</div><div class="line">    r.run();</div><div class="line">&#125;</div><div class="line">process(r1); <span class="comment">//打印Hello World1</span></div><div class="line">process(r2);<span class="comment">//打印Hello World 2</span></div><div class="line">process(() -&gt; System.out.println(<span class="string">"Hello World 3"</span>));<span class="comment">//打印Hello World3</span></div></pre></td></tr></table></figure>
+<p>函数描述符：函数式接口的抽象方法的签名基本上就是Lambda表达式的签名，这种抽象方法叫作函数描述符。</p>
+<p>JavaApi中常用的函数式接口(只列举了一部分，最终以java官方的javadoc为主)：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Evaluates this predicate on the given argument.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> t the input argument</div><div class="line">     * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if the input argument matches the predicate,</div><div class="line">     * otherwise &#123;<span class="doctag">@code</span> false&#125;</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Consumer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Performs this operation on the given argument.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> t the input argument</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(T t)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Applies this function to the given argument.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> t the function argument</div><div class="line">     * <span class="doctag">@return</span> the function result</div><div class="line">     */</div><div class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BiFunction</span>&lt;<span class="title">T</span>, <span class="title">U</span>, <span class="title">R</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Applies this function to the given arguments.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> t the first function argument</div><div class="line">     * <span class="doctag">@param</span> u the second function argument</div><div class="line">     * <span class="doctag">@return</span> the function result</div><div class="line">     */</div><div class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t, U u)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Supplier</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Gets a result.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> a result</div><div class="line">     */</div><div class="line">    <span class="function">T <span class="title">get</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们知道java的类型，要不是引用类型，要不是原始数据类型(int,double等等)。但是由于历史原因，泛型只能绑定到引用类型。为了使用原始类型的数据，java引人了自动装箱和自动拆箱的优化，但是装箱和拆箱的过程是对性能有损失的。</p>
+<p>于是，java8为了避免在使用函数式接口的时候发生装箱和拆箱的操作，专门定义了原始数据类型的接口，叫作原始类型的特化版本。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function">pubic interface <span class="title">IntPredicate</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> t)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="关于Lambda表达式使用局部变量："><a href="#关于Lambda表达式使用局部变量：" class="headerlink" title="关于Lambda表达式使用局部变量："></a>关于Lambda表达式使用局部变量：</h4><p>Lambda表达式可以无限制的捕获(在其主体中引用)实例变量和静态变量，但是局部变量必须显式声明为final或事实上是final的。因为实例变量存储在堆中，局部变量保存在栈上，Lambda表达式在另一个线程里面执行，当线程试图访问该局部变量的时候，变量存在着被修改和收回的可能，所以用final修饰就不会存在线程安全的问题了。</p>
+<h2 id="简单介绍方法引用"><a href="#简单介绍方法引用" class="headerlink" title="简单介绍方法引用"></a>简单介绍方法引用</h2><p>方法引用可以重复使用现有的方法定义，并像Lambda一样传递。方法引用相当于仅仅涉及单一方法的Lambda表达式的语法糖，是一种快捷的写法。</p>
+<h2 id="复合Lambda表达式的有用方法"><a href="#复合Lambda表达式的有用方法" class="headerlink" title="复合Lambda表达式的有用方法"></a>复合Lambda表达式的有用方法</h2><ul>
+<li><p>比较器复合：比较器链或者逆序。参考Comparator的Api</p>
+</li>
+<li><p>谓词复合：negate，and，or。可以重用已有的Predicate来创建新的谓词。negate表示一个Predicate的非；and用于把2个Lambda组合起来；or表示2个Lambda的或逻辑。</p>
+</li>
+<li><p>函数复合：把Function接口所代表的Lambda表达式复合。有andThen和compose2个默认方法。具体区别参考javadoc文档。</p>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/学习笔记/">学习笔记</a><a href="/tags/java8/">java8</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/03/13/lambda/" data-title="lambda | Pangzi‘s homepage" data-tsina="2831891302" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/03/12/i/"  title="有意思的推理">
+ <strong>下一篇：</strong><br/> 
+ <span>有意思的推理
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过行为参数传递代码"><span class="toc-number">2.</span> <span class="toc-text">通过行为参数传递代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lambda表达式"><span class="toc-number">3.</span> <span class="toc-text">Lambda表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在哪可以使用Lambda表达式"><span class="toc-number">4.</span> <span class="toc-text">在哪可以使用Lambda表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于Lambda表达式使用局部变量："><span class="toc-number">4.0.1.</span> <span class="toc-text">关于Lambda表达式使用局部变量：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单介绍方法引用"><span class="toc-number">5.</span> <span class="toc-text">简单介绍方法引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复合Lambda表达式的有用方法"><span class="toc-number">6.</span> <span class="toc-text">复合Lambda表达式的有用方法</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/一本正经/" title="一本正经">一本正经<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/胡说八道/" title="胡说八道">胡说八道<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Lujunqiu.This is my blog. <br/>
+			As Kobe said,Somebody has to win, so why not be me?</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2831891302" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Lujunqiu">Lujunqiu</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
