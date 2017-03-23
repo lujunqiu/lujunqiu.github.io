@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Pangzi‘s homepage">
 <meta property="og:description" content="等概率抽样在平时处理问题的时候，我们经常会遇到有关于概率问题的处理，比如我们在运用启发式算法的时候经常会加入一些随机因素来防止搜索解的过程在局部最优解无限循环。当然，遇到最多的还是抽样的问题，我们在处理海量数据集的时候，有时候是没有必要把所有数据拿来处理的，这时候我们就可以用抽样来用一部分数据集来代表整个海量数据。既然这样的话，我们就有必要保证抽样的过程是等概率的，否则抽样的结果就不正确了。
 问题">
-<meta property="og:updated_time" content="2017-03-23T16:05:56.000Z">
+<meta property="og:updated_time" content="2017-03-23T16:09:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蓄水池抽样">
 <meta name="twitter:description" content="等概率抽样在平时处理问题的时候，我们经常会遇到有关于概率问题的处理，比如我们在运用启发式算法的时候经常会加入一些随机因素来防止搜索解的过程在局部最优解无限循环。当然，遇到最多的还是抽样的问题，我们在处理海量数据集的时候，有时候是没有必要把所有数据拿来处理的，这时候我们就可以用抽样来用一部分数据集来代表整个海量数据。既然这样的话，我们就有必要保证抽样的过程是等概率的，否则抽样的结果就不正确了。
@@ -51,7 +51,7 @@
 				<h1 class="site-name"><a href="/" title="Pangzi‘s homepage">Pangzi‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -67,7 +67,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -90,16 +90,16 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-22T14:23:17.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
+    <time datetime="2017-03-22T14:23:17.000Z" itemprop="datePublished"> Published 2017-03-22</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#等概率抽样"><span class="toc-number">1.</span> <span class="toc-text">等概率抽样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题定义"><span class="toc-number">2.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-number">3.</span> <span class="toc-text">Solution</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#等概率抽样"><span class="toc-number">1.</span> <span class="toc-text">等概率抽样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题定义"><span class="toc-number">2.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-number">3.</span> <span class="toc-text">Solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#证明"><span class="toc-number">4.</span> <span class="toc-text">证明</span></a></li></ol>
 		
 		</div>
 		
@@ -111,11 +111,16 @@
 <p>蓄水池取样算法的过程：首先，我们选择序号1-k的k个元素初始化容积为k的蓄水池。然后从序号k＋1开始的元素（这里假设该元素序号为x）我们对每个元素做如下处理：每个元素被选中进容积为k的蓄水池的概率为 k/x ，选中之后以1/k的概率在原蓄水池中抽取1个元素与之替换。这样我们就保证了蓄水池中的元素被选中的概率都是k／N了。</p>
 <p>伪代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Init : a reservoir with the size： k  </div><div class="line">        <span class="keyword">for</span>    i= k+<span class="number">1</span> to N  </div><div class="line">            M=random(<span class="number">1</span>, i);  </div><div class="line">            <span class="keyword">if</span>( M &lt; k)  </div><div class="line">                 SWAP the Mth value and ith value  </div><div class="line">       end <span class="keyword">for</span></div></pre></td></tr></table></figure>
-<p>##证明<br>我们可以使用数学归纳法来证明其正确性，具体过程不再这里重复，但是需要我们注意的是，蓄水池中的元素不是固定不变的，在数据流的读取过程中池中的元素被选中的概率是会变的，也正是因为此我们才能保证N无法确定的情况时做到等概率抽样。</p>
+<h2 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h2><p>我们可以使用数学归纳法来证明其正确性，具体过程不再这里重复，但是需要我们注意的是，蓄水池中的元素不是固定不变的，在数据流的读取过程中池中的元素被选中的概率是会变的，也正是因为此我们才能保证N无法确定的情况时做到等概率抽样。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/算法/">算法</a>
+</div>
 
 
   <div class="article-tags">
@@ -156,17 +161,17 @@
 	
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#等概率抽样"><span class="toc-number">1.</span> <span class="toc-text">等概率抽样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题定义"><span class="toc-number">2.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-number">3.</span> <span class="toc-text">Solution</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#等概率抽样"><span class="toc-number">1.</span> <span class="toc-text">等概率抽样</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题定义"><span class="toc-number">2.</span> <span class="toc-text">问题定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-number">3.</span> <span class="toc-text">Solution</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#证明"><span class="toc-number">4.</span> <span class="toc-text">证明</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
@@ -174,7 +179,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -186,7 +191,7 @@
 		  
 		
 		  
-			<li><a href="/categories/算法/" title="算法">算法<sup>1</sup></a></li>
+			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -195,7 +200,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -207,10 +212,6 @@
 			
 		
 			
-				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
@@ -218,12 +219,16 @@
 				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
     </ul>
@@ -233,11 +238,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -464,7 +469,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
