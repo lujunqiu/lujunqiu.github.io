@@ -78,7 +78,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/04/08/http/" title="http" itemprop="url">http</a>
+      <a href="/2017/04/08/http/" title="HTTP" itemprop="url">HTTP</a>
   </h1>
   <p class="article-author">By
        
@@ -127,11 +127,11 @@
 <p>请求报文的起始行的GET表示请求访问服务器的类型，称为方法(method)。随后的HTTP/1.1，即HTTP的版本号，用来提示客服端使用的HTTP协议功能。最后的Host:hackr.jp表示客服端想要访问的服务器的域名。</p>
 <p>响应报文的起始行的HTTP/1.1 表示服务器对应的HTTP版本。接着就是200 OK 表示请求的处理结果的状态码(status code)和原因短语，这个稍后会介绍。下一行显示了创建响应的时间，然后就是响应资源主体的长度以及响应内容的文本类型。</p>
 <p>请求报文与响应报文各个字段功能介绍的过于繁琐，这里不再啰嗦拉，可以参考《HTTP权威指南》，绝对是经典中的经典。</p>
-<h3 id="http是不保存状态的协议"><a href="#http是不保存状态的协议" class="headerlink" title="http是不保存状态的协议"></a>http是不保存状态的协议</h3><p>HTTP协议是一种不保存状态，即无状态(stateless)协议。HTTP协议自身不对请求和响应之间的通信状态进行保存，每当有新的请求发送时，就会有对应的新的响应产生。专业一点来说就是，在HTTP这个级别，协议对于发送过的请求或响应都不做持久化处理。不可否认，无状态协议有它的优点。由于不必保存状态，自然可减少服务器的CPU及内存资源的消耗。从另一个侧面来说，也正是因为HTTP协议本身是非常简答的，所以才会被应用在各种场景里。<br><img src="../../../../img/http/7.png" alt=""></p>
+<h2 id="http是不保存状态的协议"><a href="#http是不保存状态的协议" class="headerlink" title="http是不保存状态的协议"></a>http是不保存状态的协议</h2><p>HTTP协议是一种不保存状态，即无状态(stateless)协议。HTTP协议自身不对请求和响应之间的通信状态进行保存，每当有新的请求发送时，就会有对应的新的响应产生。专业一点来说就是，在HTTP这个级别，协议对于发送过的请求或响应都不做持久化处理。不可否认，无状态协议有它的优点。由于不必保存状态，自然可减少服务器的CPU及内存资源的消耗。从另一个侧面来说，也正是因为HTTP协议本身是非常简答的，所以才会被应用在各种场景里。<br><img src="../../../../img/http/7.png" alt=""></p>
 <p>这时候你可能要怀疑了，平时在浏览网页的时候，比如当你登录了淘宝，即使在你关闭浏览器一会之后再访问淘宝时，你的登录状态仍然正常，很明显这里保存了之前的登录状态啊。没错，HTTP协议的确是无状态协议，淘宝服务器的确保存了你的登录状态。这是如何做到的呢？答案就是Cookie技术，将Cookie技术与HTTP协议结合起来，就可以做到状态管理。</p>
 <p>Cookie技术通过在请求和响应报文中写入Cookie信息来控制客户端的状态。Cookie会根据从服务器端发送的响应报文内的一个叫做Set-Cookie的首部字段信息，通知客户端保存Cookie。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入Cookie值后发送出去。</p>
 <p>服务器端发现客户端发送过来的Cookie厚，会去检查究竟是从哪个客户端发来的连接请求，然后对比服务器上的记录，最后就可以得到之前的状态信息。<br>如图所示：<br><img src="../../../../img/http/8.png" alt=""><br><img src="../../../../img/http/9.png" alt=""></p>
-<h3 id="http的keep-alive方法"><a href="#http的keep-alive方法" class="headerlink" title="http的keep-alive方法"></a>http的keep-alive方法</h3><p>http的初始版本中，每进行一次http通信就要断开一次tcp连接。随着http的普及，在使用浏览器浏览一个包含多张图片的HTML网页时，在发送请求访问HTML网页资源的同时也会请求网页内包含的其他资源。因此，每次的请求都会造成无谓的tcp连接的建立和断开，增加通信量的开销。</p>
+<h2 id="http的keep-alive方法"><a href="#http的keep-alive方法" class="headerlink" title="http的keep-alive方法"></a>http的keep-alive方法</h2><p>http的初始版本中，每进行一次http通信就要断开一次tcp连接。随着http的普及，在使用浏览器浏览一个包含多张图片的HTML网页时，在发送请求访问HTML网页资源的同时也会请求网页内包含的其他资源。因此，每次的请求都会造成无谓的tcp连接的建立和断开，增加通信量的开销。</p>
 <p><img src="../../../../img/http/10.png" alt=""></p>
 <p>在后续的HTTP版本中提出了持久连接的观点，也就是keep-alive方法，只要任意一端没有明确提出断开连接，则保持tcp连接状态。这样一来，减少了tcp连接的重复建立和断开所造成的额外开销，减轻了服务器端的负载，提高了Web页面的访问速度。</p>
 <h1 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h1><p>大家肯定遇到过在访问网页的时候返回一个404 not found。是的，每次看到这个东西就很生气。最后我们来看一看404这些状态码到底是什么意思。<br><img src="../../../../img/http/11.png" alt=""></p>
@@ -862,15 +862,15 @@
 			
 		
 			
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 		</ul>
