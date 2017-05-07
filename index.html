@@ -78,6 +78,272 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/05/07/命令行的使用/" title="命令行的使用" itemprop="url">命令行的使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-05-07T13:44:18.000Z" itemprop="datePublished"> Published 2017-05-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一提到Linux,许多人都会说到“自由”,但我不认为他们都知道“自由”的真正涵义。“自由”是一种权力,它意味着你能决定你的计算机能做什么,同时能够拥有这种“自由”的唯一方式就是知道计算机正在做什么。这个时候，我们就需要命令行来帮助我们与计算机交互获得“自由”。所以人们常说，“图形用户界面让简单的任务更容易完成，而命令行界面使完成复杂的任务成为可能”，到现在这句话仍然很正确。接下来的正文有点像是在做笔记的形式，没有成文，写这篇博客的目的也是为了方便查阅。</p>
+<h1 id="什么是Shell"><a href="#什么是Shell" class="headerlink" title="什么是Shell?"></a>什么是Shell?</h1><p>管理整个计算机硬件的是操作系统的内核(kernel),一般用户只能通过Shell命令行工具来跟内核通信。那么为什么叫Shell？因为Shell给用户提供一个与操作系统通信的接口，就如同鸡蛋的外壳一样。</p>
+<p>几乎所有的Linux 发行版都提供一个名为bash的来自GNU项目的Shell程序。“bash”是“Bourne Again SHell”的首字母缩写，所指的是这样一个事实，bash是最初Unix 上由Steve Bourne 写成Shell 程序sh 的增强版。</p>
+<h2 id="关于Shell的常用知识"><a href="#关于Shell的常用知识" class="headerlink" title="关于Shell的常用知识"></a>关于Shell的常用知识</h2><p>在Shell的终端输入提示符的最后会有一个符号分别表示：</p>
+<p>$:表示普通用户权限</p>
+<p>#:表示root用于权限</p>
+<p>当我们想要查询之前使用过的的命令时候，可以使用history命令来查看历史，用法如下：</p>
+<p>history [n]：查找最近的n条命令</p>
+<p>history [-c]：将目前的shell中的所有history命令删除</p>
+<p>history [-raw] 文件名：将目前的命令保持到文件中去</p>
+<p>终端输入ctrl + r ：搜索历史命令。从当前命令行开始，向上递增搜索。<br>搜索到之后可以直接Enter执行，也可以ctrl + j　复制到终端界面。</p>
+<p>!的使用：</p>
+<p>! 数字：执行第几条命令</p>
+<p>! 命令：由最近的命令向前搜索开头为“命令”的那个命令执行</p>
+<p>!? 字符串: 重复最近历史中，包含这个字符串的命令。</p>
+<p>!!:执行上一个命令</p>
+<p>Shell如何复制字符？</p>
+<p>按下鼠标左键，沿着文本拖动鼠标（或者双击一个单词）高亮了一些文本，那么这些高亮的文本就被拷贝到了一个缓冲区里面，然后按下鼠标中键，这些文本就被粘贴到光标所在的位置。</p>
+<p>注意：不要在一个终端窗口里使用Ctrl-c和Ctrl-v快捷键来执行拷贝和粘贴操作。它们不起作用。对于Shell来说，这两个控制代码有着不同的含义。</p>
+<p>关于Shell中的常用的路径：</p>
+<p>绝对路径：由根目录(/)开始写起的文件名或者目录名称。</p>
+<p>相对路径：相对于目前路径的文件名写法。</p>
+<p>. 代表当前的目录，也可以使用./ 表示；</p>
+<p>.. 代表上一层目录，也可以使用 ../表示；</p>
+<p>命令的使用说明帮助：（万能的man）</p>
+<p>man + 命令名称 </p>
+<p>比如输入：qiu@qiu-empty:~$ man date</p>
+<p>会得到date命令的manual（操作说明）；</p>
+<p>查看的输出结果man page时候，可以用”/word“查找关键词，操作类似less，more等命令查阅文本； </p>
+<p>使用Shell的时候重要的热键：</p>
+<p>Tab：</p>
+<p>命令补全，文件补齐：按一次Tab自动补全，按2次Tab显示所有匹配的命令或者文件。</p>
+<p>Ctrl + c：</p>
+<p>如果在Linux下输入了错误的命令，导致系统一直在运行，按 Ctrl + c 来中断目前执行的命令。</p>
+<p>Ctrl + z：</p>
+<p>将任务中止（暂停的意思）,但是此任务并没有结束,他仍然在进程中他只是维持挂起的状态,用户可以使用fg/bg操作继续前台或后台的任务,fg命令重新启动前台被中断的任务,bg命令把被中断的任务放在后台执行</p>
+<p>Ctrl + d：</p>
+<p>表示一个特殊的二进制值，表示 EOF（End Of File）</p>
+<p>注：在shell中，ctrl-d表示推出当前shell。相当于输入exit；</p>
+<p>Ctrl + U:将整行命令删除</p>
+<p>Ctrl + S:暂停屏幕的输出</p>
+<p>Ctrl + Q:恢复屏幕的输出</p>
+<h1 id="什么是命令？"><a href="#什么是命令？" class="headerlink" title="什么是命令？"></a>什么是命令？</h1><p>命令可以是下面四种形式之一：</p>
+<ol>
+<li>是一个可执行程序，就像我们所看到的位于目录/usr/bin 中的文件一样。属于这一类的程序，可以编译成二进制文件，诸如用C 和C++ 语言写成的程序, 也可以是由脚本语言写成的程序，比如说shell，perl，python，ruby，等等。</li>
+<li>是一个内建于shell 自身的命令。bash 支持若干命令，内部叫shell 内部命令(builtins)。例如，cd 命令，就是一个shell 内部命令。</li>
+<li>是一个shell 函数。这些是小规模的shell 脚本，它们混合到环境变量中。在后续的章节<br>里，我们将讨论配置环境变量以及书写shell 函数。但是现在，仅仅意识到它们的存在就<br>可以了。</li>
+<li>是一个命令别名。我们可以定义自己的命令，建立在其它命令之上。</li>
+</ol>
+<p>如何识别命令？</p>
+<p>type + 命令名 ：显示命令的类型</p>
+<p>which + 命令名 ：显示一个可执行程序的位置</p>
+<p>help + 命令名 ：得到shell 内部命令的帮助文档</p>
+<p>–help ： 显示用法信息，许多可执行程序支持一个–help参数选项，这个选项是显示命令所支持的语法和选项说明。</p>
+<p><em>man + 命令名 ：显示程序手册页，所有的命令都可以使用man来详细查询使用的方法！</em></p>
+<p>info + 命令名 ：显示程序Info 条目</p>
+<p>关于使用别名（alias）创建你自己的命令：</p>
+<p>在创建别名之前，我们可以使用type命令查询我们想要的别名是否存在。在命令行中定义的别名，当你的shell会话结束时，它们会消失。我们要学会把自己的别名添加到文件中去，每次我们登录系统，这些文件会建立系统环境。</p>
+<h1 id="文件的操作"><a href="#文件的操作" class="headerlink" title="文件的操作"></a>文件的操作</h1><h2 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h2><p>Linux文件能不能被执行与文件后缀名无关，是由是否具有”x“这个权限来决定的。”x“权限表示该文件具有可执行权限；</p>
+<p>更改文件或目录的模式(权限),可以利用 chmod 命令。注意只有文件的所有者或者超级用户才能更改文件或目录的模式。chmod命令支持两种不同的方法来改变文件模式:八进制数字表示法,或符号表示法。</p>
+<p>sudo命令给普通用户以超级用户的权限。</p>
+<p>文件名和命令名是大小写敏感的。</p>
+<p>在linux中所以设备都是文件！</p>
+<h2 id="操作文件的命令"><a href="#操作文件的命令" class="headerlink" title="操作文件的命令"></a>操作文件的命令</h2><p>关于cd 命令的快捷键：(切换目录，Change Directory)</p>
+<p>cd           更改工作目录到你的家目录。</p>
+<p>cd -        更改工作目录到先前的工作目录。</p>
+<p>cd ..        去上一层目录</p>
+<p>pwd：显示当前目录，Print Working Directory</p>
+<p>mkdir：新建新目录，make directory</p>
+<p>比如：qiu@qiu-empty:~$ mkdir [-mp] 目录名称</p>
+<p>-m：配置文件的权限</p>
+<p>-p：递归的创建文件</p>
+<p>比如你要创建/test/test1/test2这个文件，你首先要先创建test以及test1，用-p参数可以直接递归的一次性全部创建完成。</p>
+<p>ls：查看文件与目录</p>
+<p>-a：以 “.” 字符开头的文件名是隐藏文件。这仅表示，ls 命令不能列出它们， 用 ls -a 命令就可以了。</p>
+<p>-d：仅列出目录本身，而不是列出目录内的文件数据</p>
+<p>-l：列出长数据，包含文件的属性与权限等等</p>
+<p>cp(copy):复制文件或目录:</p>
+<p>cp [-adfilprsu] source destination</p>
+<p>-r:递归持续复制，用于目录的复制行为,目录属性可能会发生变化，想要使得复制之后的目录和原目录完全一样，可以使用cp -a </p>
+<p>-s:复制成为符号链接文件，即”快捷方式”文件；</p>
+<p>-i:若destination文件已经存在，在覆盖的时候会询问；</p>
+<p>rm(remove):移除文件或目录</p>
+<p>rm [-fir] filename</p>
+<p>-f:force,强制执行；</p>
+<p>-i:互动模式,Interaction,在操作前会询问；</p>
+<p>-r:递归的删除,谨慎使用；</p>
+<p>小贴士： 无论什么时候，rm 命令用到通配符（除了仔细检查输入的内容外！）， 用 ls 命令来测试通配符。这会让你看到要删除的文件列表。然后按下上箭头按键，重新调用刚刚执行的命令，用 rm 替换 ls。</p>
+<p>mv(move):移动文件或目录，或更名</p>
+<p>mv [-fiu] source destination</p>
+<p>文件内容查阅：</p>
+<p>cat：由第一行开始显示文件内容</p>
+<p>tac：cat的倒写，由最后一行开始显示文件内容</p>
+<p>nl：显示的时候，顺便输出行号</p>
+<p>more：一页一页地显示文件内容</p>
+<p>less：与more类似，但是可以往前翻页</p>
+<p>head：只看头几行</p>
+<p>tail：只看结尾几行</p>
+<p>od：以二进制的方式读取文件内容</p>
+<p>less查看的操作类似man：</p>
+<p>space：向下翻页</p>
+<p>b : 向上翻页</p>
+<p>PageDown：向下翻页</p>
+<p>PageUp：向上翻页</p>
+<p>/字符串：向下查询字符串</p>
+<p>?字符串：向上查询字符串</p>
+<p>q：离开</p>
+<p>touch命令：</p>
+<p>touch [-acdmt] filename</p>
+<p>创建一个空的文件；也可以用于修改文件的日期；</p>
+<p>关于文件的日期：mtime（modification time，内容修改日期），ctime（status time，状态修改日期），atime（access time，读取日期）</p>
+<p>查看文件类型：file命令</p>
+<p>文件的查询：</p>
+<p>先用whereis，locate来检查（速度快一点），最后找不到了才用find(查找文件的复杂方式)来查询；locate只能依据文件名来查找文件，而find程序能基于各种各样的属性， 搜索一个给定目录（以及它的子目录），来查找文件。</p>
+<p>locate命令：</p>
+<p>locate [-ir] keyword</p>
+<p>-i:忽略大小写</p>
+<p>-r:后面可接正则表达式的显示方式</p>
+<p>locate与whereis是经由数据库来查找的，当你新建文件后查找该文件有可能会找不到，需要用updatedb命令来手动更新数据库。</p>
+<p>压缩与解压文件：</p>
+<p>tar -zcv -f filename.tar.gz 要被压缩的文件</p>
+<p>tar -jcv -f filename.tar.bz2 要被压缩的文件</p>
+<p>tar -zxv -f filename.tar.gz -C 欲解压缩的目录</p>
+<p>tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录</p>
+<p>关于符号链接：（类似windows系统中的快捷方式）</p>
+<p>在大多数“类 Unix” 系统中，有可能一个文件被多个文件名所指向，叫做符号链接（也称为软链接或者 symlink）。有利于文件的共享的操作，在文件名改动之后不需要修改其他程序。一个符号链接指向一个文件，而且这个符号链接本身与其它的符号链接几乎没有区别。例如，如果你往一个符号链接里面写入东西，那么相关联的文件也被写入。然而，当你删除一个符号链接时，只有这个链接被删除，而不是文件自身。如果先于符号链接删除文件，这个链接仍然存在，但是不指向任何东西。在这种情况下，这个链接被称为坏链接。</p>
+<h1 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h1><p>“I/O” 代表输入/输出，通过I/O重定向，你可以重定向命令的输入输出，命令的输入来自文件，而输出也存到文件。也可以把多个命令连接起来组成一个强大的命令管道。</p>
+<p>数据流的重定向：将某个命令执行后应该要出现在屏幕上的数据传输到其他的地方去，例如文件或者设备。</p>
+<p>管道命令：</p>
+<p>使用 | 界定符号，与连续执行命令不一样；</p>
+<p>比如我们想知道/etc下文件，输入 ls -a /etc 导致一口气屏幕被塞满，这时我们可以用less命令来协助查看:</p>
+<p>ls -a /etc | less</p>
+<p>表示这个管道命令 | 仅能处理经由前面一个命令传来的正确的信息，也就是standard output，在管道后面接的第一个数据一定是命令，而且这个命令必须要能接受standard output，例如：（查看）less，more，head，tail，（选取）cut，grep，（排序）sort，wc，uniq，（双重定向）tee，等等</p>
+<h1 id="Shell中的命令"><a href="#Shell中的命令" class="headerlink" title="Shell中的命令"></a>Shell中的命令</h1><p>echo ： 显示一行文本</p>
+<p>花括号展开：你可以从一个包含花括号的模式中创建多个文本字符串。</p>
+<p>花括号展开模式可能包含一个开头部分叫做报头，一个结尾部分叫做附言。花括号表达式本身可能包含一个由逗号分开的字符串列表，或者一系列整数，或者单个的字符串。这种模式不能嵌入空白字符。</p>
+<p>例如：</p>
+<p>echo Front-{A,B,C}-Back</p>
+<p>输出：Front-A-Back Front-B-Back Front-C-Back</p>
+<p>echo Number_{1..5}</p>
+<p>输出：Number_1 Number_2 Number_3 Number_4 Number_5</p>
+<p>echo {Z..A}</p>
+<p>输出:Z Y X W V U T S R Q P O N M L K J I H G F E D C B A</p>
+<h2 id="Shell中的变量："><a href="#Shell中的变量：" class="headerlink" title="Shell中的变量："></a>Shell中的变量：</h2><p>变量的定义：一组文字或者符号等，来替代一些设置或者一串保留的数据；</p>
+<p>变量的显示：echo $变量名</p>
+<p>比如：echo $PATH</p>
+<p>取消变量的设置：unset 变量名</p>
+<p>将变量设置为环境变量，提供子进场执行：export 变量名</p>
+<p>?变量：上一个执行的命令所传回的值，一般来说，如果成功执行命令，则会回传一个0值。所以我们可以通过echo $？ 查看上一个命令是否成功执行；</p>
+<p>双引号的作用：</p>
+<p>如果你把文本放在双引号中，Shell使用的特殊字符，除了$，\ (反斜杠），和‘（倒引号）之外，则失去它们的特殊含义，被当作普通字符来看待。这意味着单词分割，路径名展开，波浪线展开，和花括号展开都被禁止，然而参数展开，算术展开，和命令替换仍然执行。使用双引号，我们可以处理包含空格的文件名。</p>
+<p>比方说：我们是two words.txt文件的受害者。如果我们试图在命令行中使用这个文件，单词分割机制会导致这个文件名被看作两个独自的参数，而不是所期望的单个参数：</p>
+<p>ls -l two words.txt</p>
+<p>ls: cannot access two: No such file or directory</p>
+<p>ls: cannot access words.txt: No such file or directory</p>
+<p>使用双引号，我们可以阻止单词分割，得到期望的结果；进一步，我们甚至可以修复破损的文件名。</p>
+<p>ls -l “two words.txt”</p>
+<p>-rw-rw-r– 1 me me 18 2008-02-20 13:03 two words.txt</p>
+<p>记住，在双引号中，参数展开，算术表达式展开，和命令替换仍然有效：</p>
+<p>echo “$USER $((2+2)) $(cal)”</p>
+<p>me 4 February 2008</p>
+<p>Su Mo Tu We Th Fr Sa</p>
+<p>….</p>
+<p>转义字符的使用：</p>
+<p>有时候我们只想引用单个字符。我们可以在字符之前加上一个反斜杠，在这个上下文中叫做转义字符。经常在双引号中使用转义字符，来有选择地阻止展开。</p>
+<p>比如:（转义美元符$）</p>
+<p>echo “The balance for user $USER is: \$5.00”</p>
+<p>The balance for user me is: $5.00</p>
+<p>还有一个场景：</p>
+<p>命令的执行是从上到下，从左到右的，与命令的执行一样，只识别一个空白格，多个空白格会被忽略掉。如果读到Enter符号(CR)，就尝试执行该行的命令，但是可以使用\Enter来转义扩展到下一行输入。</p>
+<h2 id="关于键盘的使用技巧"><a href="#关于键盘的使用技巧" class="headerlink" title="关于键盘的使用技巧"></a>关于键盘的使用技巧</h2><p>ctrl + a ：移动光标到行首</p>
+<p>ctrl + e ：移动光标到行末</p>
+<p>ctrl + d : 删除光标位置的字符</p>
+<p>ctrl + u ：剪贴从光标到行首的文本</p>
+<p>ctrl + k : 剪贴从光标到行尾的文本</p>
+<p>ctrl + y : 把剪贴的文本复制粘贴到光标位置 </p>
+<h1 id="软件包的管理"><a href="#软件包的管理" class="headerlink" title="软件包的管理"></a>软件包的管理</h1><p>一般而言，大多数发行版分别属于两大包管理技术阵营：Debian的”.deb”，和红帽的”.rpm”，他们分别对应的系统如下。</p>
+<p>Debian Style (.deb)：Debian, Ubuntu, Xandros, Linspire</p>
+<p>Red Hat Style (.rpm)：Fedora, CentOS, Red Hat Enterprise Linux, OpenSUSE, Mandriva, PCLinuxOS</p>
+<p>软件包管理系统通常由两种工具类型组成：底层工具用来处理这些任务，比方说安装和删除软件包文件，和上层工具，完成元数据搜索和依赖解析。虽然所有基于 Red Hat风格的发行版都依赖于相同的底层程序（rpm）,但是它们却使用不同的上层工具。</p>
+<p>如下所示：</p>
+<p>Debian-Style：dpkg（底层工具）；apt-get, aptitude（上层工具）；</p>
+<p>Fedora, Red Hat Enterprise Linux,CentOS：rpm（底层工具）；yum（上层工具）；</p>
+<h2 id="如何操作软件包？"><a href="#如何操作软件包？" class="headerlink" title="如何操作软件包？"></a>如何操作软件包？</h2><p>1.从资源库中安装一个软件包：<br>上层工具允许从一个资源库中下载一个软件包，并经过完全依赖解析来安装它。</p>
+<p>Debian：apt-get update; apt-get install package_name</p>
+<p>Red Hat：yum install package_name</p>
+<p>2.通过软件包文件来安装软件：<br>如果从某处而不是从资源库中下载了一个软件包文件，可以使用底层工具来直接（没有经过依赖解析）安装它。</p>
+<p>Debian：dpkg –install package_file</p>
+<p>Red Hat：rpm -i package_file</p>
+<p>3.卸载软件：<br>可以使用上层或者底层工具来卸载软件。下面是可用的上层工具。</p>
+<p>Debian：apt-get remove package_name</p>
+<p>Red Hat：yum erase package_name</p>
+<p>4.经过资源库来更新软件包：</p>
+<p>Debian：apt-get update; apt-get upgrade</p>
+<p>Red Hat：yum update</p>
+<p>5.列出所安装的软件包：</p>
+<p>Debian：dpkg –list</p>
+<p>Red Hat：rpm -qa</p>
+<p>6.确定是否安装了一个软件包：</p>
+<p>Debian：dpkg –status package_name</p>
+<p>Red Hat：rpm -q package_name</p>
+<h1 id="关于Shell脚本"><a href="#关于Shell脚本" class="headerlink" title="关于Shell脚本"></a>关于Shell脚本</h1><h2 id="什么是Shell脚本"><a href="#什么是Shell脚本" class="headerlink" title="什么是Shell脚本"></a>什么是Shell脚本</h2><p>一个 Shell 脚本就是一个包含一系列命令的文件。Shell读取这个文件，然后执行 文件中的所有命令，就好像这些命令已经直接被输入到了命令行中一样。</p>
+<h2 id="如何编写Shell脚本"><a href="#如何编写Shell脚本" class="headerlink" title="如何编写Shell脚本"></a>如何编写Shell脚本</h2><p>Shell脚本就是普通的文本文件。所以我们需要一个文本编辑器来书写它们。最好的文本编辑器都会支持语法高亮，这样我们就能够看到一个脚本关键字的彩色编码视图。语法高亮会帮助我们查看某种常见错误。</p>
+<p>使脚本文件可执行。系统会相当挑剔不允许任何旧的文本文件被看作是一个程序，并且有充分的理由!所以我们需要设置脚本文件的权限来允许其可执行。<br>对于脚本文件，有两个常见的权限设置；权限为755的脚本，则每个人都能执行，和权限为700的脚本，只有文件所有者能够执行。注意为了能够执行脚本，脚本必须是可读的。</p>
+<p>把脚本放置到 shell能够找到的地方.当没有指定可执行文件明确的路径名时，shell 会自动地搜索某些目录，来查找此可执行文件。为了最大程度的方便，我们会把脚本放到这些目录当中。</p>
+<h2 id="脚本文件的位置"><a href="#脚本文件的位置" class="headerlink" title="脚本文件的位置"></a>脚本文件的位置</h2><p>我们知道，如果没有给出可执行程序的明确路径名，那么系统每次都会搜索一系列的目录，来查找此可执行程序。这个/bin目录就是其中一个系统会自动搜索的目录。 这个目录列表被存储在一个名为PATH的环境变量中。这个PATH变量包含一个由冒号分隔开的目录列表。</p>
+<p>这里，如果我们要修改PATH变量添加目录的话，通过修改我们的.bashrc 文件，当做了这个修改之后，它会在每个新的终端会话中生效。为了把这个修改应用到当前的终端会话中， 我们必须让 shell 重新读取这个 .bashrc 文件。这可以通过 “sourcing”.bashrc 文件来完成。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/［Linux，Shell］/">［Linux，Shell］</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/04/24/Https/" title="HTTPS" itemprop="url">HTTPS</a>
   </h1>
   <p class="article-author">By
@@ -457,7 +723,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/学习笔记/">学习笔记</a><a href="/tags/java8/">java8</a>
+  <span></span> <a href="/tags/java8/">java8</a><a href="/tags/学习笔记/">学习笔记</a>
   </div>
 
 </div>
@@ -861,64 +1127,10 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/06/hello-world/" title="Hello World" itemprop="url">Hello World</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-06T10:40:43.000Z" itemprop="datePublished"> Published 2017-03-06</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
+  <nav id="page-nav" class="clearfix">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+  </nav>
 
 </div>
       <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
@@ -937,6 +1149,10 @@
 		
 		  
 			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
 		  
 		
 		  
@@ -969,11 +1185,15 @@
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
+				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
 			
 		
 			
@@ -985,7 +1205,7 @@
 			
 		
 			
-				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
+				<li><a href="/tags/［Linux，Shell］/" title="［Linux，Shell］">［Linux，Shell］<sup>1</sup></a></li>
 			
 		
 		</ul>
