@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/05/07/命令行的使用/index.html">
 <meta property="og:site_name" content="Qiu‘s homepage">
 <meta property="og:description" content="前言一提到Linux,许多人都会说到“自由”,但我不认为他们都知道“自由”的真正涵义。“自由”是一种权力,它意味着你能决定你的计算机能做什么,同时能够拥有这种“自由”的唯一方式就是知道计算机正在做什么。这个时候，我们就需要命令行来帮助我们与计算机交互获得“自由”。所以人们常说，“图形用户界面让简单的任务更容易完成，而命令行界面使完成复杂的任务成为可能”，到现在这句话仍然很正确。接下来的正文有点像是">
-<meta property="og:updated_time" content="2017-05-07T14:49:02.000Z">
+<meta property="og:updated_time" content="2017-05-07T15:42:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="命令行的使用">
 <meta name="twitter:description" content="前言一提到Linux,许多人都会说到“自由”,但我不认为他们都知道“自由”的真正涵义。“自由”是一种权力,它意味着你能决定你的计算机能做什么,同时能够拥有这种“自由”的唯一方式就是知道计算机正在做什么。这个时候，我们就需要命令行来帮助我们与计算机交互获得“自由”。所以人们常说，“图形用户界面让简单的任务更容易完成，而命令行界面使完成复杂的任务成为可能”，到现在这句话仍然很正确。接下来的正文有点像是">
@@ -48,7 +48,7 @@
 				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -64,7 +64,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -87,26 +87,26 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-07T13:44:18.000Z" itemprop="datePublished"> Published 2017-05-07</time>
+    <time datetime="2017-05-07T13:44:18.000Z" itemprop="datePublished"> 发表于 2017-05-07</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是Shell"><span class="toc-number">2.</span> <span class="toc-text">什么是Shell?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于Shell的常用知识"><span class="toc-number">2.1.</span> <span class="toc-text">关于Shell的常用知识</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是命令？"><span class="toc-number">3.</span> <span class="toc-text">什么是命令？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件的操作"><span class="toc-number">4.</span> <span class="toc-text">文件的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言-1"><span class="toc-number">4.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作文件的命令"><span class="toc-number">4.2.</span> <span class="toc-text">操作文件的命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向"><span class="toc-number">5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell中的命令"><span class="toc-number">6.</span> <span class="toc-text">Shell中的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell中的变量："><span class="toc-number">6.1.</span> <span class="toc-text">Shell中的变量：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于键盘的使用技巧"><span class="toc-number">6.2.</span> <span class="toc-text">关于键盘的使用技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件包的管理"><span class="toc-number">7.</span> <span class="toc-text">软件包的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何操作软件包？"><span class="toc-number">7.1.</span> <span class="toc-text">如何操作软件包？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于Shell脚本"><span class="toc-number">8.</span> <span class="toc-text">关于Shell脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Shell脚本"><span class="toc-number">8.1.</span> <span class="toc-text">什么是Shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何编写Shell脚本"><span class="toc-number">8.2.</span> <span class="toc-text">如何编写Shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本文件的位置"><span class="toc-number">8.3.</span> <span class="toc-text">脚本文件的位置</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是Shell"><span class="toc-number">2.</span> <span class="toc-text">什么是Shell?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于Shell的常用知识"><span class="toc-number">2.1.</span> <span class="toc-text">关于Shell的常用知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#终端提示符"><span class="toc-number">2.1.1.</span> <span class="toc-text">终端提示符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令历史"><span class="toc-number">2.1.2.</span> <span class="toc-text">命令历史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell终端复制字符"><span class="toc-number">2.1.3.</span> <span class="toc-text">Shell终端复制字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于Shell中常用的路径"><span class="toc-number">2.1.4.</span> <span class="toc-text">关于Shell中常用的路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#万能的man"><span class="toc-number">2.1.5.</span> <span class="toc-text">万能的man</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重要的热键"><span class="toc-number">2.1.6.</span> <span class="toc-text">重要的热键</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是命令？"><span class="toc-number">3.</span> <span class="toc-text">什么是命令？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何识别命令"><span class="toc-number">3.1.</span> <span class="toc-text">如何识别命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用别名（alias"><span class="toc-number">3.1.1.</span> <span class="toc-text">使用别名（alias)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件的操作"><span class="toc-number">4.</span> <span class="toc-text">文件的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#必须要知道的"><span class="toc-number">4.1.</span> <span class="toc-text">必须要知道的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作文件的命令"><span class="toc-number">4.2.</span> <span class="toc-text">操作文件的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#切换目录，Change-Directory"><span class="toc-number">4.2.1.</span> <span class="toc-text">切换目录，Change Directory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示当前目录"><span class="toc-number">4.2.2.</span> <span class="toc-text">显示当前目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建新目录"><span class="toc-number">4.2.3.</span> <span class="toc-text">创建新目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-number">4.2.4.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制"><span class="toc-number">4.2.5.</span> <span class="toc-text">复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">4.2.6.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动"><span class="toc-number">4.2.7.</span> <span class="toc-text">移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内容查阅"><span class="toc-number">4.2.8.</span> <span class="toc-text">内容查阅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#touch"><span class="toc-number">4.2.9.</span> <span class="toc-text">touch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件的查询"><span class="toc-number">4.2.10.</span> <span class="toc-text">文件的查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#压缩与解压文件"><span class="toc-number">4.2.11.</span> <span class="toc-text">压缩与解压文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#符号链接"><span class="toc-number">4.2.12.</span> <span class="toc-text">符号链接</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向"><span class="toc-number">5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell中的命令"><span class="toc-number">6.</span> <span class="toc-text">Shell中的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell中的变量："><span class="toc-number">6.1.</span> <span class="toc-text">Shell中的变量：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于键盘的使用技巧"><span class="toc-number">6.2.</span> <span class="toc-text">关于键盘的使用技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件包的管理"><span class="toc-number">7.</span> <span class="toc-text">软件包的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何操作软件包？"><span class="toc-number">7.1.</span> <span class="toc-text">如何操作软件包？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于Shell脚本"><span class="toc-number">8.</span> <span class="toc-text">关于Shell脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Shell脚本"><span class="toc-number">8.1.</span> <span class="toc-text">什么是Shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何编写Shell脚本"><span class="toc-number">8.2.</span> <span class="toc-text">如何编写Shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本文件的位置"><span class="toc-number">8.3.</span> <span class="toc-text">脚本文件的位置</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一提到Linux,许多人都会说到“自由”,但我不认为他们都知道“自由”的真正涵义。“自由”是一种权力,它意味着你能决定你的计算机能做什么,同时能够拥有这种“自由”的唯一方式就是知道计算机正在做什么。这个时候，我们就需要命令行来帮助我们与计算机交互获得“自由”。所以人们常说，“图形用户界面让简单的任务更容易完成，而命令行界面使完成复杂的任务成为可能”，到现在这句话仍然很正确。接下来的正文有点像是在做笔记的形式，没有成文，写这篇博客的目的也是为了方便查阅。</p>
 <h1 id="什么是Shell"><a href="#什么是Shell" class="headerlink" title="什么是Shell?"></a>什么是Shell?</h1><p>管理整个计算机硬件的是操作系统的内核(kernel),一般用户只能通过Shell命令行工具来跟内核通信。那么为什么叫Shell？因为Shell给用户提供一个与操作系统通信的接口，就如同鸡蛋的外壳一样。</p>
 <p>几乎所有的Linux 发行版都提供一个名为bash的来自GNU项目的Shell程序。“bash”是“Bourne Again SHell”的首字母缩写，所指的是这样一个事实，bash是最初Unix 上由Steve Bourne 写成Shell 程序sh 的增强版。</p>
-<h2 id="关于Shell的常用知识"><a href="#关于Shell的常用知识" class="headerlink" title="关于Shell的常用知识"></a>关于Shell的常用知识</h2><p>在Shell的终端输入提示符的最后会有一个符号分别表示：</p>
+<h2 id="关于Shell的常用知识"><a href="#关于Shell的常用知识" class="headerlink" title="关于Shell的常用知识"></a>关于Shell的常用知识</h2><h3 id="终端提示符"><a href="#终端提示符" class="headerlink" title="终端提示符"></a>终端提示符</h3><p>在Shell的终端输入提示符的最后会有一个符号分别表示：</p>
 <p>$:表示普通用户权限</p>
 <p>#:表示root用于权限</p>
-<p>当我们想要查询之前使用过的的命令时候，可以使用history命令来查看历史，用法如下：</p>
+<h3 id="命令历史"><a href="#命令历史" class="headerlink" title="命令历史"></a>命令历史</h3><p>当我们想要查询之前使用过的的命令时候，可以使用history命令来查看历史，用法如下：</p>
 <p>history [n]：查找最近的n条命令</p>
 <p>history [-c]：将目前的shell中的所有history命令删除</p>
 <p>history [-raw] 文件名：将目前的命令保持到文件中去</p>
@@ -116,21 +116,18 @@
 <p>! 命令：由最近的命令向前搜索开头为“命令”的那个命令执行</p>
 <p>!? 字符串: 重复最近历史中，包含这个字符串的命令。</p>
 <p>!!:执行上一个命令</p>
-<p>Shell如何复制字符？</p>
-<p>按下鼠标左键，沿着文本拖动鼠标（或者双击一个单词）高亮了一些文本，那么这些高亮的文本就被拷贝到了一个缓冲区里面，然后按下鼠标中键，这些文本就被粘贴到光标所在的位置。</p>
+<h3 id="Shell终端复制字符"><a href="#Shell终端复制字符" class="headerlink" title="Shell终端复制字符"></a>Shell终端复制字符</h3><p>按下鼠标左键，沿着文本拖动鼠标（或者双击一个单词）高亮了一些文本，那么这些高亮的文本就被拷贝到了一个缓冲区里面，然后按下鼠标中键，这些文本就被粘贴到光标所在的位置。</p>
 <p>注意：不要在一个终端窗口里使用Ctrl-c和Ctrl-v快捷键来执行拷贝和粘贴操作。它们不起作用。对于Shell来说，这两个控制代码有着不同的含义。</p>
-<p>关于Shell中的常用的路径：</p>
-<p>绝对路径：由根目录(/)开始写起的文件名或者目录名称。</p>
+<h3 id="关于Shell中常用的路径"><a href="#关于Shell中常用的路径" class="headerlink" title="关于Shell中常用的路径"></a>关于Shell中常用的路径</h3><p>绝对路径：由根目录(/)开始写起的文件名或者目录名称。</p>
 <p>相对路径：相对于目前路径的文件名写法。</p>
 <p>. 代表当前的目录，也可以使用./ 表示；</p>
 <p>.. 代表上一层目录，也可以使用 ../表示；</p>
-<p>命令的使用说明帮助：（万能的man）</p>
+<h3 id="万能的man"><a href="#万能的man" class="headerlink" title="万能的man"></a>万能的man</h3><p>命令的使用说明帮助：</p>
 <p>man + 命令名称 </p>
 <p>比如输入：qiu@qiu-empty:~$ man date</p>
 <p>会得到date命令的manual（操作说明）；</p>
 <p>查看的输出结果man page时候，可以用”/word“查找关键词，操作类似less，more等命令查阅文本； </p>
-<p>使用Shell的时候重要的热键：</p>
-<p>Tab：</p>
+<h3 id="重要的热键"><a href="#重要的热键" class="headerlink" title="重要的热键"></a>重要的热键</h3><p>Tab：</p>
 <p>命令补全，文件补齐：按一次Tab自动补全，按2次Tab显示所有匹配的命令或者文件。</p>
 <p>Ctrl + c：</p>
 <p>如果在Linux下输入了错误的命令，导致系统一直在运行，按 Ctrl + c 来中断目前执行的命令。</p>
@@ -149,48 +146,45 @@
 <li>是一个shell 函数。这些是小规模的shell 脚本，它们混合到环境变量中。在后续的章节<br>里，我们将讨论配置环境变量以及书写shell 函数。但是现在，仅仅意识到它们的存在就<br>可以了。</li>
 <li>是一个命令别名。我们可以定义自己的命令，建立在其它命令之上。</li>
 </ol>
-<p>如何识别命令？</p>
-<p>type + 命令名 ：显示命令的类型</p>
+<h2 id="如何识别命令"><a href="#如何识别命令" class="headerlink" title="如何识别命令"></a>如何识别命令</h2><p>type + 命令名 ：显示命令的类型</p>
 <p>which + 命令名 ：显示一个可执行程序的位置</p>
 <p>help + 命令名 ：得到shell 内部命令的帮助文档</p>
 <p>–help ： 显示用法信息，许多可执行程序支持一个–help参数选项，这个选项是显示命令所支持的语法和选项说明。</p>
 <p><em>man + 命令名 ：显示程序手册页，所有的命令都可以使用man来详细查询使用的方法！</em></p>
 <p>info + 命令名 ：显示程序Info 条目</p>
-<p>关于使用别名（alias）创建你自己的命令：</p>
-<p>在创建别名之前，我们可以使用type命令查询我们想要的别名是否存在。在命令行中定义的别名，当你的shell会话结束时，它们会消失。我们要学会把自己的别名添加到文件中去，每次我们登录系统，这些文件会建立系统环境。</p>
-<h1 id="文件的操作"><a href="#文件的操作" class="headerlink" title="文件的操作"></a>文件的操作</h1><h2 id="前言-1"><a href="#前言-1" class="headerlink" title="前言"></a>前言</h2><p>Linux文件能不能被执行与文件后缀名无关，是由是否具有”x“这个权限来决定的。”x“权限表示该文件具有可执行权限；</p>
+<h3 id="使用别名（alias"><a href="#使用别名（alias" class="headerlink" title="使用别名（alias)"></a>使用别名（alias)</h3><p>在创建别名之前，我们可以使用type命令查询我们想要的别名是否存在。在命令行中定义的别名，当你的shell会话结束时，它们会消失。我们要学会把自己的别名添加到文件中去，每次我们登录系统，这些文件会建立系统环境。</p>
+<h1 id="文件的操作"><a href="#文件的操作" class="headerlink" title="文件的操作"></a>文件的操作</h1><h2 id="必须要知道的"><a href="#必须要知道的" class="headerlink" title="必须要知道的"></a>必须要知道的</h2><p>Linux文件能不能被执行与文件后缀名无关，是由是否具有”x“这个权限来决定的。”x“权限表示该文件具有可执行权限；</p>
 <p>更改文件或目录的模式(权限),可以利用 chmod 命令。注意只有文件的所有者或者超级用户才能更改文件或目录的模式。chmod命令支持两种不同的方法来改变文件模式:八进制数字表示法,或符号表示法。</p>
 <p>sudo命令给普通用户以超级用户的权限。</p>
 <p>文件名和命令名是大小写敏感的。</p>
 <p>在linux中所以设备都是文件！</p>
-<h2 id="操作文件的命令"><a href="#操作文件的命令" class="headerlink" title="操作文件的命令"></a>操作文件的命令</h2><p>关于cd 命令的快捷键：(切换目录，Change Directory)</p>
-<p>cd           更改工作目录到你的家目录。</p>
+<h2 id="操作文件的命令"><a href="#操作文件的命令" class="headerlink" title="操作文件的命令"></a>操作文件的命令</h2><h3 id="切换目录，Change-Directory"><a href="#切换目录，Change-Directory" class="headerlink" title="切换目录，Change Directory"></a>切换目录，Change Directory</h3><p>关于cd 命令的快捷键：<br>cd           更改工作目录到你的家目录。</p>
 <p>cd -        更改工作目录到先前的工作目录。</p>
 <p>cd ..        去上一层目录</p>
-<p>pwd：显示当前目录，Print Working Directory</p>
-<p>mkdir：新建新目录，make directory</p>
+<h3 id="显示当前目录"><a href="#显示当前目录" class="headerlink" title="显示当前目录"></a>显示当前目录</h3><p>pwd：显示当前目录，Print Working Directory</p>
+<h3 id="创建新目录"><a href="#创建新目录" class="headerlink" title="创建新目录"></a>创建新目录</h3><p>mkdir：新建新目录，make directory</p>
 <p>比如：qiu@qiu-empty:~$ mkdir [-mp] 目录名称</p>
 <p>-m：配置文件的权限</p>
 <p>-p：递归的创建文件</p>
 <p>比如你要创建/test/test1/test2这个文件，你首先要先创建test以及test1，用-p参数可以直接递归的一次性全部创建完成。</p>
-<p>ls：查看文件与目录</p>
+<h3 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h3><p>ls：查看文件与目录</p>
 <p>-a：以 “.” 字符开头的文件名是隐藏文件。这仅表示，ls 命令不能列出它们， 用 ls -a 命令就可以了。</p>
 <p>-d：仅列出目录本身，而不是列出目录内的文件数据</p>
 <p>-l：列出长数据，包含文件的属性与权限等等</p>
-<p>cp(copy):复制文件或目录:</p>
+<h3 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h3><p>cp(copy):复制文件或目录:</p>
 <p>cp [-adfilprsu] source destination</p>
 <p>-r:递归持续复制，用于目录的复制行为,目录属性可能会发生变化，想要使得复制之后的目录和原目录完全一样，可以使用cp -a </p>
 <p>-s:复制成为符号链接文件，即”快捷方式”文件；</p>
 <p>-i:若destination文件已经存在，在覆盖的时候会询问；</p>
-<p>rm(remove):移除文件或目录</p>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><p>rm(remove):移除文件或目录</p>
 <p>rm [-fir] filename</p>
 <p>-f:force,强制执行；</p>
 <p>-i:互动模式,Interaction,在操作前会询问；</p>
 <p>-r:递归的删除,谨慎使用；</p>
 <p>小贴士： 无论什么时候，rm 命令用到通配符（除了仔细检查输入的内容外！）， 用 ls 命令来测试通配符。这会让你看到要删除的文件列表。然后按下上箭头按键，重新调用刚刚执行的命令，用 rm 替换 ls。</p>
-<p>mv(move):移动文件或目录，或更名</p>
+<h3 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h3><p>mv(move):移动文件或目录，或更名</p>
 <p>mv [-fiu] source destination</p>
-<p>文件内容查阅：</p>
+<h3 id="内容查阅"><a href="#内容查阅" class="headerlink" title="内容查阅"></a>内容查阅</h3><p>文件内容查阅：</p>
 <p>cat：由第一行开始显示文件内容</p>
 <p>tac：cat的倒写，由最后一行开始显示文件内容</p>
 <p>nl：显示的时候，顺便输出行号</p>
@@ -199,7 +193,7 @@
 <p>head：只看头几行</p>
 <p>tail：只看结尾几行</p>
 <p>od：以二进制的方式读取文件内容</p>
-<p>less查看的操作类似man：</p>
+<p><em>less查看的操作类似man：</em></p>
 <p>space：向下翻页</p>
 <p>b : 向上翻页</p>
 <p>PageDown：向下翻页</p>
@@ -207,24 +201,22 @@
 <p>/字符串：向下查询字符串</p>
 <p>?字符串：向上查询字符串</p>
 <p>q：离开</p>
-<p>touch命令：</p>
+<h3 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h3><p>touch命令：</p>
 <p>touch [-acdmt] filename</p>
 <p>创建一个空的文件；也可以用于修改文件的日期；</p>
 <p>关于文件的日期：mtime（modification time，内容修改日期），ctime（status time，状态修改日期），atime（access time，读取日期）</p>
-<p>查看文件类型：file命令</p>
-<p>文件的查询：</p>
+<h3 id="文件的查询"><a href="#文件的查询" class="headerlink" title="文件的查询"></a>文件的查询</h3><p>查看文件类型：file命令</p>
 <p>先用whereis，locate来检查（速度快一点），最后找不到了才用find(查找文件的复杂方式)来查询；locate只能依据文件名来查找文件，而find程序能基于各种各样的属性， 搜索一个给定目录（以及它的子目录），来查找文件。</p>
 <p>locate命令：</p>
 <p>locate [-ir] keyword</p>
 <p>-i:忽略大小写</p>
 <p>-r:后面可接正则表达式的显示方式</p>
 <p>locate与whereis是经由数据库来查找的，当你新建文件后查找该文件有可能会找不到，需要用updatedb命令来手动更新数据库。</p>
-<p>压缩与解压文件：</p>
-<p>tar -zcv -f filename.tar.gz 要被压缩的文件</p>
+<h3 id="压缩与解压文件"><a href="#压缩与解压文件" class="headerlink" title="压缩与解压文件"></a>压缩与解压文件</h3><p>tar -zcv -f filename.tar.gz 要被压缩的文件</p>
 <p>tar -jcv -f filename.tar.bz2 要被压缩的文件</p>
 <p>tar -zxv -f filename.tar.gz -C 欲解压缩的目录</p>
 <p>tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录</p>
-<p>关于符号链接：（类似windows系统中的快捷方式）</p>
+<h3 id="符号链接"><a href="#符号链接" class="headerlink" title="符号链接"></a>符号链接</h3><p>关于符号链接：（类似windows系统中的快捷方式）</p>
 <p>在大多数“类 Unix” 系统中，有可能一个文件被多个文件名所指向，叫做符号链接（也称为软链接或者 symlink）。有利于文件的共享的操作，在文件名改动之后不需要修改其他程序。一个符号链接指向一个文件，而且这个符号链接本身与其它的符号链接几乎没有区别。例如，如果你往一个符号链接里面写入东西，那么相关联的文件也被写入。然而，当你删除一个符号链接时，只有这个链接被删除，而不是文件自身。如果先于符号链接删除文件，这个链接仍然存在，但是不指向任何东西。在这种情况下，这个链接被称为坏链接。</p>
 <h1 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h1><p>“I/O” 代表输入/输出，通过I/O重定向，你可以重定向命令的输入输出，命令的输入来自文件，而输出也存到文件。也可以把多个命令连接起来组成一个强大的命令管道。</p>
 <p>数据流的重定向：将某个命令执行后应该要出现在屏幕上的数据传输到其他的地方去，例如文件或者设备。</p>
@@ -356,17 +348,17 @@
 	
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是Shell"><span class="toc-number">2.</span> <span class="toc-text">什么是Shell?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于Shell的常用知识"><span class="toc-number">2.1.</span> <span class="toc-text">关于Shell的常用知识</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是命令？"><span class="toc-number">3.</span> <span class="toc-text">什么是命令？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件的操作"><span class="toc-number">4.</span> <span class="toc-text">文件的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言-1"><span class="toc-number">4.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作文件的命令"><span class="toc-number">4.2.</span> <span class="toc-text">操作文件的命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向"><span class="toc-number">5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell中的命令"><span class="toc-number">6.</span> <span class="toc-text">Shell中的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell中的变量："><span class="toc-number">6.1.</span> <span class="toc-text">Shell中的变量：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于键盘的使用技巧"><span class="toc-number">6.2.</span> <span class="toc-text">关于键盘的使用技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件包的管理"><span class="toc-number">7.</span> <span class="toc-text">软件包的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何操作软件包？"><span class="toc-number">7.1.</span> <span class="toc-text">如何操作软件包？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于Shell脚本"><span class="toc-number">8.</span> <span class="toc-text">关于Shell脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Shell脚本"><span class="toc-number">8.1.</span> <span class="toc-text">什么是Shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何编写Shell脚本"><span class="toc-number">8.2.</span> <span class="toc-text">如何编写Shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本文件的位置"><span class="toc-number">8.3.</span> <span class="toc-text">脚本文件的位置</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是Shell"><span class="toc-number">2.</span> <span class="toc-text">什么是Shell?</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#关于Shell的常用知识"><span class="toc-number">2.1.</span> <span class="toc-text">关于Shell的常用知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#终端提示符"><span class="toc-number">2.1.1.</span> <span class="toc-text">终端提示符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令历史"><span class="toc-number">2.1.2.</span> <span class="toc-text">命令历史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell终端复制字符"><span class="toc-number">2.1.3.</span> <span class="toc-text">Shell终端复制字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于Shell中常用的路径"><span class="toc-number">2.1.4.</span> <span class="toc-text">关于Shell中常用的路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#万能的man"><span class="toc-number">2.1.5.</span> <span class="toc-text">万能的man</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重要的热键"><span class="toc-number">2.1.6.</span> <span class="toc-text">重要的热键</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是命令？"><span class="toc-number">3.</span> <span class="toc-text">什么是命令？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何识别命令"><span class="toc-number">3.1.</span> <span class="toc-text">如何识别命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用别名（alias"><span class="toc-number">3.1.1.</span> <span class="toc-text">使用别名（alias)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件的操作"><span class="toc-number">4.</span> <span class="toc-text">文件的操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#必须要知道的"><span class="toc-number">4.1.</span> <span class="toc-text">必须要知道的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作文件的命令"><span class="toc-number">4.2.</span> <span class="toc-text">操作文件的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#切换目录，Change-Directory"><span class="toc-number">4.2.1.</span> <span class="toc-text">切换目录，Change Directory</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示当前目录"><span class="toc-number">4.2.2.</span> <span class="toc-text">显示当前目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建新目录"><span class="toc-number">4.2.3.</span> <span class="toc-text">创建新目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看"><span class="toc-number">4.2.4.</span> <span class="toc-text">查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制"><span class="toc-number">4.2.5.</span> <span class="toc-text">复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除"><span class="toc-number">4.2.6.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动"><span class="toc-number">4.2.7.</span> <span class="toc-text">移动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内容查阅"><span class="toc-number">4.2.8.</span> <span class="toc-text">内容查阅</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#touch"><span class="toc-number">4.2.9.</span> <span class="toc-text">touch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件的查询"><span class="toc-number">4.2.10.</span> <span class="toc-text">文件的查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#压缩与解压文件"><span class="toc-number">4.2.11.</span> <span class="toc-text">压缩与解压文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#符号链接"><span class="toc-number">4.2.12.</span> <span class="toc-text">符号链接</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重定向"><span class="toc-number">5.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell中的命令"><span class="toc-number">6.</span> <span class="toc-text">Shell中的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell中的变量："><span class="toc-number">6.1.</span> <span class="toc-text">Shell中的变量：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于键盘的使用技巧"><span class="toc-number">6.2.</span> <span class="toc-text">关于键盘的使用技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#软件包的管理"><span class="toc-number">7.</span> <span class="toc-text">软件包的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何操作软件包？"><span class="toc-number">7.1.</span> <span class="toc-text">如何操作软件包？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于Shell脚本"><span class="toc-number">8.</span> <span class="toc-text">关于Shell脚本</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Shell脚本"><span class="toc-number">8.1.</span> <span class="toc-text">什么是Shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何编写Shell脚本"><span class="toc-number">8.2.</span> <span class="toc-text">如何编写Shell脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本文件的位置"><span class="toc-number">8.3.</span> <span class="toc-text">脚本文件的位置</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -374,7 +366,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -403,7 +395,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -415,15 +407,11 @@
 			
 		
 			
-				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
+				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
 			
 		
 			
@@ -431,11 +419,15 @@
 			
 		
 			
+				<li><a href="/tags/［Linux，Shell］/" title="［Linux，Shell］">［Linux，Shell］<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/［Linux，Shell］/" title="［Linux，Shell］">［Linux，Shell］<sup>1</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -443,7 +435,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
     </ul>
@@ -453,11 +445,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -684,7 +676,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
