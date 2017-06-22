@@ -21,7 +21,7 @@
 <meta property="og:description" content="单一职责原则(Single Responsibility Principle)定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。
 例如：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。
 按照单一职责原则，我们做出如下的修改：分别建立两个类T1、T2，使T1完成职责P1功能，">
-<meta property="og:updated_time" content="2017-06-21T01:40:32.000Z">
+<meta property="og:updated_time" content="2017-06-22T01:36:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式原则">
 <meta name="twitter:description" content="单一职责原则(Single Responsibility Principle)定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。
@@ -54,7 +54,7 @@
 				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -70,7 +70,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -93,14 +93,14 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-21T01:39:19.000Z" itemprop="datePublished"> Published 2017-06-21</time>
+    <time datetime="2017-06-21T01:39:19.000Z" itemprop="datePublished"> 發表於 2017-06-21</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目錄</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#单一职责原则-Single-Responsibility-Principle"><span class="toc-number">1.</span> <span class="toc-text">单一职责原则(Single Responsibility Principle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#里氏替换原则-Liskov-Substitution-Principle"><span class="toc-number">2.</span> <span class="toc-text">里氏替换原则(Liskov Substitution Principle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#依赖倒置原则-Dependence-Inversion-Principle"><span class="toc-number">3.</span> <span class="toc-text">依赖倒置原则(Dependence Inversion Principle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#接口隔离原则-Interface-Segregation-Principle"><span class="toc-number">4.</span> <span class="toc-text">接口隔离原则(Interface  Segregation Principle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迪米特法则-Law-of-Demeter"><span class="toc-number">5.</span> <span class="toc-text">迪米特法则(Law of  Demeter)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开闭原则-Open-Closed-Principle"><span class="toc-number">6.</span> <span class="toc-text">开闭原则(Open-Closed Principle)</span></a></li></ol>
 		
@@ -168,6 +168,11 @@
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+</div>
+
 
   <div class="article-tags">
   
@@ -215,17 +220,17 @@
 	
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目錄</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#单一职责原则-Single-Responsibility-Principle"><span class="toc-number">1.</span> <span class="toc-text">单一职责原则(Single Responsibility Principle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#里氏替换原则-Liskov-Substitution-Principle"><span class="toc-number">2.</span> <span class="toc-text">里氏替换原则(Liskov Substitution Principle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#依赖倒置原则-Dependence-Inversion-Principle"><span class="toc-number">3.</span> <span class="toc-text">依赖倒置原则(Dependence Inversion Principle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#接口隔离原则-Interface-Segregation-Principle"><span class="toc-number">4.</span> <span class="toc-text">接口隔离原则(Interface  Segregation Principle)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迪米特法则-Law-of-Demeter"><span class="toc-number">5.</span> <span class="toc-text">迪米特法则(Law of  Demeter)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#开闭原则-Open-Closed-Principle"><span class="toc-number">6.</span> <span class="toc-text">开闭原则(Open-Closed Principle)</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
 <aside class="clearfix">
 
   
@@ -233,7 +238,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分類</p>
 		<ul>
 		
 		  
@@ -249,11 +254,19 @@
 		  
 		
 		  
-			<li><a href="/categories/算法/" title="算法">算法<sup>2</sup></a></li>
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>3</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/计算机网络/" title="计算机网络">计算机网络<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
 		  
 		
 		</ul>
@@ -262,7 +275,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">標簽</p>
 		<ul class="clearfix">
 		
 			
@@ -274,7 +287,15 @@
 			
 		
 			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
 			
 		
 			
@@ -286,11 +307,7 @@
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
 			
 		
 			
@@ -305,16 +322,12 @@
 				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
-			
-				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
-			
-		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情鏈接</p>
     <ul>
         
     </ul>
@@ -324,11 +337,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -555,7 +568,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
