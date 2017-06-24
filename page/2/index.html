@@ -44,7 +44,7 @@
 				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -60,7 +60,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -78,6 +78,85 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/09/Optional/" title="Optional" itemprop="url">Optional</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-09T14:57:47.000Z" itemprop="datePublished"> Published 2017-03-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="Null-带来的问题："><a href="#Null-带来的问题：" class="headerlink" title="Null 带来的问题："></a>Null 带来的问题：</h2><ul>
+<li>它是错误之源<br> NullPointerException是目前java程序开发中最典型的异常</li>
+<li>它会使代码膨胀<br> 它让你的代码充斥着深度嵌套的null检查，代码的可读性差</li>
+<li>它自身没有任何的语义<br> 尤其是，它代表了在静态类型语言中一种错误的方式对缺失的变量值的建模</li>
+</ul>
+<h2 id="Optional类"><a href="#Optional类" class="headerlink" title="Optional类"></a>Optional类</h2><p>java8中引人了一个新的类java.util.Optional&lt; T &gt;。<br>代码示例 1：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</div><div class="line"><span class="keyword">private</span> Optional &lt; Car &gt; car;</div><div class="line"><span class="keyword">public</span> Optional&lt; Car&gt; getCar()&#123;<span class="keyword">return</span> car;&#125; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</div><div class="line"><span class="keyword">private</span> Optional&lt; Insurance&gt; insurance;</div><div class="line"><span class="keyword">public</span> Optional&lt; Insurance&gt; getInsurance()&#123;<span class="keyword">return</span> insurance;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">pubic <span class="class"><span class="keyword">class</span> <span class="title">Insurance</span></span>&#123;</div><div class="line"><span class="keyword">private</span> String name;</div><div class="line"><span class="function">pulic String <span class="title">getName</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> name;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当变量存在的时候，Optional类只是对类的简单封装。变量不存在的时候，缺失的值会被建模成为一个”空”的Optional对象，该对象可以由方法Optional.empty()返回，同时解引用这个Optional类的有效的”空”对象是完全不会出事的。</p>
+<p>上述的代码示例中:</p>
+<ul>
+<li>Person类表示某个人（实例）可能有车，也可能没车，因此将这个字段声明为Optional,表明Person是允许缺失的，通过Optional为缺失null安全建模；</li>
+<li>Car类表示某台车可能买了保险，也有可能没有买保险；</li>
+<li>Insurance类中，每个保险是肯定有名字的，所以无须声明为Optional；</li>
+</ul>
+<h2 id="使用Optional"><a href="#使用Optional" class="headerlink" title="使用Optional"></a>使用Optional</h2><ol>
+<li><p>创建一个Optional对象</p>
+<p>声明一个空的Optional：通过静态工厂方法Optional.empty()，创建一个空的Optional对象；<br>Optional<car> optCar = Optional.empty();<br>或者，使用静态工厂方法Optional.ofNullable，创建一个允许null值得Optional对象<br>Optional<car> optCar = Optional.ofNullable(car);</car></car></p>
+</li>
+<li>利用map，flatmap从Optional对象中提取值<br>参考java8中java.util.Optional函数Api可以得知map，flatmap的用法以及区别。借助上述的代码示例1，比较map方法与flatmap方法的用法。<br><code>Optional&lt;Insurance&gt; optInsurance =     Optional.ofNullable(insurance);</code><br><code>Optional&lt;String&gt; name = optInsurance.map(Insurance :: getName);</code><br>这里的map用方法和流中的map用法几乎一致，map操作会将提供的函数应用于流的每个元素，这里我们将Optional对象看作一种特殊的集合，至少包含一个元素。如果Optional包含一个值，那函数就将改值作为参数传递给map，最后对将得到的值用Optional类包装。如果Optional为空，那就什么都不做。<br>但是注意以下代码：<br> <code>Optional&lt;Person&gt; optPerson = Optional.of(person);</code><br>这里optPerson是Optional<person>类型的变量，调用map方法没有问题，但是其中包含的Person.getCar返回的是一个Optional<car>类型的对象，导致<code>optPerson.map(Person :: getCar);</code>的结果是返回一个Optional<optional<car>&gt;类型的变量。这个时候我们需要用到flatmap方法，可以将多层Optional包裹的值合并为一个Optional返回函数结果。</optional<car></car></person></li>
+</ol>
+<p><strong>注意：Optional类并没有实现Serializable接口</strong></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/学习笔记/">学习笔记</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/09/一道阿里招聘的编程题/" title="阿里实习生招聘的编程题" itemprop="url">阿里实习生招聘的编程题</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +164,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-08T16:33:32.000Z" itemprop="datePublished"> 發表於 2017-03-09</time>
+    <time datetime="2017-03-08T16:33:32.000Z" itemprop="datePublished"> Published 2017-03-09</time>
     
   </p>
 </header>
@@ -160,7 +239,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> 發表於 2017-03-08</time>
+    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> Published 2017-03-08</time>
     
   </p>
 </header>
@@ -230,7 +309,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-07T01:02:03.000Z" itemprop="datePublished"> 發表於 2017-03-07</time>
+    <time datetime="2017-03-07T01:02:03.000Z" itemprop="datePublished"> Published 2017-03-07</time>
     
   </p>
 </header>
@@ -318,7 +397,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-06T10:40:43.000Z" itemprop="datePublished"> 發表於 2017-03-06</time>
+    <time datetime="2017-03-06T10:40:43.000Z" itemprop="datePublished"> Published 2017-03-06</time>
     
   </p>
 </header>
@@ -369,10 +448,10 @@
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
@@ -380,11 +459,11 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
-			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>3</sup></a></li>
+			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>4</sup></a></li>
 		  
 		
 		  
@@ -417,7 +496,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -433,7 +512,7 @@
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
 			
@@ -441,7 +520,7 @@
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -449,11 +528,11 @@
 			
 		
 			
-				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -464,12 +543,16 @@
 				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
     </ul>
@@ -479,11 +562,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -633,7 +716,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

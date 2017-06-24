@@ -44,7 +44,7 @@
 				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜單">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -60,7 +60,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -78,6 +78,138 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/06/24/Java多线程学习笔记/" title="Java多线程学习笔记" itemprop="url">Java多线程学习笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-06-24T15:38:47.000Z" itemprop="datePublished"> Published 2017-06-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Java多线程入门"><a href="#Java多线程入门" class="headerlink" title="Java多线程入门"></a>Java多线程入门</h1><h2 id="进程和多线程的概念"><a href="#进程和多线程的概念" class="headerlink" title="进程和多线程的概念"></a>进程和多线程的概念</h2><p>什么是进程？</p>
+<p>进程是操作系统结构的基础，是一次程序的执行；是一个程序及其数据在处理机上顺序执行时所发生的活动；是程序在一个数据集合上运行的过程；它是系统进行资源分配和调度的一个独立单位；是受操作系统管理的基本运行单元。</p>
+<p>什么是线程？</p>
+<p>线程是在进程中独立运行的子任务。我们也要记住，多线程是异步的，线程被调用的时机是随机的，与CPU的调度有关，代码的执行顺序(代码的书写顺序)与代码的调用顺序无关。</p>
+<p>线程的状态：</p>
+<ul>
+<li>新建状态(New):新创建了一个线程对象</li>
+<li>就绪状态(Runnable):线程对象调用了start()方法后，该线程处于可运行线程池中，等待CPU的调度</li>
+<li>运行状态(Running):CPU调度可运行池中的线程，执行线程的代码</li>
+<li>阻塞状态(Blocked):线程因某种原因放弃CPU的使用权</li>
+</ul>
+<h2 id="使用多线程"><a href="#使用多线程" class="headerlink" title="使用多线程"></a>使用多线程</h2><h3 id="创建多线程对象"><a href="#创建多线程对象" class="headerlink" title="创建多线程对象"></a>创建多线程对象</h3><p>我们在运行Java代码的时候，有一个最基本的线程，就是在调用public static void main()方法的时候，我们其实在通过一个名为main的线程在执行main()方法，该线程由JVM创建。</p>
+<p>创建多线程有２种方式，一种是继承Thread类，另一种是实现Runnable接口。这２种方式在工作时的性质是一样的，没有本质区别。</p>
+<p><em>通过继承Thread类创建多线程：</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Thread</span> <span class="keyword">extends</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Thread</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.run();</div><div class="line">        System.out.println(<span class="string">"Thread"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Thread thread = <span class="keyword">new</span> Thread();</div><div class="line">        thread.start();</div><div class="line">        System.out.println(<span class="string">"运行结束！"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<p>运行结束！</p>
+<p>Thread</p>
+<p>我们可以看到，继承Thread类的方式创建新线程时，最大的局限就是不支持多继承，所以为了支持多继承，完全可以实现Runnable接口的方式。</p>
+<p>我们可以看到Thread类的源代码，如下：</p>
+<p><em>public class Thread implements Runnable</em></p>
+<p>从这里可以看出，Thread类实现了Runnbale接口，它们之间具有多态关系。</p>
+<p>我们注意到Thread.java类中start()方法与run()方法都可以调用线程对象中的run()方法，这２个方法有什么区别呢？</p>
+<p>Thread.java类中的start()方法通知”线程规划器”此线程已经准备就绪，等待调用线程对象的run()方法。这个过程其实就是让系统安排一个时间来调用Thread中的run()方法，也就是使线程得到运行，启动线程，具有异步执行的效果。如果调用代码的thread.run()方法就不是异步执行了，而是同步，那么此线程对象并不交给”线程规划器”来处理，而是由main主线程来调用run()方法，这个时候与多线程无关与普通调用方法一样，必须等run()方法中的代码执行完毕后才能执行main函数后面的代码。</p>
+<p><em>通过实现Runnable接口创建多线程：</em></p>
+<p>如果欲创建的线程类已经有一个父类了，这时就不能再继承Thread类了，所以我们需要实现Runnable接口来应对这样的情况。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Runnable</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"Runnable"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Runnable runnable = <span class="keyword">new</span> Runnable();</div><div class="line">        Thread thread = <span class="keyword">new</span> Thread(runnable);</div><div class="line">        thread.start();</div><div class="line">        System.out.println(<span class="string">"运行结束！"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<p>运行结束！</p>
+<p>Runnable</p>
+<p>另外需要说明的是，我们已经知道了Thread类实现了Runnbale接口，那也就意味着构造函数Thread(Runnable target)方法不光可以传入Runnable接口的对象，还可以传入一个Thread类对象，这样做完全可以将一个Thread对象中的run()方法交给其他的线程进行调用。</p>
+<h3 id="多线程对象的常用函数"><a href="#多线程对象的常用函数" class="headerlink" title="多线程对象的常用函数"></a>多线程对象的常用函数</h3><ul>
+<li>Thread.currentThread()方法返回代码段正在被哪个线程调用的信息</li>
+<li><p>Thread对象实例.isAlive()方法的功能是判断当前线程是否处于活跃状态(正在运行状态或者准备开始运行状态)</p>
+</li>
+<li><p>Thread.sleep()方法的作用是在指定的毫秒数内让”当前执行的线程”休眠(暂停执行)</p>
+</li>
+<li><p>getId()方法可以获取线程的唯一标识</p>
+</li>
+<li><p>yield()方法的作用是放弃当前的CPU资源，将它让给其他的任务去占用CPU执行时间。当放弃的时间不确定，有可能刚刚放弃，马上又获取CPU时间片。</p>
+</li>
+</ul>
+<p>接下来，我们重要讨论一下如何停止正在运行的线程。停止一个线程意味着在线程处理完任务之前停掉正在做的事情，也就是放弃当前的操作。</p>
+<p>在Java中有３种方法可以终止正在运行的线程：</p>
+<ol>
+<li>使用退出标志，是线程正常退出，也就是run方法完成之后线程终止</li>
+<li>使用stop方法强行终止线程，但是不推荐使用这个方法，因为stop和suspend以及resume一样，都是作废过期的方法，使用它们可能产生不可预料的结果</li>
+<li>使用interrupt()方法中断线程</li>
+</ol>
+<p>接下来，介绍如何使用interrupt()方法来停止线程。</p>
+<p>如何判断线程是否处于停止状态呢?</p>
+<ol>
+<li>Thread.interrupted():测试当前线程是否已经中断，static方法，调用这个方法后线程的中断状态被清除。换句话说，如果连续２次调用该方法，则第二次调用将返回false。</li>
+<li>this.isInterrupted():测试线程Thread对象实例是否已经中断，非static方法，不清除状态标识</li>
+</ol>
+<p>调用interrupt()方法不会真的停止线程，而是在当前线程中打了一个停止的标记，还需要配合其他的代码来停止线程。</p>
+<p>我们可以在线程对象的run()方法中加入判断语句，判断如果线程处于停止状态那么就可以通过异常来跳过后面的代码执行，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">500</span>; i++) &#123;</div><div class="line">                <span class="keyword">if</span> (Thread.interrupted()) &#123;</div><div class="line">                    System.out.println(<span class="string">"停止状态"</span>);</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</div><div class="line">                &#125;</div><div class="line">                System.out.println(<span class="string">"i = "</span> + i);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            System.out.println(<span class="string">"线程进入异常处理模块，停止运行run方法"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        MyThread thread = <span class="keyword">new</span> MyThread();</div><div class="line">        thread.start();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Thread.sleep(<span class="number">1</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        thread.interrupt();</div><div class="line">        System.out.println(<span class="string">"end"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出：</p>
+<p>…</p>
+<p>i = 16</p>
+<p>i = 17</p>
+<p>end</p>
+<p>i = 18</p>
+<p>停止状态</p>
+<p>线程进入异常处理模块，停止运行run方法</p>
+<p>除了使用异常，我们还可以通过线程sleep的状态来停止线程以及通过interrupt方法与return结合来停止线程。不过，我们还是建议使用“抛异常”的方法来实现线程的停止，因为在catch快中还可以将异常向上抛，使线程停止的事件得到传播。</p>
+<h3 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h3><p>在操作系统中，线程可以划分优先级，优先级较高的线程得到的CPU资源较多，也就是CPU优先执行优先级较高的线程对象中的任务。</p>
+<p>在Java中，线程的优先级分为１－１０这个１０个等级，如果超出范围，则JDK抛出异常。</p>
+<p>优先级具有继承性质，比如A线程启动了B线程，则B线程的优先级与A是一样的。</p>
+<p>但是，优先级具有随机性，高优先级的线程总是大部分先执行完，但不代表高优先级的线程全部都先执行完，CPU是<em>尽量</em>将执行资源让给优先级比较高的线程而已。</p>
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>在Java中有２种线程：一种是用户线程，另一种是守护线程。</p>
+<p>守护线程是一种特殊的线程，当进程中不存在非守护线程了，守护线程就自动销毁。典型的守护线程就是垃圾回收线程，当进程中没有非守护线程了，则垃圾回收线程也就没有存在的必要了，自动销毁。Deamon的作用是为其他线程的运行提供便利服务，守护线程最典型的应用就是GC(垃圾回收器)。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/多线程/">多线程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/06/22/编辑距离问题/" title="编辑距离问题" itemprop="url">编辑距离问题</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +217,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-22T01:37:41.000Z" itemprop="datePublished"> 發表於 2017-06-22</time>
+    <time datetime="2017-06-22T01:37:41.000Z" itemprop="datePublished"> Published 2017-06-22</time>
     
   </p>
 </header>
@@ -161,7 +293,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-21T05:04:37.000Z" itemprop="datePublished"> 發表於 2017-06-21</time>
+    <time datetime="2017-06-21T05:04:37.000Z" itemprop="datePublished"> Published 2017-06-21</time>
     
   </p>
 </header>
@@ -339,7 +471,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-21T01:39:19.000Z" itemprop="datePublished"> 發表於 2017-06-21</time>
+    <time datetime="2017-06-21T01:39:19.000Z" itemprop="datePublished"> Published 2017-06-21</time>
     
   </p>
 </header>
@@ -455,7 +587,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-05-07T13:44:18.000Z" itemprop="datePublished"> 發表於 2017-05-07</time>
+    <time datetime="2017-05-07T13:44:18.000Z" itemprop="datePublished"> Published 2017-05-07</time>
     
   </p>
 </header>
@@ -713,7 +845,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-24T11:51:07.000Z" itemprop="datePublished"> 發表於 2017-04-24</time>
+    <time datetime="2017-04-24T11:51:07.000Z" itemprop="datePublished"> Published 2017-04-24</time>
     
   </p>
 </header>
@@ -824,7 +956,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-04-08T09:31:54.000Z" itemprop="datePublished"> 發表於 2017-04-08</time>
+    <time datetime="2017-04-08T09:31:54.000Z" itemprop="datePublished"> Published 2017-04-08</time>
     
   </p>
 </header>
@@ -940,7 +1072,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-22T14:23:17.000Z" itemprop="datePublished"> 發表於 2017-03-22</time>
+    <time datetime="2017-03-22T14:23:17.000Z" itemprop="datePublished"> Published 2017-03-22</time>
     
   </p>
 </header>
@@ -1008,7 +1140,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-13T15:22:22.000Z" itemprop="datePublished"> 發表於 2017-03-13</time>
+    <time datetime="2017-03-13T15:22:22.000Z" itemprop="datePublished"> Published 2017-03-13</time>
     
   </p>
 </header>
@@ -1120,7 +1252,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-11T16:03:05.000Z" itemprop="datePublished"> 發表於 2017-03-12</time>
+    <time datetime="2017-03-11T16:03:05.000Z" itemprop="datePublished"> Published 2017-03-12</time>
     
   </p>
 </header>
@@ -1177,95 +1309,16 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/09/Optional/" title="Optional" itemprop="url">Optional</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-09T14:57:47.000Z" itemprop="datePublished"> 發表於 2017-03-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Null-带来的问题："><a href="#Null-带来的问题：" class="headerlink" title="Null 带来的问题："></a>Null 带来的问题：</h2><ul>
-<li>它是错误之源<br> NullPointerException是目前java程序开发中最典型的异常</li>
-<li>它会使代码膨胀<br> 它让你的代码充斥着深度嵌套的null检查，代码的可读性差</li>
-<li>它自身没有任何的语义<br> 尤其是，它代表了在静态类型语言中一种错误的方式对缺失的变量值的建模</li>
-</ul>
-<h2 id="Optional类"><a href="#Optional类" class="headerlink" title="Optional类"></a>Optional类</h2><p>java8中引人了一个新的类java.util.Optional&lt; T &gt;。<br>代码示例 1：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</div><div class="line"><span class="keyword">private</span> Optional &lt; Car &gt; car;</div><div class="line"><span class="keyword">public</span> Optional&lt; Car&gt; getCar()&#123;<span class="keyword">return</span> car;&#125; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</div><div class="line"><span class="keyword">private</span> Optional&lt; Insurance&gt; insurance;</div><div class="line"><span class="keyword">public</span> Optional&lt; Insurance&gt; getInsurance()&#123;<span class="keyword">return</span> insurance;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">pubic <span class="class"><span class="keyword">class</span> <span class="title">Insurance</span></span>&#123;</div><div class="line"><span class="keyword">private</span> String name;</div><div class="line"><span class="function">pulic String <span class="title">getName</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> name;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>当变量存在的时候，Optional类只是对类的简单封装。变量不存在的时候，缺失的值会被建模成为一个”空”的Optional对象，该对象可以由方法Optional.empty()返回，同时解引用这个Optional类的有效的”空”对象是完全不会出事的。</p>
-<p>上述的代码示例中:</p>
-<ul>
-<li>Person类表示某个人（实例）可能有车，也可能没车，因此将这个字段声明为Optional,表明Person是允许缺失的，通过Optional为缺失null安全建模；</li>
-<li>Car类表示某台车可能买了保险，也有可能没有买保险；</li>
-<li>Insurance类中，每个保险是肯定有名字的，所以无须声明为Optional；</li>
-</ul>
-<h2 id="使用Optional"><a href="#使用Optional" class="headerlink" title="使用Optional"></a>使用Optional</h2><ol>
-<li><p>创建一个Optional对象</p>
-<p>声明一个空的Optional：通过静态工厂方法Optional.empty()，创建一个空的Optional对象；<br>Optional<car> optCar = Optional.empty();<br>或者，使用静态工厂方法Optional.ofNullable，创建一个允许null值得Optional对象<br>Optional<car> optCar = Optional.ofNullable(car);</car></car></p>
-</li>
-<li>利用map，flatmap从Optional对象中提取值<br>参考java8中java.util.Optional函数Api可以得知map，flatmap的用法以及区别。借助上述的代码示例1，比较map方法与flatmap方法的用法。<br><code>Optional&lt;Insurance&gt; optInsurance =     Optional.ofNullable(insurance);</code><br><code>Optional&lt;String&gt; name = optInsurance.map(Insurance :: getName);</code><br>这里的map用方法和流中的map用法几乎一致，map操作会将提供的函数应用于流的每个元素，这里我们将Optional对象看作一种特殊的集合，至少包含一个元素。如果Optional包含一个值，那函数就将改值作为参数传递给map，最后对将得到的值用Optional类包装。如果Optional为空，那就什么都不做。<br>但是注意以下代码：<br> <code>Optional&lt;Person&gt; optPerson = Optional.of(person);</code><br>这里optPerson是Optional<person>类型的变量，调用map方法没有问题，但是其中包含的Person.getCar返回的是一个Optional<car>类型的对象，导致<code>optPerson.map(Person :: getCar);</code>的结果是返回一个Optional<optional<car>&gt;类型的变量。这个时候我们需要用到flatmap方法，可以将多层Optional包裹的值合并为一个Optional返回函数结果。</optional<car></car></person></li>
-</ol>
-<p><strong>注意：Optional类并没有实现Serializable接口</strong></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/学习笔记/">学习笔记</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="顯示側邊欄"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隱藏側邊欄"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
@@ -1273,11 +1326,11 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分類</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
-			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>3</sup></a></li>
+			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>4</sup></a></li>
 		  
 		
 		  
@@ -1310,7 +1363,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">標簽</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -1326,7 +1379,7 @@
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
 			
@@ -1334,7 +1387,7 @@
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -1342,11 +1395,11 @@
 			
 		
 			
-				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -1357,12 +1410,16 @@
 				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
+			
+				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
+			
+		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情鏈接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
     </ul>
@@ -1372,11 +1429,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 訂閱</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -1526,7 +1583,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回頂部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
