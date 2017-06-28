@@ -78,6 +78,77 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/06/28/策略模式/" title="策略模式" itemprop="url">策略模式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-06-28T06:09:53.000Z" itemprop="datePublished"> Published 2017-06-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h1><p><em>定义：针对一组算法，将每一个算法封装到具有共同接口的独立的类中，从而使得它们可以互相替换。</em></p>
+<p>策略模式属于对象行为模式，可以使得算法在不影响到客户端(算法的调用者)的情况下发生变化。策略模式通常把一个系列的算法包装到一系列的策略类里面，作为一个抽象策略类的子类，可以将策略模式理解为相同行为的不同实现而已。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在软件开发中也常常遇到类似的情况，实现某一个功能有多种算法或者策略，我们可以根据环境或者条件的不同选择不同的算法或者策略来完成该功能。如查找、排序等，一种常用的方法是硬编码(Hard Coding)。在一个类中，如需要提供多种查找算法，可以将这些算法写到一个类中，在该类中提供多个方法，每一个方法对应一个具体的查找算法；当然也可以将这些查找算法封装在一个统一的方法中，通过if…else…或者case等条件判断语句来进行选择。这两种实现方法我们都可以称之为硬编码，如果需要增加一种新的查找算法，需要修改封装算法类的源代码；更换查找算法，也需要修改客户端调用代码。在这个算法类中封装了大量查找算法，该类代码将较复杂，维护较为困难。如果我们将这些策略包含在客户端，这种做法更不可取，将导致客户端程序庞大而且难以维护，如果存在大量可供选择的算法时问题将变得更加严重。这时候我们就需要使用到策略模式来设计我们的代码了。</p>
+<h2 id="策略模式的结构："><a href="#策略模式的结构：" class="headerlink" title="策略模式的结构："></a>策略模式的结构：</h2><p><img src="../../../../img/moshi/celue.png" alt=""></p>
+<p>以上结构涉及到三个角色：</p>
+<ul>
+<li>环境(Context):持有一个Strategy的引用,对策略进行二次封装，目的是避免高层模块对策略的直接调用</li>
+<li>抽象策略类(Strategy):通常由一个接口或者抽象类实现，给出所有的具体策略类所需的接口,当各个实现类中存在着重复的逻辑时，则使用抽象类来封装这部分公共的代码</li>
+<li>具体策略类(ConcreteStrategy):包装了相关算法的实现</li>
+</ul>
+<h2 id="进一步了解策略模式"><a href="#进一步了解策略模式" class="headerlink" title="进一步了解策略模式"></a>进一步了解策略模式</h2><p>策略模式仅仅封装算法，在什么情况下使用什么算法是由调用者决定的，而且策略模式的重心不是如何实现算法，而是如何组织、调用这些算法，从而让程序结构更灵活，具有更好的维护性和扩展性。</p>
+<p>策略模式的优点：</p>
+<ul>
+<li>策略类之间可以自由切换，由于策略类实现自同一个抽象，所以他们之间可以自由切换</li>
+<li>易于扩展，增加一个新的策略对策略模式来说非常容易，基本上可以在不改变原有代码的基础上进行扩展</li>
+<li>使用策略模式可以避免使用多重条件(if-else)语句。多重条件语句不易维护，它把采取哪一种算法或采取哪一种行为的逻辑与算法或行为的逻辑混合在一起，统统列在一个多重条件语句里面，比使用继承的办法还要原始和落后</li>
+</ul>
+<p>策略模式的缺点：</p>
+<ul>
+<li>客户端必须知道所有的策略类，并自行决定使用哪一个策略类。这就意味着客户端必须理解这些算法的区别，以便适时选择恰当的算法类。换言之，策略模式只适用于客户端知道算法或行为的情况</li>
+<li>由于策略模式把每个具体的策略实现都单独封装成为类，如果备选的策略很多的话，那么对象的数目就会很可观</li>
+</ul>
+<h2 id="代码实例："><a href="#代码实例：" class="headerlink" title="代码实例："></a>代码实例：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Context</span> </span>&#123;</div><div class="line">    <span class="comment">//持有一个具体策略的对象</span></div><div class="line">    <span class="keyword">private</span> Strategy strategy;        </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 构造函数，传入一个具体策略对象</div><div class="line">     * <span class="doctag">@param</span> strategy    具体策略对象</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Context</span><span class="params">(Strategy strategy)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.strategy = strategy;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 策略方法</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInterface</span><span class="params">()</span></span>&#123;</div><div class="line">        strategy.strategyInterface();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Strategy</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 策略方法</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">strategyInterface</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteStrategyA</span> <span class="keyword">implements</span> <span class="title">Strategy</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">strategyInterface</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//相关的业务</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteStrategyB</span> <span class="keyword">implements</span> <span class="title">Strategy</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">strategyInterface</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">//相关的业务</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/06/24/Java多线程学习笔记/" title="Java多线程学习笔记" itemprop="url">Java多线程学习笔记</a>
   </h1>
   <p class="article-author">By
@@ -1239,76 +1310,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/12/i/" title="有意思的推理" itemprop="url">有意思的推理</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-11T16:03:05.000Z" itemprop="datePublished"> Published 2017-03-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>今天在网上看到了一道推理题，挺有意思的。题目如下：</p>
-<p>P先生、Q先生都具有足够的推理能力。这天，他们正在接受推理面试。 他们知道桌子的抽屉里有如下16张扑克牌: 红桃 A、Q、4 ；黑桃 J、8、4、2、7、3 ；草花 K、Q、5、4、6 ；方块 A、5 </p>
-<p>约翰教授从这16张牌中挑出一张牌来，并把这张牌的点数告诉P先生，把这张牌 的花色告诉Q先生。这时，约翰教授问P先生和Q先生:你们能从已知的点数或花色中推知这张牌是什么牌吗?</p>
-<p>P先生:”我不知道这张牌。” Q先生:”我知道你不知道这张牌。” P先生:”现在我知道这张牌了。” Q先生:”我也知道了。” 请问:这张牌是什么牌? </p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>简单地翻译一下题目意思，总共有3个人玩一个游戏(我们处于吃瓜群众的视角来观察每个人的举动，推理结果)，其中一个人上帝视角知道答案并且告诉了P先生牌的点数，同时还告诉了Q先生牌的花色。Ps：所有人都知道所有16张牌的花色与点数的，最后的结果就是这16张牌的某一张。</p>
-<p>首先P先生说话了，“我不知道这张牌。” P先生是知道牌的点数的，那么这句话的意思就是：P先生知道的点数是无法确定花色，那么这个点数对应的花色至少有2个。 我们观察所有的16张牌，符合上述条件的牌的点数只有： A，5，Q，4</p>
-<p>Q先生说：”我知道你不知道这张牌。” 这个时候，Q先生已知的有用的信息只有牌的花色。那么，Q先生这句话的表明：在Q先生的视角，Q先生可以确定P先生在只知道牌的点数的情况下是无法知道这张牌的花色的。意思就是说，Q先生知道的牌的花色中每一张牌的点数都至少与其他牌重复一次。那么，我们在回头看看所有的16张牌，符合条件的只有红桃与方块。这里，我们知道了牌的花色是：红桃或者方块</p>
-<p>P先生在分析了2句对话的信息后，说：”现在我知道这张牌了。” 很简单，P先生分析了Q先生上句话的意思，知道牌的花色不是红桃就是方块，然后再看看已知的点数，就可以确定了是哪张牌了。 这个时候，作为吃瓜群众的我们，是无法得知结果的。但是，我们可以确定牌的点数不是A，因为A在红桃，方块里面都存在，只有可能是 Q，4，5中的某一张。</p>
-<p>然后，Q先生说：”我也知道了。”这个时候，在Q先生的视角，牌的点数只有可能是 Q，4，5中的某一张，不可能是A。然后Q先生得知了这个信息后，找到了牌的点数。作为吃瓜群众的我们只能认为，Q先生知道的牌的花色为方块，因为只有方块只有2个点数，排除了A。那么就只剩下5了。</p>
-<p>最后，吃瓜群众也知道了结果：方块5.</p>
-<p><em>之前本科考试数据结构的时候，就有一个海盗分赃的问题，也是类似的推理，但是比这个脑洞稍微大一点点，有兴趣可以google</em></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/一本正经/">一本正经</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/胡说八道/">胡说八道</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1379,15 +1380,7 @@
 			
 		
 			
-				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
@@ -1395,11 +1388,19 @@
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
