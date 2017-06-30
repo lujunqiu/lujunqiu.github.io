@@ -78,6 +78,118 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/13/lambda/" title="lambda" itemprop="url">lambda</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-13T15:22:22.000Z" itemprop="datePublished"> Published 2017-03-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>函数式编程：没有共享的可变数据 + 将方法和函数（代码）作为一等值来传递</p>
+<p>行为参数化：一个方法接收多个不同的行为作为参数，并在内部使用它们，完成不同行为的能力</p>
+<p>名词解释：</p>
+<ul>
+<li><p>predicate（谓词）：函数以及方法引用。</p>
+</li>
+<li><p>lambda表达式：匿名函数</p>
+</li>
+</ul>
+<p>java8主要的新特性：</p>
+<ul>
+<li>lambda表达式</li>
+<li>方法引用</li>
+<li>流（Collections用来存储和访问数据 ；Stream描述对数据的计算，用来并行的处理数据）</li>
+<li>默认方法（扩展接口）</li>
+</ul>
+<h2 id="通过行为参数传递代码"><a href="#通过行为参数传递代码" class="headerlink" title="通过行为参数传递代码"></a>通过行为参数传递代码</h2><p>将行为参数化是可以帮助我们处理频繁变更的需求的一种软件开发模式，它能够轻松的适应不断变化的需要，可以把一个行为(一段代码)封装起来，并通过传递和使用创建的行为(创建实现谓词的接口的类的实例)将方法的行为参数化。</p>
+<p>在java8之前，我们会定义一个接口(谓词)来将行为参数化。然后我们创建不同的实现类继承该接口来实现不同的行为，最后将不同实现类的实例对象传递给对应的函数就完成了行为(代码)传递工作。这种做法就类似于在内联”传递代码”，将需要传递的代码包裹在一个实现了接口的类里面传递给调用的方法。</p>
+<p>同时为了改善代码，让它更加简洁，我们面对很多只要实例化一次的类，可以采用匿名类来同时声明和实例化一个类，也就是说匿名类允许我们随建随用。</p>
+<p>但是使用匿名类还是不够好，代码不易读，我们还是需要创建一个对象，明确地实现一个方法来定义一个新的行为。为了更加契合软件工程中DPY原则(Don’t Repeat Yourself)，java8引人了lambda表达式（匿名函数）！</p>
+<h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><p>Lambda表达式：匿名的方法，可以作为参数传递或者存储在变量中</p>
+<p>Lambda表达式语法结构：</p>
+<ul>
+<li>(parameters) -&gt; expression</li>
+<li>(parameters) -&gt; {statements;}</li>
+</ul>
+<p>parameters是参数列表，后续是Lambda表达式的主体，主体内如果是表达式则不需要花括号和分号，如果是语句的化则需要花括号与分号。注意区分。</p>
+<p>例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Comparator&lt;Apple&gt; byWeight = <span class="keyword">new</span> Comparator&lt;Apple&gt;() &#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Apple o1, Apple o2)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> o1.getWeight().compareTo(o2.getWeight());</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>我们使用Lambda表达式(直接赋值给变量)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Comparator&lt;Apple&gt; byWeight = (Apple a1,Apple a2) -&gt; a1.getWeight().compareTo(a2.getWeight());</div></pre></td></tr></table></figure>
+<h2 id="在哪可以使用Lambda表达式"><a href="#在哪可以使用Lambda表达式" class="headerlink" title="在哪可以使用Lambda表达式"></a>在哪可以使用Lambda表达式</h2><p>函数式接口：只定义了一个抽象方法的接口；</p>
+<p>在定义函数式接口时我们为该接口添加了@FunctionalInterface注解，用于标记该接口是函数式接口，不过这个接口是可选的，当添加了该接口之后，编译器就限制了该接口只允许有一个抽象方法，否则报错，所以推荐为函数式接口添加该注解。</p>
+<p>Lambda表达式允许我们直接以内联的形式为函数式接口的抽象方法提供实现，并把整个表达式作为函数式接口的实例。(具体来说，是函数式接口的一个具体实现的实例)当然，我们使用匿名类同样可以完成这个操作，只不过是比较笨拙。</p>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Runnable r1 = () -&gt; System.out.println(<span class="string">"Hello World 1"</span>) ;</div><div class="line">Runnable r2 = <span class="keyword">new</span> Runnable()&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"Hello World 2"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(Runnable r)</span></span>&#123;</div><div class="line">    r.run();</div><div class="line">&#125;</div><div class="line">process(r1); <span class="comment">//打印Hello World1</span></div><div class="line">process(r2);<span class="comment">//打印Hello World 2</span></div><div class="line">process(() -&gt; System.out.println(<span class="string">"Hello World 3"</span>));<span class="comment">//打印Hello World3</span></div></pre></td></tr></table></figure>
+<p>函数描述符：函数式接口的抽象方法的签名基本上就是Lambda表达式的签名，这种抽象方法叫作函数描述符。</p>
+<p>JavaApi中常用的函数式接口(只列举了一部分，最终以java官方的javadoc为主)：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Evaluates this predicate on the given argument.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> t the input argument</div><div class="line">     * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if the input argument matches the predicate,</div><div class="line">     * otherwise &#123;<span class="doctag">@code</span> false&#125;</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Consumer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Performs this operation on the given argument.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> t the input argument</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(T t)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Applies this function to the given argument.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> t the function argument</div><div class="line">     * <span class="doctag">@return</span> the function result</div><div class="line">     */</div><div class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">BiFunction</span>&lt;<span class="title">T</span>, <span class="title">U</span>, <span class="title">R</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Applies this function to the given arguments.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> t the first function argument</div><div class="line">     * <span class="doctag">@param</span> u the second function argument</div><div class="line">     * <span class="doctag">@return</span> the function result</div><div class="line">     */</div><div class="line">    <span class="function">R <span class="title">apply</span><span class="params">(T t, U u)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@FunctionalInterface</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Supplier</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Gets a result.</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span> a result</div><div class="line">     */</div><div class="line">    <span class="function">T <span class="title">get</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们知道java的类型，要不是引用类型，要不是原始数据类型(int,double等等)。但是由于历史原因，泛型只能绑定到引用类型。为了使用原始类型的数据，java引人了自动装箱和自动拆箱的优化，但是装箱和拆箱的过程是对性能有损失的。</p>
+<p>于是，java8为了避免在使用函数式接口的时候发生装箱和拆箱的操作，专门定义了原始数据类型的接口，叫作原始类型的特化版本。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function">pubic interface <span class="title">IntPredicate</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> t)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="关于Lambda表达式使用局部变量："><a href="#关于Lambda表达式使用局部变量：" class="headerlink" title="关于Lambda表达式使用局部变量："></a>关于Lambda表达式使用局部变量：</h4><p>Lambda表达式可以无限制的捕获(在其主体中引用)实例变量和静态变量，但是局部变量必须显式声明为final或事实上是final的。因为实例变量存储在堆中，局部变量保存在栈上，Lambda表达式在另一个线程里面执行，当线程试图访问该局部变量的时候，变量存在着被修改和收回的可能，所以用final修饰就不会存在线程安全的问题了。</p>
+<h2 id="简单介绍方法引用"><a href="#简单介绍方法引用" class="headerlink" title="简单介绍方法引用"></a>简单介绍方法引用</h2><p>方法引用可以重复使用现有的方法定义，并像Lambda一样传递。方法引用相当于仅仅涉及单一方法的Lambda表达式的语法糖，是一种快捷的写法。</p>
+<p>方法引用实例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestJ8MethodReference</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// static method</span></div><div class="line">        Function&lt;Integer, Integer&gt; f1 = TestJ8MethodReference::add;</div><div class="line">        System.out.println(f1.apply(<span class="number">1</span>));</div><div class="line">        <span class="comment">// instance method</span></div><div class="line">        Function&lt;String, String&gt; f2 = String::trim;</div><div class="line">        System.out.println(f2.apply(<span class="string">"   abd b"</span>));</div><div class="line">        TestJ8MethodReference testJ8MethodReference = <span class="keyword">new</span> TestJ8MethodReference();</div><div class="line">        Function&lt;Integer, String&gt; f3 = testJ8MethodReference::getStr;</div><div class="line">        System.out.println(f3.apply(<span class="number">3</span>));</div><div class="line">        <span class="comment">// super</span></div><div class="line">        testJ8MethodReference.testSuper();</div><div class="line"></div><div class="line">        <span class="comment">// explicit type arguments for generic type</span></div><div class="line">        testJ8MethodReference.testExplicitType();</div><div class="line"></div><div class="line">        <span class="comment">// implicit type arguments for generic type</span></div><div class="line">        testJ8MethodReference.testImplicitType();</div><div class="line"></div><div class="line">        <span class="comment">// new</span></div><div class="line">        Supplier s1 = TestJ8MethodReference::<span class="keyword">new</span>;</div><div class="line">        System.out.println(s1.get());</div><div class="line"></div><div class="line">        <span class="comment">// type arguments inferred from context</span></div><div class="line">        Consumer&lt;<span class="keyword">int</span>[]&gt; c1 = Arrays::sort;</div><div class="line">        <span class="keyword">int</span>[] array = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>&#125;;</div><div class="line">        c1.accept(array);</div><div class="line"></div><div class="line">        <span class="comment">// explicit type arguments</span></div><div class="line">        Consumer&lt;<span class="keyword">int</span>[]&gt; c2 = Arrays::&lt;<span class="keyword">int</span>[]&gt;sort;<span class="comment">//泛型方法的运用:在方法名前面加泛型信息</span></div><div class="line">        c2.accept(array);</div><div class="line"></div><div class="line">        <span class="comment">// new array</span></div><div class="line">        Function&lt;Integer, <span class="keyword">int</span>[]&gt; f4 = (<span class="keyword">int</span>[]::<span class="keyword">new</span>);</div><div class="line">        <span class="keyword">int</span>[] a = f4.apply(<span class="number">10</span>);</div><div class="line">        System.out.println(a.length);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> x + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStr</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">""</span> + x;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSuper</span><span class="params">()</span> </span>&#123;</div><div class="line">        Supplier&lt;String&gt; f = <span class="keyword">super</span>::toString;</div><div class="line">        System.out.println(f.get());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testExplicitType</span><span class="params">()</span> </span>&#123;</div><div class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        Function&lt;String, Boolean&gt; func = list::add;</div><div class="line">        System.out.println(func.apply(<span class="string">"a"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testImplicitType</span><span class="params">()</span> </span>&#123;</div><div class="line">        List list = <span class="keyword">new</span> ArrayList();</div><div class="line">        Function&lt;String, Boolean&gt; func = list::add;</div><div class="line">        System.out.println(func.apply(<span class="string">"a"</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="复合Lambda表达式的有用方法"><a href="#复合Lambda表达式的有用方法" class="headerlink" title="复合Lambda表达式的有用方法"></a>复合Lambda表达式的有用方法</h2><ul>
+<li><p>比较器复合：比较器链或者逆序。参考Comparator的Api</p>
+</li>
+<li><p>谓词复合：negate，and，or。可以重用已有的Predicate来创建新的谓词。negate表示一个Predicate的非；and用于把2个Lambda组合起来；or表示2个Lambda的或逻辑。</p>
+</li>
+<li><p>函数复合：把Function接口所代表的Lambda表达式复合。有andThen和compose2个默认方法。具体区别参考javadoc文档。</p>
+</li>
+</ul>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/学习笔记/">学习笔记</a><a href="/tags/java8/">java8</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/12/i/" title="有意思的推理" itemprop="url">有意思的推理</a>
   </h1>
   <p class="article-author">By
@@ -557,7 +669,7 @@
 		  
 		
 		  
-			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>3</sup></a></li>
 		  
 		
 		</ul>
@@ -586,10 +698,6 @@
 			
 		
 			
-				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
@@ -598,11 +706,27 @@
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/模版方法模式/" title="模版方法模式">模版方法模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
 			
 		
 			
@@ -611,10 +735,6 @@
 		
 			
 				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
 			
 		
 		</ul>
