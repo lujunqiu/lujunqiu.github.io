@@ -1,0 +1,566 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java多线程学习笔记（二） | Qiu‘s homepage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Lujunqiu">
+    
+
+    
+    <meta name="description" content="对象及变量的并发访问“非线程安全”其实会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读”，也就是取到的数据其实是被更改过的。而”线程安全”获得的实例变量的值是经过同步处理的，不会出现”脏读”的现象。
+synchronized同步方法方法内的私有变量“非线程安全”问题存在于”实例变量”，如果是方法内部的私有变量，则不存在”非线程安全”问题，永远都是线程安全的，这是方法内部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程学习笔记（二）">
+<meta property="og:url" content="http://yoursite.com/2017/07/21/Java多线程学习笔记（二）/index.html">
+<meta property="og:site_name" content="Qiu‘s homepage">
+<meta property="og:description" content="对象及变量的并发访问“非线程安全”其实会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读”，也就是取到的数据其实是被更改过的。而”线程安全”获得的实例变量的值是经过同步处理的，不会出现”脏读”的现象。
+synchronized同步方法方法内的私有变量“非线程安全”问题存在于”实例变量”，如果是方法内部的私有变量，则不存在”非线程安全”问题，永远都是线程安全的，这是方法内部">
+<meta property="og:updated_time" content="2017-07-21T14:41:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java多线程学习笔记（二）">
+<meta name="twitter:description" content="对象及变量的并发访问“非线程安全”其实会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读”，也就是取到的数据其实是被更改过的。而”线程安全”获得的实例变量的值是经过同步处理的，不会出现”脏读”的现象。
+synchronized同步方法方法内的私有变量“非线程安全”问题存在于”实例变量”，如果是方法内部的私有变量，则不存在”非线程安全”问题，永远都是线程安全的，这是方法内部">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Qiu‘s homepage" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Qiu‘s homepage" title="Qiu‘s homepage"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
+				<h2 class="blog-motto">大道唯有自成。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/07/21/Java多线程学习笔记（二）/" title="Java多线程学习笔记（二）" itemprop="url">Java多线程学习笔记（二）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-07-21T14:39:39.000Z" itemprop="datePublished"> 发表于 2017-07-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#对象及变量的并发访问"><span class="toc-number">1.</span> <span class="toc-text">对象及变量的并发访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized同步方法"><span class="toc-number">1.1.</span> <span class="toc-text">synchronized同步方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法内的私有变量"><span class="toc-number">1.1.1.</span> <span class="toc-text">方法内的私有变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例变量"><span class="toc-number">1.1.2.</span> <span class="toc-text">实例变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized-this-同步语句块"><span class="toc-number">1.2.</span> <span class="toc-text">synchronized(this)同步语句块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象监视器"><span class="toc-number">1.3.</span> <span class="toc-text">对象监视器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态同步synchronized方法与synchronized-class-代码块"><span class="toc-number">1.4.</span> <span class="toc-text">静态同步synchronized方法与synchronized(class)代码块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile关键字"><span class="toc-number">1.5.</span> <span class="toc-text">volatile关键字</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="对象及变量的并发访问"><a href="#对象及变量的并发访问" class="headerlink" title="对象及变量的并发访问"></a>对象及变量的并发访问</h1><p>“非线程安全”其实会在多个线程对同一个对象中的实例变量进行并发访问时发生，产生的后果就是”脏读”，也就是取到的数据其实是被更改过的。而”线程安全”获得的实例变量的值是经过同步处理的，不会出现”脏读”的现象。</p>
+<h2 id="synchronized同步方法"><a href="#synchronized同步方法" class="headerlink" title="synchronized同步方法"></a>synchronized同步方法</h2><h3 id="方法内的私有变量"><a href="#方法内的私有变量" class="headerlink" title="方法内的私有变量"></a>方法内的私有变量</h3><p>“非线程安全”问题存在于”实例变量”，如果是方法内部的私有变量，则不存在”非线程安全”问题，永远都是线程安全的，这是方法内部的变量是私有(作用域)的特性造成的。</p>
+<h3 id="实例变量"><a href="#实例变量" class="headerlink" title="实例变量"></a>实例变量</h3><p>如果多个线程共同访问1个对象中的实例变量，则有可能出现”非线程安全”问题。我们需要在有可能产生”非线程安全”的方法前面加上synchronized关键字，将此方法变成同步方法。</p>
+<p>关键字synchronized取得的锁都是对象锁，而不是把一段代码或者方法(函数)当作锁，哪个线程先执行带synchronized关键字的方法，哪个线程就持有该方法所属对象的锁Lock，那么其他线程只能呈现等待状态，前提是多个线程访问的是同一个对象。如果多个线程访问多个对象，则JVM会创建多个锁。</p>
+<p>假设两个线程访问同一个对象的两个同步synchronized方法：</p>
+<ol>
+<li>A线程调用object对象加入synchronized关键字的X方法时，A线程就获得了X方法锁，准确的讲，是获得了对象的锁，所以其他线程必须等A线程执行完毕才可以调用X方法，但B线程可以随意调用其他的非synchronized同步方法。</li>
+<li>A线程调用object对象加入synchronized关键字的X方法时，A线程就获得了X方法所在对象的锁，所以其他线程必须等A线程执行完毕才可以调用X方法，而B线程如果调用声明了synchronized关键字的非X方法时，必须等A线程将X方法执行完，也就是释放了对象锁后才可以调用。</li>
+</ol>
+<p>“可重入锁”:当有一个线程获得了某个对象的锁，此时这个对象锁还没有释放，当这个线程再次想要获得这个对象的锁的时候还是可以获取的。特别的说明，当存在父子类继承关系时，子类是完全可以通过”可重入锁”调用父类的同步方法的。</p>
+<p>但是，当一个线程执行的代码出现异常退出时，其所持有的锁会自动释放。</p>
+<h2 id="synchronized-this-同步语句块"><a href="#synchronized-this-同步语句块" class="headerlink" title="synchronized(this)同步语句块"></a>synchronized(this)同步语句块</h2><p>用synchronized声明方法在时间效率上是有弊端的，比如A线程调用了同步方法执行一个长时间的任务，那么B线程则必须等待比较长的时间。</p>
+<p>当两个并发线程访问同一个对象object中的synchronized(this)同步代码块时，一段时间内只能有一个线程被执行，另一个线程必须等待当前线程执行完这个代码块以后才能执行。并且当一个线程访问object的一个synchronized(this)同步代码块时，另一个线程仍然可以访问该object对象中的非synchronized(this)同步代码块。也就是说，不在synchronized(this)同步代码块就是异步执行，在synchronized块中就是同步执行。</p>
+<p>当一个线程访问object的一个synchronized(this)同步代码块时，其他线程对同一个object中所有其他synchronized(this)同步代码块的访问将被阻塞，这就说明synchronized使用的“对象监视器”是同一个。也就是说，和synchronized方法一样，synchronized(this)同步代码块也是锁定当前对象的。</p>
+<h2 id="对象监视器"><a href="#对象监视器" class="headerlink" title="对象监视器"></a>对象监视器</h2><p>在前面的学习中，使用synchronized(this)格式来同步代码块，其实我们还可以用”任意对象”作为”对象监视器”来实现同步的功能，使用的格式为synchronized(非this对象x)。那么，在多个线程持有”对象监视器”为同一个对象时，同一时间只有一个线程可以执行synchronized(非this对象x)同步代码块中的代码。如果不是同一个对象监视器，则会异步运行。更多示例参考《Java多线程编程核心技术》2.2.8节。</p>
+<p>示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyOneList</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> List list = <span class="keyword">new</span> ArrayList();</div><div class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String data)</span></span>&#123;</div><div class="line">        list.add(data);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">synchronized</span> <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> list.size();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread1</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> MyOneList list;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread1</span><span class="params">(MyOneList list)</span></span>&#123;</div><div class="line">        <span class="keyword">super</span>();</div><div class="line">        <span class="keyword">this</span>.list = list;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="keyword">if</span>(list.getSize() &lt; <span class="number">1</span>)&#123;</div><div class="line">                Thread.sleep(<span class="number">2000</span>);</div><div class="line">                list.add(<span class="string">"A"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e )&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread2</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> MyOneList list;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread2</span><span class="params">(MyOneList list)</span></span>&#123;</div><div class="line">        <span class="keyword">super</span>();</div><div class="line">        <span class="keyword">this</span>.list = list;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="keyword">if</span>(list.getSize() &lt; <span class="number">1</span>)&#123;</div><div class="line">                Thread.sleep(<span class="number">2000</span>);</div><div class="line">                list.add(<span class="string">"B"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e )&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Run</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</div><div class="line">        MyOneList list = <span class="keyword">new</span> MyOneList();</div><div class="line">        MyThread1 thread1 = <span class="keyword">new</span> MyThread1(list);</div><div class="line">        thread1.setName(<span class="string">"A"</span>);</div><div class="line">        thread1.start();</div><div class="line">        MyThread2 thread2 = <span class="keyword">new</span> MyThread1(list);</div><div class="line">        thread1.setName(<span class="string">"B"</span>);</div><div class="line">        thread1.start();</div><div class="line">        Thread.sleep(<span class="number">6000</span>);</div><div class="line">        System.out.println(<span class="string">"listSize = "</span> + list.getSize());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上述代码就有可能出现”脏读”，导致输出结果为”listSize=2”，原因是２个线程以异步的方式返回list参数的size()大小，导致同时进入if判断语句中。</p>
+<p>这个例子中如何解决”脏读”呢？由于list参数对象在项目中是一份实例，是单例的，而且也正需要对list参数的getSize()方法做同步调用，所以就对list参数进行同步处理。</p>
+<p>更改代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread1</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> MyOneList list;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread1</span><span class="params">(MyOneList list)</span></span>&#123;</div><div class="line">        <span class="keyword">super</span>();</div><div class="line">        <span class="keyword">this</span>.list = list;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="keyword">synchronized</span>(list)&#123;</div><div class="line">                <span class="keyword">if</span>(list.getSize() &lt; <span class="number">1</span>)&#123;</div><div class="line">                    Thread.sleep(<span class="number">2000</span>);</div><div class="line">                    list.add(<span class="string">"A"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e )&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="静态同步synchronized方法与synchronized-class-代码块"><a href="#静态同步synchronized方法与synchronized-class-代码块" class="headerlink" title="静态同步synchronized方法与synchronized(class)代码块"></a>静态同步synchronized方法与synchronized(class)代码块</h2><p>关键字synchronized还可以应用在static静态方法上，如果这样写，那是对当前的.java文件对应的Class类进行持锁。synchronized关键字加到static静态方法上是给Class类上锁，可以对类的所有对象实例起作用，而synchronized关键字加到非static静态方法上是给对象上锁，这2个锁不是同一个锁。synchronized(class)代码块的作用其实和synchronized static方法的作用一样。我们需要注意的是，synchronized(ClassName)与synchronized(ClassName的实例)，线程各自获取各自的锁，不会有等待。</p>
+<p>注意:我们在将任何数据类型作为同步锁时，需要观察，是否有多个线程同时持有锁对象，如果同时持有相同的锁对象，则这些线程之间就是同步的；如果分别获得锁对象，就是异步的。</p>
+<h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>并发专家建议我们远离它，尤其是在JDK6的synchronized关键字的性能被大幅优化之后，更是几乎没有使用它的场景，但这仍然是个值得研究的关键字，研究它的意义不在于去使用它，而在于理解它对理解Java的整个多线程的机制是很有帮助的。</p>
+<p>关键字volatile的主要作用是使变量在多个线程间可见。简单地说就是当线程A对变量X进行了修改后，在线程A后面执行的其他线程能看到变量X的变动。同时关键字synchronized也可以同样的完成volatile关键字可见性的功能。</p>
+<p>更详细地说是要符合以下两个规则：</p>
+<ul>
+<li>线程对变量进行修改之后，要立刻回写到主内存。</li>
+<li>线程对变量读取的时候，要从主内存中读，而不是缓存。</li>
+</ul>
+<p>这里我们需要提到Java内存模型。在Java内存模型中，内存分为主内存和工作内存两个部分，其中主内存是所有线程所共享的，而工作内存则是每个线程分配一份，各线程的工作内存间彼此独立、互不可见，在线程启动的时候，虚拟机为每个内存分配一块工作内存，不仅包含了线程内部定义的局部变量，也包含了线程所需要使用的共享变量(非线程内构造的对象)的副本，即为了提高执行效率，读取副本比直接读取主内存更快(这里可以简单地将主内存理解为虚拟机中的堆，而工作内存理解为栈(或称为虚拟机栈)，栈是连续的小空间、顺序入栈出栈，而堆是不连续的大空间，所以在栈中寻址的速度比堆要快很多)。</p>
+<p>对于共享普通变量来说，约定了变量在工作内存中发生变化了之后，必须要回写到工作内存(迟早要回写但并非马上回写)，但对于volatile变量则要求工作内存中发生变化之后，必须马上回写到工作内存，而线程读取volatile变量的时候，必须马上到工作内存中去取最新值而不是读取本地工作内存的副本，此规则保证了前面所说的“当线程A对变量X进行了修改后，在线程A后面执行的其他线程能看到变量X的变动”。</p>
+<p>volatile虽然保证了线程之间共享变量的及时可见性，但是并没有保证同步。也就是说，volatile不能保证原子性。而synchronized关键字解决的是多个线程之间访问资源的同步性。</p>
+<p>这里说明一下，如果真的需要使用volatile关键字，那么，在禁止指令重排序是一个很好的场景。具体volatile关键字的用法，参考这篇博客：<a href="https://www.ibm.com/developerworks/cn/java/j-jtp06197.html" target="_blank" rel="external">正确使用 Volatile 变量</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaSE/">JavaSE</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/多线程/">多线程</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2017/07/21/Java多线程学习笔记（二）/" data-title="Java多线程学习笔记（二） | Qiu‘s homepage" data-tsina="2831891302" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/06/30/模版方法模式/"  title="模版方法模式">
+ <strong>下一篇：</strong><br/> 
+ <span>模版方法模式
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#对象及变量的并发访问"><span class="toc-number">1.</span> <span class="toc-text">对象及变量的并发访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized同步方法"><span class="toc-number">1.1.</span> <span class="toc-text">synchronized同步方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法内的私有变量"><span class="toc-number">1.1.1.</span> <span class="toc-text">方法内的私有变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例变量"><span class="toc-number">1.1.2.</span> <span class="toc-text">实例变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized-this-同步语句块"><span class="toc-number">1.2.</span> <span class="toc-text">synchronized(this)同步语句块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象监视器"><span class="toc-number">1.3.</span> <span class="toc-text">对象监视器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态同步synchronized方法与synchronized-class-代码块"><span class="toc-number">1.4.</span> <span class="toc-text">静态同步synchronized方法与synchronized(class)代码块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile关键字"><span class="toc-number">1.5.</span> <span class="toc-text">volatile关键字</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/JavaSE/" title="JavaSE">JavaSE<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/一本正经/" title="一本正经">一本正经<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计算机网络/" title="计算机网络">计算机网络<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>3</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/学习笔记/" title="学习笔记">学习笔记<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多线程/" title="多线程">多线程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/胡说八道/" title="胡说八道">胡说八道<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模版方法模式/" title="模版方法模式">模版方法模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Lujunqiu.This is my blog. <br/>
+			As Kobe said,Somebody has to win, so why not be me?</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2831891302" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Lujunqiu">Lujunqiu</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
