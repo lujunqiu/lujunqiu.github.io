@@ -44,7 +44,7 @@
 				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -60,7 +60,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -78,6 +78,138 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/10/01/Mysql学习笔记-索引/" title="Mysql学习笔记---索引" itemprop="url">Mysql学习笔记---索引</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-10-01T01:11:20.000Z" itemprop="datePublished"> 发表于 2017-10-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Mysql索引的数据结构"><a href="#Mysql索引的数据结构" class="headerlink" title="Mysql索引的数据结构"></a>Mysql索引的数据结构</h1><p>查询功能是数据库最为常用的功能之一，为了提高查询的效率，我们学习了很多查询算法。最基本的查询算法是顺序查找，这种复杂度为O(n)的算法在数据量很大时显然是不合适的。除了顺序查找我们还了解其他查询算法，例如二分查找、二叉树查找等。但是每种查找算法都只能应用于特定的数据结构之上，例如二分查找要求被检索数据有序，而二叉树查找只能应用于二叉查找树上，数据本身的组织结构不可能完全满足各种数据结构。所以在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法。这种数据结构，就是索引。</p>
+<h2 id="B-Tree和B-Tree"><a href="#B-Tree和B-Tree" class="headerlink" title="B-Tree和B+Tree"></a>B-Tree和B+Tree</h2><p><em>B-Tree:</em></p>
+<ol>
+<li>非叶子结点的关键字个数=指向儿子的指针个数-1，关键字和指针互相间隔，关键字两端是指针</li>
+<li>非叶子结点的关键字：K[1], K[2], …, K[M-1]；且K[i] &lt; K[i+1]</li>
+<li>非叶子结点的指针：P[1], P[2], …, P[M]；其中P[1]指向关键字小于K[1]的子树，P[M]指向关键字大于K[M-1]的子树，其它P[i]指向关键字属于(K[i-1], K[i])的子树</li>
+<li>所有叶子结点位于同一层</li>
+</ol>
+<p>如图所示：</p>
+<p><img src="../../../../img/mysql/b-tree.png" alt=""></p>
+<p>B-Tree的搜索：从根节点开始，对节点内有序的关键字序列进行二分查找，如果命中则结束，否则进入查询关键字所属范围的儿子结点；重复，直到所对应的儿子指针为空，或已经是叶子结点；</p>
+<p>通过上图的示例，B-Tree区别于B+Tree有如下特点：</p>
+<ol>
+<li>关键字集合分布在整颗树中</li>
+<li>搜索有可能在非叶子结点结束</li>
+<li>任何一个关键字出现且只出现在一个结点中 </li>
+</ol>
+<p><em>B+Tree:</em></p>
+<p>B+Tree是B-Tree的变体，也是一种多路搜索树，其定义基本与B-Tree相同，除了：</p>
+<ol>
+<li>非叶子结点的子树指针与关键字个数相同</li>
+<li>非叶子结点的子树指针P[i]，指向关键字值属于[K[i], K[i+1])的子树（B-Tree是开区间）</li>
+<li>所有关键字都在叶子结点出现</li>
+<li>为所有叶子结点增加一个链指针</li>
+</ol>
+<p>如图所示：</p>
+<p><img src="../../../../img/mysql/b+tree.png" alt=""></p>
+<p>B+Tree的搜索与B-Tree基本相同，区别是B+Tree只有达到叶子结点才命中(B-Tree可以在非叶子结点命中),其性能也等价于在关键字全集做一次二分查找。</p>
+<p>B+Tree的特点:</p>
+<ol>
+<li>所有关键字都出现在叶子结点的链表中（稠密索引），且链表中的关键字恰好是有序的</li>
+<li>非叶子结点相当于是叶子结点的索引（稀疏索引），叶子结点相当于是存储（关键字）数据的数据层</li>
+<li>更适合文件索引系统</li>
+<li>在B+Tree的每个叶子节点增加一个指向相邻叶子节点的指针，就形成了带有顺序访问指针的B+Tree.做这个优化的目的是为了提高区间访问的性能，例如上图中如果要查询key为从20到90的所有数据记录，当找到20后，只需顺着节点和指针顺序遍历就可以一次性访问到所有数据节点，极大提到了区间查询效率。</li>
+</ol>
+<h2 id="为什么要使用B-Tree和B-Tree"><a href="#为什么要使用B-Tree和B-Tree" class="headerlink" title="为什么要使用B-Tree和B+Tree?"></a>为什么要使用B-Tree和B+Tree?</h2><p>MySQL在执行读操作时，会先从数据库的缓冲区中读取，如果不存在与缓冲区中就会尝试从内存中加载页面，如果前面的两个步骤都失败了，最后就只能执行随机IO从磁盘中获取对应的数据页。</p>
+<p>我们知道内存存取的时间仅与存取次数呈线性关系(因为地址总线和数据总线配合存取)，因为不存在机械操作，两次存取的数据的“距离”不会对时间有任何影响，例如，先取A0再取A1和先取A0再取D3的时间消耗是一样的。但是一般来说，索引本身也很大，不可能全部存储在内存中，因此索引往往以索引文件的形式存储的磁盘上。这样的话，索引查找过程中就要产生磁盘I/O消耗，相对于内存存取，I/O存取的消耗要高几个数量级，所以评价一个数据结构作为索引的优劣最重要的指标就是在查找过程中磁盘I/O操作次数的渐进复杂度。换句话说，索引的结构组织要尽量减少查找过程中磁盘I/O的存取次数。</p>
+<h3 id="磁盘存取原理"><a href="#磁盘存取原理" class="headerlink" title="磁盘存取原理"></a>磁盘存取原理</h3><p>与主存不同，磁盘I/O存在机械运动耗费，因此磁盘I/O的时间消耗是巨大的。</p>
+<p>磁盘的整体结构如图：</p>
+<p><img src="../../../../img/mysql/cipan.png" alt=""></p>
+<p>一个磁盘由大小相同且同轴的圆形盘片组成，磁盘可以转动（各个磁盘必须同步转动）。在磁盘的一侧有磁头支架，磁头支架固定了一组磁头，每个磁头负责存取一个磁盘的内容。磁头不能转动，但是可以沿磁盘半径方向运动。</p>
+<p>磁盘的俯视视角如图：</p>
+<p><img src="../../../../img/mysql/cipan2.png" alt=""></p>
+<p>磁头（head）：对磁盘的数据进行读写<br>磁道（track）：当磁盘旋转时，磁头若保持在一个位置上，则每个磁头都会在磁盘表面划出一个圆形轨迹，这些圆形轨迹就叫做磁道<br>扇区（sector）：磁盘上的每个磁道被等分为若干个弧段，这些弧段便是硬盘的扇区，扇区是磁盘的最小存储单元</p>
+<p>当需要从磁盘读取数据时，系统会将数据逻辑地址传给磁盘，磁盘的控制电路按照寻址逻辑将逻辑地址翻译成物理地址，即确定要读的数据在哪个磁道，哪个扇区。为了读取这个扇区的数据，需要将磁头放到这个扇区上方，为了实现这一点，磁头需要移动对准相应磁道，这个过程叫做寻道，所耗费时间叫做寻道时间，然后磁盘旋转将目标扇区旋转到磁头下，这个过程耗费的时间叫做旋转时间。</p>
+<h3 id="磁盘预读"><a href="#磁盘预读" class="headerlink" title="磁盘预读"></a>磁盘预读</h3><p>数据库对数据的读取并不是以行为单位进行的，无论是读取一行还是多行，都会将该行或者多行所在的页全部加载进来，然后再读取对应的数据记录；也就是说，读取所耗费的时间与行数无关，只与页数有关。所以磁盘往往不是严格按需读取，而是每次都会预读，即使只需要一个字节，磁盘也会从这个位置开始，顺序向后读取一定长度的数据放入内存。因为我们推测当一个数据被用到时，其附近的数据也通常会马上被使用。由于磁盘顺序读取的效率很高（不需要寻道时间，只需很少的旋转时间），因此对于具有局部性的程序来说，预读可以提高I/O效率。</p>
+<p>预读的长度一般为页（page）的整倍数。页是计算机管理存储器的逻辑块，主存和磁盘以页为单位交换数据。当程序要读取的数据不在主存中时，会触发一个缺页异常，此时系统会向磁盘发出读盘信号，磁盘会找到数据的起始位置并向后连续读取一页或几页载入内存中，然后异常返回，程序继续运行。</p>
+<h3 id="B-Tree与磁盘结合"><a href="#B-Tree与磁盘结合" class="headerlink" title="B-/+Tree与磁盘结合"></a>B-/+Tree与磁盘结合</h3><p>首先，我们可以分析红黑树这类平衡二叉查找树是否适合磁盘存储。红黑树的树高h一般很大，而且逻辑很近的节点（父子）物理上可能相距很远，无法利用局部性，增加了磁头寻道和磁盘旋转的时间，所以不适合磁盘存储。</p>
+<p>而我们使用B＋Tree的时候，将一个节点的大小设为等于一个页，这样每个节点只需要一次I/O就可以完全载入，所以B＋Tree作为磁盘的存储结构是合适的。</p>
+<h2 id="MySQl索引实现"><a href="#MySQl索引实现" class="headerlink" title="MySQl索引实现"></a>MySQl索引实现</h2><p>在MySQL中，索引属于存储引擎级别的概念，不同存储引擎对索引的实现方式是不同的。</p>
+<h3 id="MyISAM索引实现"><a href="#MyISAM索引实现" class="headerlink" title="MyISAM索引实现"></a>MyISAM索引实现</h3><p>MyISAM引擎使用B+Tree作为索引结构，叶节点的data域存放的是数据记录的地址。MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。</p>
+<p><img src="../../../../img/mysql/myisam.png" alt=""></p>
+<p>如上图所示表一共有三列，假设我们以Col1为主键，则这是一个MyISAM表的主索引示意。可以看出MyISAM的索引文件仅仅保存数据记录的地址。在MyISAM中，主索引和辅助索引（Secondary key）在结构上没有任何区别，只是主索引要求key是唯一的，而辅助索引的key可以重复。因此，MyISAM中索引检索的算法为首先按照B+Tree搜索算法搜索索引，如果指定的Key存在，则取出其data域的值，然后以data域的值为地址，读取相应数据记录。</p>
+<h3 id="InnoDB索引实现"><a href="#InnoDB索引实现" class="headerlink" title="InnoDB索引实现"></a>InnoDB索引实现</h3><p>虽然InnoDB也使用B+Tree作为索引结构，但具体实现方式却与MyISAM截然不同。第一个重大区别是InnoDB的数据文件本身就是索引文件。在InnoDB中，表数据文件本身就是按B+Tree组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。</p>
+<p>InnoDB索引叶节点包含了完整的数据记录。这种索引叫做聚集索引。因为InnoDB的数据文件本身要按主键聚集，所以InnoDB要求表必须有主键（MyISAM可以没有），如果没有显式指定，则MySQL系统会自动选择一个可以唯一标识数据记录的列作为主键，如果不存在这种列，则MySQL自动为InnoDB表生成一个隐含字段作为主键，这个字段长度为6个字节，类型为长整形。所以我们不建议用非单调的字段作为InnoDB表的主键，因为InnoDB数据文件本身是一颗B+Tree，非单调的主键会造成在插入新记录时数据文件为了维持B+Tree的特性而频繁的分裂调整，十分低效，而使用自增字段作为主键则是一个很好的选择。</p>
+<p>第二个与MyISAM索引的不同是InnoDB的辅助索引data域存储相应记录主键的值而不是地址。换句话说，InnoDB的所有辅助索引都引用主键作为data域。</p>
+<p>聚集索引这种实现方式使得按主键的搜索十分高效，但是辅助索引搜索需要检索两遍索引：首先检索辅助索引获得主键，然后用主键到主索引中检索获得记录。</p>
+<p>MySQL使用InnoDB存储表时，会将表的定义和数据索引等信息分开存储，其中前者存储在.frm文件中，后者存储在.ibd文件中。</p>
+<h2 id="索引使用优化"><a href="#索引使用优化" class="headerlink" title="索引使用优化"></a>索引使用优化</h2><h3 id="索引片（Index-Slices）"><a href="#索引片（Index-Slices）" class="headerlink" title="索引片（Index Slices）"></a>索引片（Index Slices）</h3><p>索引片其实就是 SQL 查询在执行过程中扫描的一个索引片段，在这个范围中的索引将被顺序扫描，根据索引片包含的列数不同将索引分为宽索引和窄索引：</p>
+<p><img src="../../../../img/mysql/suoyin1.png" alt=""></p>
+<p>宽索引能够避免二次的随机IO，而窄索引就需要在对索引进行顺序读取之后再根据主键id从主键索引中查找对应的数据，对于窄索引，每一个在索引中匹配到的记录行最终都需要执行另外的随机读取从聚集索引中获得剩余的数据，如果结果集非常大，那么就会导致随机读取的次数过多进而影响性能。</p>
+<h3 id="过滤因子"><a href="#过滤因子" class="headerlink" title="过滤因子"></a>过滤因子</h3><p>一个 SQL 查询扫描的索引片大小其实是由过滤因子决定的，也就是满足查询条件的记录行数所占的比例。比如users表中sex=’male’占50%，age＝’21’占12%，name=’jack’占0.1%。对于users表来说，sex=”male” 就不是一个好的过滤因子，它会选择整张表中一半的数据，所以在一般情况下我们最好不要使用sex列作为整个索引的第一列；而name=”draven”的使用就可以得到一个比较好的过滤因子了，它的使用能过滤整个数据表中99.9%的数据。</p>
+<p>当三个过滤条件都是等值谓词时，几个索引列的顺序其实是无所谓的，索引列的顺序不会影响同一个SQL语句对索引的选择，也就是索引 (name, age, sex) 和 (age, sex, name) 在执行查询时都有着完全相同的效果。</p>
+<p>这里我们还可以介绍一下MySQL的一个查询优化的措施，当需要读取的数据超过一个临界值时，优化器会放弃从索引中读取而改为进行全表扫描，这是为了避免过多的随机磁盘读取。因为根据索引进行的查询可以认为是随机磁盘读，索引里的顺序，和磁盘上的顺序不同，按索引的顺序读，就会不断要求访问磁盘里不同位置的数据，这对Cache不友好。比如，如果添加了索引的字段重复率很高,比如性别,不是男就是女。这时使用索引(随机读)的效率,还不如直接进行全表扫描(顺序读).</p>
+<h3 id="最左前缀原理"><a href="#最左前缀原理" class="headerlink" title="最左前缀原理"></a>最左前缀原理</h3><ol>
+<li>仅仅使用索引中的最左边列进行查找，比如在col1+col2+col3 字段上的联合索引能够被包含col1，(col1+col2),(col1+col2+col3)的等值查询利用到，可是不能够被col2，(col2+col3)的等值查询利用到；</li>
+<li>仅仅对索引进行查询，当查询的列都在索引的字段中的，查询的效率更高。这个时候我们用explain语句输出的Extra部分变成了Using index，也就意味着，直接访问索引就足够获取到所需要的数据，不需要通过索引回表(Using where)，Using index也就是平常说的覆盖索引扫描；</li>
+<li>字段的范围列可以用到索引（必须是最左前缀），但是范围列后面的列无法用到索引。同时，索引最多用于一个范围列，因此如果查询条件中有两个范围列则无法全用到索引。</li>
+</ol>
+<h3 id="复合索引"><a href="#复合索引" class="headerlink" title="复合索引"></a>复合索引</h3><p>以下图表中的(name,cid)的复合索引为例，从逻辑上来看内部结构应该是这样的：</p>
+<p><img src="../../../../img/mysql/suoyin2.png" alt=""></p>
+<p>mysql创建复合索引的规则是首先会对复合索引的最左边，也就是第一个name字段的数据进行排序，在第一个字段排序的基础上，然后再对第二个字段cid进行排序。所以，第一个name字段是绝对有序的，而第二个字段就是无序的，直接使用第二个字段cid进行调解判断是用不到索引的。</p>
+<p>那么什么时候可以用到第二个字段的索引呢？还是上面的例子，当第一个字段name是等值匹配的情况下，cid才是有序的。这也就是为什么mysql索引规则中要求复合字段想要用到第二个索引，必须先使用第一个索引的原因，而且第一个索引必须是等值匹配。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/数据库/">数据库</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Mysql索引/">Mysql索引</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/09/16/Java多线程学习笔记-五/" title="Java多线程学习笔记(五)" itemprop="url">Java多线程学习笔记(五)</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +217,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-16T14:01:22.000Z" itemprop="datePublished"> Published 2017-09-16</time>
+    <time datetime="2017-09-16T14:01:22.000Z" itemprop="datePublished"> 发表于 2017-09-16</time>
     
   </p>
 </header>
@@ -205,7 +337,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-08-22T06:17:38.000Z" itemprop="datePublished"> Published 2017-08-22</time>
+    <time datetime="2017-08-22T06:17:38.000Z" itemprop="datePublished"> 发表于 2017-08-22</time>
     
   </p>
 </header>
@@ -290,7 +422,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-30T14:09:52.000Z" itemprop="datePublished"> Published 2017-07-30</time>
+    <time datetime="2017-07-30T14:09:52.000Z" itemprop="datePublished"> 发表于 2017-07-30</time>
     
   </p>
 </header>
@@ -368,7 +500,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-29T02:40:17.000Z" itemprop="datePublished"> Published 2017-07-29</time>
+    <time datetime="2017-07-29T02:40:17.000Z" itemprop="datePublished"> 发表于 2017-07-29</time>
     
   </p>
 </header>
@@ -481,7 +613,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-21T14:39:39.000Z" itemprop="datePublished"> Published 2017-07-21</time>
+    <time datetime="2017-07-21T14:39:39.000Z" itemprop="datePublished"> 发表于 2017-07-21</time>
     
   </p>
 </header>
@@ -574,7 +706,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-30T02:01:34.000Z" itemprop="datePublished"> Published 2017-06-30</time>
+    <time datetime="2017-06-30T02:01:34.000Z" itemprop="datePublished"> 发表于 2017-06-30</time>
     
   </p>
 </header>
@@ -647,7 +779,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-28T06:09:53.000Z" itemprop="datePublished"> Published 2017-06-28</time>
+    <time datetime="2017-06-28T06:09:53.000Z" itemprop="datePublished"> 发表于 2017-06-28</time>
     
   </p>
 </header>
@@ -728,7 +860,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-24T15:38:47.000Z" itemprop="datePublished"> Published 2017-06-24</time>
+    <time datetime="2017-06-24T15:38:47.000Z" itemprop="datePublished"> 发表于 2017-06-24</time>
     
   </p>
 </header>
@@ -860,7 +992,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-22T01:37:41.000Z" itemprop="datePublished"> Published 2017-06-22</time>
+    <time datetime="2017-06-22T01:37:41.000Z" itemprop="datePublished"> 发表于 2017-06-22</time>
     
   </p>
 </header>
@@ -923,194 +1055,16 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/06/21/Maven学习笔记/" title="Maven学习笔记" itemprop="url">Maven学习笔记</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
-		
-  <p class="article-time">
-    <time datetime="2017-06-21T05:04:37.000Z" itemprop="datePublished"> Published 2017-06-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h2 id="什么是Maven"><a href="#什么是Maven" class="headerlink" title="什么是Maven"></a>什么是Maven</h2><p>maven这个单词的翻译为“专家”或“内行”。作为我们开发过程中使用的工具而言，Maven是一个跨平台的项目管理工具，并且是Apache组织中的开源项目之一，主要用于Java平台的项目构建，依赖管理和项目信息管理等。它是一个异常强大的构建工具，能够帮助我们自动化构建过程，从清理，编译，测试到生产报告，再到打包和部署，我们只需要使用maven配置好项目，然后输入简单的命令，maven会帮我们处理这些繁琐的任务。</p>
-<p>maven是跨平台的，这意味着无论是windows上还是在linux,mac上的项目都可以使用同样的命令。同时，maven不仅仅是构建工具，还是一个依赖管理工具和项目信息管理个工具，可以帮助我们自动下载项目所需要的构件。</p>
-<p>maven对于项目目录结构，测试用例命名方法等内容都有既定的规则，只要遵循了这些成熟的规则，我们在不同的项目切换的时候就免去了额外的学习成本，上手就容易许多，可以说是约定优于配置(Convention over Configuration)。</p>
-<h2 id="Maven的安装-Ubantu"><a href="#Maven的安装-Ubantu" class="headerlink" title="Maven的安装(Ubantu)"></a>Maven的安装(Ubantu)</h2><ol>
-<li><p>检查系统的java环境变量配置是否成功</p>
-<p> qiu@qiu-qiu:~$ echo $JAVA_HOME</p>
-<p> qiu@qiu-qiu:~$ java -version</p>
-</li>
-<li><p>java环境配置成功后，下载maven:<a href="http://maven.apache.org/download.cgi" target="_blank" rel="external">http://maven.apache.org/download.cgi</a></p>
-</li>
-<li><p>配置maven的环境变量:</p>
-<p> 解压安装包后，到解压出来的maven文件的目录下创建一个符号链接，方便更新：</p>
-<p> qiu@qiu-qiu:~$ ln -s apache-maven-3.5.0 apache-maven</p>
-<p> 设置M2_HOME变量指向这个符号链接，然后将符号链接中的bin目录添加进系统的PATH变量:</p>
-<p> qiu@qiu-qiu:~$ sudo vi /etc/profile</p>
-<p> 添加以下几行：</p>
-<p> export M2_HOME=/home/qiu/maven/apache-maven</p>
-<p> export PATH=$PATH:$M2_HOME/bin</p>
-<p> 最后更新配置文件:</p>
-<p>　qiu@qiu-qiu:~$ source /etc/profile</p>
-</li>
-<li><p>检查是否安装成功</p>
-<p>  qiu@qiu-qiu:~$ mvn -v</p>
-</li>
-</ol>
-<p>输出：</p>
-<p>Apache Maven 3.5.0 (ff8f5e7444045639af65f6095c62210b5713f426; 2017-04-04T03:39:06+08:00)<br>Maven home: /home/qiu/maven/apache-maven<br>Java version: 1.8.0_131, vendor: Oracle Corporation<br>Java home: /usr/jdk1.8.0_131/jre<br>Default locale: zh_CN, platform encoding: UTF-8<br>OS name: “linux”, version: “4.8.0-49-generic”, arch: “amd64”, family: “unix”</p>
-<p>关于maven的升级：由于我们之前平行地创建了一个符号链接，然后在配置环境变量的时候使用的是这个符号链接，于是在升级的时候就可以利用这个符号链接了。我们只需要将符号链接指向新的maven版本即可。</p>
-<p>在IDEA(版本：2017.1.2)开发环境中搭建maven：<br>在Settings—Build,Execution,Deployment—Build Tools—Maven中设置Maven home directory;   User settings file;   Local repository即可。</p>
-<h1 id="maven的使用"><a href="#maven的使用" class="headerlink" title="maven的使用"></a>maven的使用</h1><h2 id="POM文件"><a href="#POM文件" class="headerlink" title="POM文件"></a>POM文件</h2><p>maven项目的核心是pom.xml。POM(Project Object Model，项目对象模型)定义了项目的基本信息，用于描述项目是如何构建的，声明项目依赖，等等。</p>
-<p>pom.xml文件里面元素介绍：<br>首先是XML头，指定了该xml文件的版本以及编码方式。紧接着是project元素，project元素是所有pom.xml的根元素，它还声明了一些POM相关的命名空间以及xsd元素。根元素下的第一个子元素是modelVersion指定了当前POM模型的版本。接下来介绍３个重要的元素标签：<br>groupId,artifactId,version。这３个元素定义了一个项目的基本坐标，在maven世界中，任何的jar,pom或者war都是以基于这些基本的坐标进行区分的。</p>
-<p>groupId定义了项目属于哪个组，这个组往往和项目所在的组织有关。artifactId定义了当前maven项目在组中唯一的ID。version，顾名思义，指定了当前项目的版本号。最后还可以为项目设定name元素，声明一个对于用户更为友好的项目名称。</p>
-<p>dependencies元素声明项目的依赖(java代码中的import)，该元素下可以包含多个dependency元素，里面包含所依赖的构件的mavan坐标。</p>
-<p>没有任何实际的java代码，我们就能够定义一个maven项目的POM，这体现了maven的一大优点，它能让项目对象模型最大程度地与实际代码相独立，也就是解耦。这样也避免了java代码与POM代码的相互影响。比如以后当项目需要升级版本的时候，我们只需要修改POM即可。</p>
-<h2 id="主代码以及测试代码"><a href="#主代码以及测试代码" class="headerlink" title="主代码以及测试代码"></a>主代码以及测试代码</h2><p>项目的主代码和测试代码不用在于，主代码会被打包到最终的构件中(如jar)，而测试代码只是在运行测试时候用到，不会被打包。</p>
-<p>一般来说，项目中的java类的包(package)都应该基于项目的groupId和artifactId，这样更加清晰，更加符合逻辑，也方便搜索构件或者java类。</p>
-<p>主代码位于:/src/main/java目录下;测试代码位于:/src/test/java目录下；</p>
-<h2 id="mvn命令"><a href="#mvn命令" class="headerlink" title="mvn命令"></a>mvn命令</h2><p>mvn clean　：清除maven的输出目录target</p>
-<p>mvn compile :编译项目主代码，将项目主代码编译至target/classes目录中</p>
-<p>mvn test-compile　：编译测试的内容</p>
-<p>mvn test :运行测试(在运行测试之前会自动执行项目主资源处理，主代码编译，测试资源<br>处理，测试代码编译等工作)</p>
-<p>mvn package :生成target目录，编译、测试代码，生成测试报告，生成jar/war文件；默认是jar文件，只打包主项目代码。</p>
-<p>mvn install :在本地Repository中安装jar</p>
-<p>mvn archetype:generate　：创建mvn项目(使用Archetype生成项目骨架)</p>
-<p>mvn dependency:list :查看当前项目的已解析依赖</p>
-<p>mvn dependency:tree :查看当前项目的依赖树(传递依赖的路径)</p>
-<p>mvn dependency:analyze :帮助分析当前项目的依赖</p>
-<h1 id="maven坐标"><a href="#maven坐标" class="headerlink" title="maven坐标"></a>maven坐标</h1><p>为了能够自动化解析任何一个java构件，maven就必须将他们唯一标识，这就依赖管理的底层基础－－坐标。maven定义了这样一组规则：世界上任何一个构件都可以使用maven坐标唯一标识，maven坐标的元素包括groupId,artifactId,version,packaging,classifier。</p>
-<p>坐标元素介绍：</p>
-<p>groupId:定义当前maven项目隶属的实际项目</p>
-<p>artifactId：定义实际项目中的一个maven项目(模块)</p>
-<p>version:定义maven项目的当前所处的版本</p>
-<p>packaging:定义maven项目的打包方式，默认的打包方式是jar</p>
-<p>classifier：用来帮助定义构建输出的一些附属构件。不能直接定义项目的classifier，因为附属构件不是项目默认生成的，而是由附件的插件帮助生成的</p>
-<h1 id="maven依赖"><a href="#maven依赖" class="headerlink" title="maven依赖"></a>maven依赖</h1><p>根元素project下的dependencies可以包含一个或者多个dependency元素，以声明一个或者多个项目依赖。每个依赖可以包含的元素有：</p>
-<p>groupId,artifactId和version:依赖的基本坐标，对于任何一个依赖来说，基本坐标是最重要的，maven根据坐标才能找到需要的依赖。</p>
-<p>type:依赖的类型，对应于项目坐标定义的packaging。大部分情况下，该元素不必声明，默认为jar</p>
-<p>scope:依赖的范围</p>
-<p>optional:标记依赖是否可选</p>
-<p>exclusions:用来排除传递性依赖</p>
-<h2 id="依赖的范围"><a href="#依赖的范围" class="headerlink" title="依赖的范围"></a>依赖的范围</h2><p>依赖范围就是用来控制依赖与三种classpath(编译classpath,测试classpath,运行classpath)的关系:</p>
-<p>compile:编译依赖范围。如果没有指定，就会默认是该范围。此范围的依赖对编译，测试，运行都有效。</p>
-<p>test:测试依赖范围。只在测试是有效，在编译主代码或者运行项目的时候无法使用此类依赖。</p>
-<p>provided:已提供依赖范围。对于编译和测试有效，但在运行时候无效。</p>
-<p>runtime:运行时依赖范围。对于测试和运行时有效，但在编译主代码时无效。</p>
-<h2 id="依赖的传递性"><a href="#依赖的传递性" class="headerlink" title="依赖的传递性"></a>依赖的传递性</h2><p>在使用其他依赖的构件的时候，不用去考虑它依赖了什么，也不用担心引入多余的依赖。maven会解析各个直接依赖的POM,将那些必要的间接依赖以传递性的形式引入到当前的项目中。</p>
-<p>maven引入的传递性依赖机制，一方面大大简化和方便了依赖声明，另一方面，大部分情况下我们只需要关心项目的直接依赖是什么，而不用去考虑这些直接依赖会引入声明传递性依赖。</p>
-<h2 id="依赖的调解"><a href="#依赖的调解" class="headerlink" title="依赖的调解"></a>依赖的调解</h2><p>比如，项目A有这样的依赖关系:A–B–C–X(1.0)，A–D–X(2.0)，这个时候X是A的传递性依赖。会选择哪个呢？根据maven的第一原则：路径最近者优先。选择X(2.0)；</p>
-<p>那么，如果路径相同的呢？这时就用到了第二原则：第一声明者优先。也就是说，在依赖路径长度相等的时候，在POM中的依赖声明的顺序决定了谁会被使用。</p>
-<h2 id="排除依赖"><a href="#排除依赖" class="headerlink" title="排除依赖"></a>排除依赖</h2><p>传递性依赖会给项目隐式地引入很多依赖，这极大地简化了项目依赖的管理，但是由于一些原因，不想引入某些传递性依赖。这个时候我们可以使用exclusions标签声明排除依赖，exclusions可以包含一个或者多个exclusion子元素，可以排除一个或者多个传递性依赖。</p>
-<h1 id="maven仓库"><a href="#maven仓库" class="headerlink" title="maven仓库"></a>maven仓库</h1><h2 id="maven仓库简介"><a href="#maven仓库简介" class="headerlink" title="maven仓库简介"></a>maven仓库简介</h2><p>坐标和依赖是任何一个构件在maven世界中的逻辑表示方式，而构件的物理表示方式是文件，maven通过仓库来统一管理这些文件。实际的maven项目将不再各自存储其依赖文件，它们只需要声明这些依赖的坐标，在需要的时候,maven会自动根据坐标找到仓库中的构件，并使用它们。</p>
-<h2 id="maven仓库分类"><a href="#maven仓库分类" class="headerlink" title="maven仓库分类"></a>maven仓库分类</h2><p>对于maven来说，仓库分为２大类：本地仓库与远程仓库。当maven根据坐标寻找构件的时候，它首先会查看本地仓库，如果本地仓库存在此构件，则直接使用。如果本地仓库不存在此构件，或者需要查看是否有更新的构件，maven就会去远程仓库查找，发现需要的构件之后，下载到本地仓库再使用。如果本地仓库与远程仓库都没有，则报错。</p>
-<p>这里，需要说明私服。私服是一种特殊的远程仓库，为了节省带宽和时间，应该在局域网内架设一个私有的仓库服务器，用其代理所有外部的远程仓库。</p>
-<p>如果默认的中央仓库无法满足项目的需求，可能项目需要的构件存在于另一个远程仓库中。这个时候可以在项目的POM文件中，repositories元素下使用repository子元素声明一个或者多个远程仓库。我们需要注意的是，maven默认的中央仓库的id是central。</p>
-<h2 id="依赖坐标搜索"><a href="#依赖坐标搜索" class="headerlink" title="依赖坐标搜索"></a>依赖坐标搜索</h2><p>使用maven进行日常开发的时候，一个常见的问题就是如何寻找需要的依赖，我们可以通过需要使用的类库的名字来找到maven依赖所需的坐标。</p>
-<p>我们可以直接去maven的官方网站的中央仓库搜索也可以通过其他的搜索服务，比如：</p>
-<p>地址：<a href="http://repository.sonatype.org/" target="_blank" rel="external">http://repository.sonatype.org/</a></p>
-<p>Nexus是当前流行的开源maven仓库管理软件，提供了关键字搜索，类名搜索，坐标搜索等功能。</p>
-<h1 id="生命周期与插件"><a href="#生命周期与插件" class="headerlink" title="生命周期与插件"></a>生命周期与插件</h1><p>在maven的日常使用中，命令行的输入往往就对应了生命周期，如mvn package就表示执行默认生命周期阶段package。maven的生命周期是抽象的，其实际行为都由插件来完成，如package阶段的任务可能就就会由maven-jar-plugin完成。</p>
-<p>maven的生命周期就是为了对所有的构建过程进行抽象统一，包含了项目的清理，初始化，编译，测试，打包，集成测试，验证，部署和站点生成等几乎所有的构建步骤。所有的项目构建都能够映射到这样一个生命周期上。在maven的设计中，实际的任务(如编译源代码)都交由插件了完成。</p>
-<p>maven定义的生命周期和插件机制一方面保证了所有maven项目有一致的构建标准，另一方面又通过默认插件简化和稳定了实际项目的构建。此外，该机制还提供了足够的扩展空间，用户可以通过配置现有的插件或者自行编写插件来自定义构建行为。</p>
-<h2 id="三套生命周期"><a href="#三套生命周期" class="headerlink" title="三套生命周期"></a>三套生命周期</h2><p>maven拥有三套互相独立的生命周期，分别是clean,default和site。需要注意的是，生命周期之间是互相独立的，生命周期中的各个阶段是前后依赖的。</p>
-<h3 id="clean生命周期"><a href="#clean生命周期" class="headerlink" title="clean生命周期"></a>clean生命周期</h3><p>clean生命周期的目的是清理项目，它包含三个阶段：</p>
-<ol>
-<li><p>pre-clean 执行一些清理前需要完成的工作</p>
-</li>
-<li><p>clean 清理上一次构建生成的文件</p>
-</li>
-<li><p>post-clean 执行一些清理后需要完成的工作</p>
-</li>
-</ol>
-<h3 id="default生命周期"><a href="#default生命周期" class="headerlink" title="default生命周期"></a>default生命周期</h3><p>default生命周期定义了真正构建时所需要执行的所有步骤，它是所有生命周期中最核心的部分。</p>
-<p>这里只列举一些常见的阶段：(按照先后顺序)</p>
-<p>compile:编译项目的主源码。一般来说，是编译src/main/java目录下的java文件至项目输出的主classpath目录中</p>
-<p>test-compile:编译项目的测试代码。一般来说，是编译src/test/java目录下的java文件至项目输出的主classpath目录中</p>
-<p>test:使用单元测试框架运行测试，测试代码不会被打包或部署</p>
-<p>package:接受编译好的代码，打包成可发布的格式，如jar</p>
-<p>install:将包安装到maven本地仓库</p>
-<p>deploy:将最终的包复制到远程仓库</p>
-<h3 id="site生命周期"><a href="#site生命周期" class="headerlink" title="site生命周期"></a>site生命周期</h3><p>site生命周期的目的是建立和发布项目站点，maven能够基于POM所包含的信息，自动生成一格友好的站点，方便团队交流和发布项目信息。</p>
-<p>pre-site:执行一些在生成项目站点之前需要完成的工作</p>
-<p>site:生成项目站点文档</p>
-<p>post-site:执行一些在生成项目站点之后需要完成的工作</p>
-<p>site-deploy:将生成的项目站点发布到服务器上</p>
-<h2 id="插件目标"><a href="#插件目标" class="headerlink" title="插件目标"></a>插件目标</h2><p>我们知道，maven的核心仅仅定义了抽象的生命周期，具体的任务是交由插件完成的，插件以独立的构件形式存在。对于插件本身，为了能够复用代码，它往往能够完成多个任务，因此这些功能聚集在一个插件里，每个功能就是一个插件目标。</p>
-<p>maven的生命周期与插件互相绑定，用以完成实际的构建任务。具体而言，是生命周期的阶段与插件的目标互相绑定，以完成某个具体的构建任务。</p>
-<p>几乎所有maven插件的目标都有一些可配置的参数，可以通过POM文件的配置来调整参数。关于插件的文档信息，我们可以参考Apache的maven官方网站上去获取。</p>
-<h1 id="聚合与继承"><a href="#聚合与继承" class="headerlink" title="聚合与继承"></a>聚合与继承</h1><p>在这个技术飞速发展的时代，各类用户对软件的要求越来越高，软件本身也变得越来越复杂。因此，软件设计人员往往会采用各种方式对软件划分模块，以得到更清晰的设计以及更高的重用性。当把maven应用到实际项目中的时候，也需要将项目分成不用的模块。maven的聚合特性能够把项目的各个模块聚合在一起构建，而maven的继承特性则能够帮助抽取各个模块中相同的　依赖和插件等配置，在简化POM的同时，还能促进各个模块配置的一致性。</p>
-<h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><p>当我们希望一次性构建多个项目，而不是到多个模块的目录下分别运行mvn命令。这个时候，就需要maven的聚合。</p>
-<p>为了能够使用一条命令就能构建多个模块，我们需要创建一个额外的模块(聚合模块)，然后通过该模块构建整个项目的所有模块。额外的聚合模块的POM特殊在于：</p>
-<p>packaging标签的值为:POM。对于非聚合模块，他们的packaging默认为jar。</p>
-<p>modules元素，这是实现聚合的核心配置。我们可以通过在一个打包方式为POM的maven项目中声明任意数量的module元素(需要被聚合的模块)来实现模块的聚合，每一个module的值都是一个当前的POM的相对目录(需要被聚合的模块的目录相对与当前聚合模块POM的相对目录)。</p>
-<p>为了方便构建，通常将聚合模块放在项目目录的最顶层，其他模块则作为聚合模块的子目录存在。</p>
-<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>maven里面的继承，准确的说是POM文件的继承。我们可以创建POM文件的父子结构，然后在父POM中声明一些配置提供给子POM继承，以实现”一处声明，多处使用”的目的。父POM的packaging为pom，这一点与聚合模块一样。</p>
-<p>由于父模块只是为了帮助消除配置的重复，因此它本身不包含除POM之外的项目文件。</p>
-<p>有了父模块，就需要让其他模块来继承它。子模块的POM中，使用parent元素来声明父模块，parent下的子元素groupId,artifactId,version指定了父模块的坐标，元素relativePath表示父模块POM的相对路径。当项目构建时，maven首先会根据ralativePath检查父模块的POM,如果找不到，再从本地仓库中查找。relativePath的默认值是 ../pom.xml　也就是说，maven默认父POM在上一层目录中。</p>
-<h3 id="依赖管理"><a href="#依赖管理" class="headerlink" title="依赖管理"></a>依赖管理</h3><p>在POM文件中，依赖是可以被继承的。maven提供dependencyManagement元素既能让子模块继承到父模块的依赖配置，又能保证子模块依赖使用的灵活。在dependencyManagement元素下的依赖声明不会引入实际的依赖，不过它能够约束dependencies下依赖的使用。使用dependencyManagement声明的依赖，不会给子模块引入依赖，但是可以被继承。在子模块中只需要声明依赖的使用，如果子模块不声明依赖的使用，即使该依赖已经在父POM的dependencyManagement中声明了，也不会产生任何实际的效果。</p>
-<p>在dependencyManagement元素中有import依赖范围，使用该范围的依赖通常指向一个POM,作用是将目标POM中的dependencyManagement配置导入并合并到当前POM的dependencyManagement元素中。这里import表示导入配置的意思。</p>
-<h3 id="插件管理"><a href="#插件管理" class="headerlink" title="插件管理"></a>插件管理</h3><p>类似地，maven也提供了pluginManagement元素帮助管理插件，在该元素下配置的依赖不会造成实际的插件调用行为，当POM中配置了真正的plugin元素，并且其groupId,artifactId与pluginManagement中的插件匹配时，pluginManagement的配置才会影响实际的插件行为。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/工具/">工具</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Maven/">Maven</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -1118,7 +1072,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -1135,6 +1089,10 @@
 		
 		  
 			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据库/" title="数据库">数据库<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1155,7 +1113,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -1179,15 +1137,19 @@
 			
 		
 			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
+				<li><a href="/tags/Mysql索引/" title="Mysql索引">Mysql索引<sup>1</sup></a></li>
 			
 		
 			
@@ -1203,7 +1165,11 @@
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
 			
 		
 			
@@ -1214,16 +1180,12 @@
 				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
 			
 		
-			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
-			
-		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
     </ul>
@@ -1233,11 +1195,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -1387,7 +1349,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 

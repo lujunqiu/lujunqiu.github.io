@@ -51,7 +51,7 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -67,7 +67,7 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -90,14 +90,14 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-21T14:39:39.000Z" itemprop="datePublished"> Published 2017-07-21</time>
+    <time datetime="2017-07-21T14:39:39.000Z" itemprop="datePublished"> 发表于 2017-07-21</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">Contents</strong>
+			<strong class="toc-title">文章目录</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#对象及变量的并发访问"><span class="toc-number">1.</span> <span class="toc-text">对象及变量的并发访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized同步方法"><span class="toc-number">1.1.</span> <span class="toc-text">synchronized同步方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法内的私有变量"><span class="toc-number">1.1.1.</span> <span class="toc-text">方法内的私有变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例变量"><span class="toc-number">1.1.2.</span> <span class="toc-text">实例变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized-this-同步语句块"><span class="toc-number">1.2.</span> <span class="toc-text">synchronized(this)同步语句块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象监视器"><span class="toc-number">1.3.</span> <span class="toc-text">对象监视器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态同步synchronized方法与synchronized-class-代码块"><span class="toc-number">1.4.</span> <span class="toc-text">静态同步synchronized方法与synchronized(class)代码块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile关键字"><span class="toc-number">1.5.</span> <span class="toc-text">volatile关键字</span></a></li></ol></li></ol>
 		
@@ -194,17 +194,17 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 	
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">Contents</strong>
+  <strong class="toc-title">文章目录</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#对象及变量的并发访问"><span class="toc-number">1.</span> <span class="toc-text">对象及变量的并发访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized同步方法"><span class="toc-number">1.1.</span> <span class="toc-text">synchronized同步方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法内的私有变量"><span class="toc-number">1.1.1.</span> <span class="toc-text">方法内的私有变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例变量"><span class="toc-number">1.1.2.</span> <span class="toc-text">实例变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized-this-同步语句块"><span class="toc-number">1.2.</span> <span class="toc-text">synchronized(this)同步语句块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象监视器"><span class="toc-number">1.3.</span> <span class="toc-text">对象监视器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态同步synchronized方法与synchronized-class-代码块"><span class="toc-number">1.4.</span> <span class="toc-text">静态同步synchronized方法与synchronized(class)代码块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile关键字"><span class="toc-number">1.5.</span> <span class="toc-text">volatile关键字</span></a></li></ol></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -212,7 +212,7 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -229,6 +229,10 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 		
 		  
 			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据库/" title="数据库">数据库<sup>1</sup></a></li>
 		  
 		
 		  
@@ -249,7 +253,7 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -273,15 +277,19 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 			
 		
 			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
+				<li><a href="/tags/Mysql索引/" title="Mysql索引">Mysql索引<sup>1</sup></a></li>
 			
 		
 			
@@ -297,7 +305,11 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
 			
 		
 			
@@ -308,16 +320,12 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
 			
 		
-			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
-			
-		
 		</ul>
 </div>
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
     </ul>
@@ -327,11 +335,11 @@ synchronized同步方法方法内的私有变量“非线程安全”问题存�
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -558,7 +566,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
