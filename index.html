@@ -140,7 +140,7 @@
 <p>预读的长度一般为页（page）的整倍数。页是计算机管理存储器的逻辑块，主存和磁盘以页为单位交换数据。当程序要读取的数据不在主存中时，会触发一个缺页异常，此时系统会向磁盘发出读盘信号，磁盘会找到数据的起始位置并向后连续读取一页或几页载入内存中，然后异常返回，程序继续运行。</p>
 <h3 id="B-Tree与磁盘结合"><a href="#B-Tree与磁盘结合" class="headerlink" title="B-/+Tree与磁盘结合"></a>B-/+Tree与磁盘结合</h3><p>首先，我们可以分析红黑树这类平衡二叉查找树是否适合磁盘存储。红黑树的树高h一般很大，而且逻辑很近的节点（父子）物理上可能相距很远，无法利用局部性，增加了磁头寻道和磁盘旋转的时间，所以不适合磁盘存储。</p>
 <p>而我们使用B＋Tree的时候，将一个节点的大小设为等于一个页，这样每个节点只需要一次I/O就可以完全载入，所以B＋Tree作为磁盘的存储结构是合适的。</p>
-<h2 id="MySQl索引实现"><a href="#MySQl索引实现" class="headerlink" title="MySQl索引实现"></a>MySQl索引实现</h2><p>在MySQL中，索引属于存储引擎级别的概念，不同存储引擎对索引的实现方式是不同的。</p>
+<h2 id="Mysql索引实现"><a href="#Mysql索引实现" class="headerlink" title="Mysql索引实现"></a>Mysql索引实现</h2><p>在MySQL中，索引属于存储引擎级别的概念，不同存储引擎对索引的实现方式是不同的。</p>
 <h3 id="MyISAM索引实现"><a href="#MyISAM索引实现" class="headerlink" title="MyISAM索引实现"></a>MyISAM索引实现</h3><p>MyISAM引擎使用B+Tree作为索引结构，叶节点的data域存放的是数据记录的地址。MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。</p>
 <p><img src="../../../../img/mysql/myisam.png" alt=""></p>
 <p>如上图所示表一共有三列，假设我们以Col1为主键，则这是一个MyISAM表的主索引示意。可以看出MyISAM的索引文件仅仅保存数据记录的地址。在MyISAM中，主索引和辅助索引（Secondary key）在结构上没有任何区别，只是主索引要求key是唯一的，而辅助索引的key可以重复。因此，MyISAM中索引检索的算法为首先按照B+Tree搜索算法搜索索引，如果指定的Key存在，则取出其data域的值，然后以data域的值为地址，读取相应数据记录。</p>
@@ -1133,11 +1133,7 @@
 			
 		
 			
-				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
@@ -1145,7 +1141,11 @@
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
@@ -1157,6 +1157,10 @@
 			
 		
 			
+				<li><a href="/tags/模版方法模式/" title="模版方法模式">模版方法模式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
 			
 		
@@ -1165,15 +1169,11 @@
 			
 		
 			
-				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/模版方法模式/" title="模版方法模式">模版方法模式<sup>1</sup></a></li>
+				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
 			
 		
 			
