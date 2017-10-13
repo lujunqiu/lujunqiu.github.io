@@ -164,7 +164,7 @@
 <p>下面介绍Next-key锁：当我们用范围条件而不是相等条件检索数据，并请求共享或排他锁时，InnoDB会给符合条件的已有数据记录的索引项加锁；对于键值在条件范围内但并不存在的记录，叫做“间隙”，同样InnoDB也会给这个“间隙”加锁。</p>
 <p>举个例子：</p>
 <p><img src="../../../../img/mysql/next-key.png" alt=""></p>
-<p>当我们更新一条记录，比如 <figure class="highlight plain"><figcaption><span>* FROM users WHERE age = 30 FOR UPDATE;```，InnoDB 不仅会在范围 (21, 30] 上加 Next-Key 锁，还会在这条记录后面的范围 (30, 40] 加间隙锁，所以插入 (21, 40] 范围内的记录都会被锁定。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">虽然间隙锁中也分为共享锁和互斥锁，不过它们之间并不是互斥的，也就是不同的事务可以同时持有一段相同范围的共享锁和互斥锁，它唯一阻止的就是其他事务向这个范围中添加新的记录。并且间隙锁是存储引擎对于性能和并发做出的权衡，并且只用于某些事务隔离级别，防止幻读。</div><div class="line"></div><div class="line">### MVCC在MySQl中的实现</div><div class="line"></div><div class="line">MVCC属于乐观锁的思想，它的实现没有固定的规范，每个数据库都会有不同的实现方式。在InnoDB中，会在每行数据后添加两个额外的隐藏的值来实现MVCC，这两个值一个记录这行数据何时被创建，另外一个记录这行数据何时过期。 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。通过MVCC，虽然每行记录都需要额外的存储空间，更多的行检查工作以及一些额外的维护工作，但可以减少锁的使用，大多数读操作都不用加锁，读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行，也只锁住必要行。</div><div class="line"></div><div class="line">在RR级别中，通过MVCC机制，虽然让数据变得可重复读，但我们读到的数据可能是历史数据，是不及时的数据，不是数据库当前的数据。这在一些对于数据的时效特别敏感的业务中，就很可能出问题。对于这种读取历史数据的方式，我们叫它快照读，而读取数据库当前版本数据的方式，叫当前读。</div><div class="line"></div><div class="line">快照读：</div><div class="line"></div><div class="line">- ```selece * from table_name ...</div></pre></td></tr></table></figure></p>
+<p>当我们更新一条记录，比如  <figure class="highlight plain"><figcaption><span>* FROM users WHERE age = 30 FOR UPDATE;``` ，InnoDB 不仅会在范围 (21, 30] 上加 Next-Key 锁，还会在这条记录后面的范围 (30, 40] 加间隙锁，所以插入 (21, 40] 范围内的记录都会被锁定。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">虽然间隙锁中也分为共享锁和互斥锁，不过它们之间并不是互斥的，也就是不同的事务可以同时持有一段相同范围的共享锁和互斥锁，它唯一阻止的就是其他事务向这个范围中添加新的记录。并且间隙锁是存储引擎对于性能和并发做出的权衡，并且只用于某些事务隔离级别，防止幻读。</div><div class="line"></div><div class="line">### MVCC在MySQl中的实现</div><div class="line"></div><div class="line">MVCC属于乐观锁的思想，它的实现没有固定的规范，每个数据库都会有不同的实现方式。在InnoDB中，会在每行数据后添加两个额外的隐藏的值来实现MVCC，这两个值一个记录这行数据何时被创建，另外一个记录这行数据何时过期。 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。通过MVCC，虽然每行记录都需要额外的存储空间，更多的行检查工作以及一些额外的维护工作，但可以减少锁的使用，大多数读操作都不用加锁，读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行，也只锁住必要行。</div><div class="line"></div><div class="line">在RR级别中，通过MVCC机制，虽然让数据变得可重复读，但我们读到的数据可能是历史数据，是不及时的数据，不是数据库当前的数据。这在一些对于数据的时效特别敏感的业务中，就很可能出问题。对于这种读取历史数据的方式，我们叫它快照读，而读取数据库当前版本数据的方式，叫当前读。</div><div class="line"></div><div class="line">快照读：</div><div class="line"></div><div class="line"></div><div class="line">- ```selece * from table_name ...</div></pre></td></tr></table></figure></p>
 <p>当前读：特殊的读操作，插入/更新/删除操作，属于当前读，处理的都是当前的数据，需要加锁</p>
 <ul>
 <li><figure class="highlight plain"><figcaption><span>* from table_name where...lock in share mode;```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-  ```select * from table_name where...for update;</div></pre></td></tr></table></figure>
@@ -1214,11 +1214,11 @@
 			
 		
 			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/MySQL锁/" title="MySQL锁">MySQL锁<sup>1</sup></a></li>
+				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
 			
 		
 			
@@ -1230,7 +1230,11 @@
 			
 		
 			
-				<li><a href="/tags/https协议/" title="https协议">https协议<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL锁/" title="MySQL锁">MySQL锁<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
@@ -1238,7 +1242,11 @@
 			
 		
 			
-				<li><a href="/tags/Mysql索引/" title="Mysql索引">Mysql索引<sup>1</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
@@ -1250,19 +1258,11 @@
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/Mysql索引/" title="Mysql索引">Mysql索引<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
 		</ul>
