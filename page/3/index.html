@@ -44,7 +44,7 @@
 				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -60,7 +60,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -78,6 +78,81 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/09/一道阿里招聘的编程题/" title="阿里实习生招聘的编程题" itemprop="url">阿里实习生招聘的编程题</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-08T16:33:32.000Z" itemprop="datePublished"> Published 2017-03-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>2017年阿里巴巴实习生在线测试编程题：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;对于一个长度为 N 的整型数组A，数组里所有的数都是正整数，对于两个满足0 &lt;= X &lt;= Y &lt; N 的整数，A[X],A[X+1]…A[Y]构成A的一个切片，记作(X,Y)。 用三个下标m1,m2,m3下标满足 0&lt;m1 ,m1 + 1 &lt; m2,m2 + 1 &lt; m3 &lt; N - 1。可以把这个整型数组分成(0,m1 - 1),(m1 + 1,m2),(m2 + 1,m3),(m3,N-1)四个切片。如果这个四个切片中的整数求和相等，称作“四等分”。编写一个函数，求一个给定的整形数组是否可以四等分，如果可以，返回一个布尔类型的true，如果不可以返回一个布尔类型的false。</p>
+<p>  限制条件：数组A最多有1,000,000项，数组中整数的取值范围介于 -1,000,000到1,000,000之间。</p>
+<p>  要求：函数计算的复杂度为O(n)，使用的额外存储空间(除了输入的数组之外)最多为O(n)。</p>
+<p> 例子：</p>
+<p>  对于数组A=[2,5,1,1,1,1,4,1,7,3,7]存在下标2,7,9使得数组分成4个分片[2,5],[1,1,1,4],[7],[7]，这3个分片内整数之和相等，所以对于这个数组，函数应该返回true</p>
+<p>  对于数组A=[10,2,11,13,1,1,1,1,1]，找不到能把数组四等分的下标，所以函数应该返回false</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>题目要求的时间复杂度是O(n),额外的空间复杂度也是O(n).根据题目的描述，将一个数组四等分的3个切分点是不参与求和的，所以具体四等分结果的累加和我们是一开始无法确定的。但是，当我们确定了第一个切分点的时候，每个等分的累加和就确定了。也正是由于累加和的不确定性，我们无法运用动态规划来设计子问题，不满足后无效性。</p>
+<p>由于一开始并不知道每个等分的累加和具体是多少，我们必须假设数组的每一个点都可能成为第一个切分点。这时就需要遍历一边数组，时间复杂度为O(n)，确定了累加和之后，要做的事情就是查找了，在后续的数组里查找累加和相等的切片。但是我们需要完成常数复杂度的查找操作，很自然要用到hashmap。设计hashmap的key为累加和，value为数组索引（数组下标0到该索引的所有元素的累加和），额外的空间复杂度为O(n).</p>
+<p>这样一来，算法的大致思路就完成了。首先遍历数组，确定第一个切分点以及对应的每等分累加和，然后搜索hashmap在后续的数组中能否查找到相等的累加和切片。</p>
+<p><em>注意：</em> </p>
+<ul>
+<li>这个算法只适用于数组元素是正整数的情况，如果有负数的话，累加和会有相同的情况，存入hashmap的时候需要处理冲突。</li>
+<li>要写出来bugfree的代码，需要考虑到边界条件，避免数组越界访问的异常。</li>
+</ul>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><a href="https://github.com/lujunqiu/Demo/blob/master/src/datastructure/Alibaba_OnlineTest.java" target="_blank" rel="external">代码链接</a></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/算法/">算法</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/编程题/">编程题</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/08/关于null/" title="关于java中的Null" itemprop="url">关于java中的Null</a>
   </h1>
   <p class="article-author">By
@@ -85,7 +160,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> 发表于 2017-03-08</time>
+    <time datetime="2017-03-08T14:07:57.000Z" itemprop="datePublished"> Published 2017-03-08</time>
     
   </p>
 </header>
@@ -155,7 +230,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-07T01:02:03.000Z" itemprop="datePublished"> 发表于 2017-03-07</time>
+    <time datetime="2017-03-07T01:02:03.000Z" itemprop="datePublished"> Published 2017-03-07</time>
     
   </p>
 </header>
@@ -243,7 +318,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-06T10:40:43.000Z" itemprop="datePublished"> 发表于 2017-03-06</time>
+    <time datetime="2017-03-06T10:40:43.000Z" itemprop="datePublished"> Published 2017-03-06</time>
     
   </p>
 </header>
@@ -294,10 +369,10 @@
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
@@ -305,7 +380,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">分类</p>
+	<p class="asidetitle">Categories</p>
 		<ul>
 		
 		  
@@ -325,7 +400,7 @@
 		  
 		
 		  
-			<li><a href="/categories/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+			<li><a href="/categories/数据库/" title="数据库">数据库<sup>2</sup></a></li>
 		  
 		
 		  
@@ -346,7 +421,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -366,15 +441,11 @@
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL锁/" title="MySQL锁">MySQL锁<sup>1</sup></a></li>
 			
 		
 			
@@ -382,23 +453,7 @@
 			
 		
 			
-				<li><a href="/tags/Mysql索引/" title="Mysql索引">Mysql索引<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/内部类/" title="内部类">内部类<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/模版方法模式/" title="模版方法模式">模版方法模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Shell/" title="Shell">Shell<sup>1</sup></a></li>
+				<li><a href="/tags/http协议/" title="http协议">http协议<sup>1</sup></a></li>
 			
 		
 			
@@ -406,11 +461,35 @@
 			
 		
 			
+				<li><a href="/tags/内部类/" title="内部类">内部类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mysql索引/" title="Mysql索引">Mysql索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模版方法模式/" title="模版方法模式">模版方法模式<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
 			
 		
 			
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/设计模式原则/" title="设计模式原则">设计模式原则<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -418,7 +497,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
     </ul>
@@ -428,11 +507,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">新浪微博</p>
+  <p class="asidetitle">Weibo</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -582,7 +661,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
