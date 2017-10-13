@@ -44,7 +44,7 @@
 				<h1 class="site-name"><a href="/" title="Qiu‘s homepage">Qiu‘s homepage</a></h1>
 				<h2 class="blog-motto">大道唯有自成。</h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -60,7 +60,7 @@
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
 						<input type="hidden" name="q" value="site:yoursite.com">
 					</form>
 					
@@ -85,7 +85,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-13T07:18:42.000Z" itemprop="datePublished"> Published 2017-10-13</time>
+    <time datetime="2017-10-13T07:18:42.000Z" itemprop="datePublished"> 发表于 2017-10-13</time>
     
   </p>
 </header>
@@ -164,20 +164,26 @@
 <p>下面介绍Next-key锁：当我们用范围条件而不是相等条件检索数据，并请求共享或排他锁时，InnoDB会给符合条件的已有数据记录的索引项加锁；对于键值在条件范围内但并不存在的记录，叫做“间隙”，同样InnoDB也会给这个“间隙”加锁。</p>
 <p>举个例子：</p>
 <p><img src="../../../../img/mysql/next-key.png" alt=""></p>
-<p>当我们更新一条记录，比如  <figure class="highlight plain"><figcaption><span>* FROM users WHERE age = 30 FOR UPDATE;``` ，InnoDB 不仅会在范围 (21, 30] 上加 Next-Key 锁，还会在这条记录后面的范围 (30, 40] 加间隙锁，所以插入 (21, 40] 范围内的记录都会被锁定。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">虽然间隙锁中也分为共享锁和互斥锁，不过它们之间并不是互斥的，也就是不同的事务可以同时持有一段相同范围的共享锁和互斥锁，它唯一阻止的就是其他事务向这个范围中添加新的记录。并且间隙锁是存储引擎对于性能和并发做出的权衡，并且只用于某些事务隔离级别，防止幻读。</div><div class="line"></div><div class="line">### MVCC在MySQl中的实现</div><div class="line"></div><div class="line">MVCC属于乐观锁的思想，它的实现没有固定的规范，每个数据库都会有不同的实现方式。在InnoDB中，会在每行数据后添加两个额外的隐藏的值来实现MVCC，这两个值一个记录这行数据何时被创建，另外一个记录这行数据何时过期。 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。通过MVCC，虽然每行记录都需要额外的存储空间，更多的行检查工作以及一些额外的维护工作，但可以减少锁的使用，大多数读操作都不用加锁，读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行，也只锁住必要行。</div><div class="line"></div><div class="line">在RR级别中，通过MVCC机制，虽然让数据变得可重复读，但我们读到的数据可能是历史数据，是不及时的数据，不是数据库当前的数据。这在一些对于数据的时效特别敏感的业务中，就很可能出问题。对于这种读取历史数据的方式，我们叫它快照读，而读取数据库当前版本数据的方式，叫当前读。</div><div class="line"></div><div class="line">快照读：</div><div class="line"></div><div class="line"></div><div class="line">- ```selece * from table_name ...</div></pre></td></tr></table></figure></p>
+<p>当我们更新一条记录，比如”SELECT * FROM users WHERE age = 30 FOR UPDATE;” ，InnoDB 不仅会在范围 (21, 30] 上加 Next-Key 锁，还会在这条记录后面的范围 (30, 40] 加间隙锁，所以插入 (21, 40] 范围内的记录都会被锁定。</p>
+<p>虽然间隙锁中也分为共享锁和互斥锁，不过它们之间并不是互斥的，也就是不同的事务可以同时持有一段相同范围的共享锁和互斥锁，它唯一阻止的就是其他事务向这个范围中添加新的记录。并且间隙锁是存储引擎对于性能和并发做出的权衡，并且只用于某些事务隔离级别，防止幻读。</p>
+<h3 id="MVCC在MySQl中的实现"><a href="#MVCC在MySQl中的实现" class="headerlink" title="MVCC在MySQl中的实现"></a>MVCC在MySQl中的实现</h3><p>MVCC属于乐观锁的思想，它的实现没有固定的规范，每个数据库都会有不同的实现方式。在InnoDB中，会在每行数据后添加两个额外的隐藏的值来实现MVCC，这两个值一个记录这行数据何时被创建，另外一个记录这行数据何时过期。 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。通过MVCC，虽然每行记录都需要额外的存储空间，更多的行检查工作以及一些额外的维护工作，但可以减少锁的使用，大多数读操作都不用加锁，读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行，也只锁住必要行。</p>
+<p>在RR级别中，通过MVCC机制，虽然让数据变得可重复读，但我们读到的数据可能是历史数据，是不及时的数据，不是数据库当前的数据。这在一些对于数据的时效特别敏感的业务中，就很可能出问题。对于这种读取历史数据的方式，我们叫它快照读，而读取数据库当前版本数据的方式，叫当前读。</p>
+<p>快照读：</p>
+<ul>
+<li>selece * from table_name … </li>
+</ul>
 <p>当前读：特殊的读操作，插入/更新/删除操作，属于当前读，处理的都是当前的数据，需要加锁</p>
 <ul>
-<li><figure class="highlight plain"><figcaption><span>* from table_name where...lock in share mode;```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-  ```select * from table_name where...for update;</div></pre></td></tr></table></figure>
-</li>
-<li><figure class="highlight plain"><figcaption><span>into table_name ...```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-  ```update table_name set ...</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>delete from table_name ..</code></p>
-</li>
+<li>select * from table_name where…lock in share mode;</li>
+<li>select * from table_name where…for update;</li>
+<li>insert into table_name …</li>
+<li>update table_name set …</li>
+<li>delete from table_name …</li>
 </ul>
 <p>事务的隔离级别实际上都是定义了当前读的级别，MySQL为了减少锁处理的时间，提升并发能力，引入了快照读的概念，使得select不用加锁。</p>
 <p>在RR级别也消除了一部分的幻读问题，行锁防止别的事务修改或删除，GAP锁防止别的事务新增，行锁和GAP锁结合形成的的Next-Key锁共同解决了RR级别在写数据时的幻读问题。</p>
 <p>但是在Serializable级别来消除幻读就很简单，读加共享锁，写加排他锁，读写互斥。使用的悲观锁的理论，实现简单，数据更加安全，但是并发能力非常差。如果你的业务并发的特别少或者没有并发，同时又要求数据及时可靠的话，可以使用这种模式。所以在Serializable这个级别，会给select操作加锁。</p>
-<h3 id="复制和恢复对锁机制的影响"><a href="#复制和恢复对锁机制的影响" class="headerlink" title="复制和恢复对锁机制的影响"></a>复制和恢复对锁机制的影响</h3><p>MySQL的恢复和复制和InnoDB锁机制和一致性读策略也有较大影响。例如，对于<code>insert into target_tab select * from source_tab where ...</code>和<code>create table new_tab ... select ... from source_tab where ...</code>这种SQL语句，MySQL没有使用对并发影响最小的多版本数据来实现一致性读，而是给source_tab加锁，阻止对source_tab的更新，就是为了保证恢复和复制的正确性。<br>当然，我们如果使用基于行的binlog日志来恢复和复制就不会存在上述问题，或者使用<code>select * from source_tab ... into outfile...</code> 和 <code>load data infile ...</code>语句组来实现上述功能，不会对source_tab加锁。</p>
+<h3 id="复制和恢复对锁机制的影响"><a href="#复制和恢复对锁机制的影响" class="headerlink" title="复制和恢复对锁机制的影响"></a>复制和恢复对锁机制的影响</h3><p>MySQL的恢复和复制和InnoDB锁机制和一致性读策略也有较大影响。例如，对于  “insert into target_tab select <em> from source_tab where …”和”create table new_tab … select … from source_tab where …”这种SQL语句，MySQL没有使用对并发影响最小的多版本数据来实现一致性读，而是给source_tab加锁，阻止对source_tab的更新，就是为了保证恢复和复制的正确性。<br>当然，我们如果使用基于行的binlog日志来恢复和复制就不会存在上述问题，或者使用”select </em> from source_tab … into outfile…” 和 “ load data infile …”语句组来实现上述功能，不会对source_tab加锁。</p>
 <h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>MyISAM表锁是deadlock free的，因为MyISAM总是一次获取所需的全部锁，要么全部满足，要么等待，因此不会出现死锁。但是在InnoDB中，除了单个SQL组成的事务外，锁是逐步获取的，并且InnoDB中实现的锁是悲观的，那么不同事务之间就可能会互相等待对方释放锁造成死锁。</p>
 <p>如果出现死锁，可以用<code>show innodb status \G</code>命令来确定最后一个死锁产生的原因。</p>
 <p>在了解锁机制后，我们可以调整SQL来减少锁冲突，包括以下几项：</p>
@@ -242,7 +248,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-10-01T01:11:20.000Z" itemprop="datePublished"> Published 2017-10-01</time>
+    <time datetime="2017-10-01T01:11:20.000Z" itemprop="datePublished"> 发表于 2017-10-01</time>
     
   </p>
 </header>
@@ -374,7 +380,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-09-16T14:01:22.000Z" itemprop="datePublished"> Published 2017-09-16</time>
+    <time datetime="2017-09-16T14:01:22.000Z" itemprop="datePublished"> 发表于 2017-09-16</time>
     
   </p>
 </header>
@@ -494,7 +500,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-08-22T06:17:38.000Z" itemprop="datePublished"> Published 2017-08-22</time>
+    <time datetime="2017-08-22T06:17:38.000Z" itemprop="datePublished"> 发表于 2017-08-22</time>
     
   </p>
 </header>
@@ -579,7 +585,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-30T14:09:52.000Z" itemprop="datePublished"> Published 2017-07-30</time>
+    <time datetime="2017-07-30T14:09:52.000Z" itemprop="datePublished"> 发表于 2017-07-30</time>
     
   </p>
 </header>
@@ -657,7 +663,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-29T02:40:17.000Z" itemprop="datePublished"> Published 2017-07-29</time>
+    <time datetime="2017-07-29T02:40:17.000Z" itemprop="datePublished"> 发表于 2017-07-29</time>
     
   </p>
 </header>
@@ -770,7 +776,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-21T14:39:39.000Z" itemprop="datePublished"> Published 2017-07-21</time>
+    <time datetime="2017-07-21T14:39:39.000Z" itemprop="datePublished"> 发表于 2017-07-21</time>
     
   </p>
 </header>
@@ -863,7 +869,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-30T02:01:34.000Z" itemprop="datePublished"> Published 2017-06-30</time>
+    <time datetime="2017-06-30T02:01:34.000Z" itemprop="datePublished"> 发表于 2017-06-30</time>
     
   </p>
 </header>
@@ -936,7 +942,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-28T06:09:53.000Z" itemprop="datePublished"> Published 2017-06-28</time>
+    <time datetime="2017-06-28T06:09:53.000Z" itemprop="datePublished"> 发表于 2017-06-28</time>
     
   </p>
 </header>
@@ -1017,7 +1023,7 @@
 		<a href="/about" title="Lujunqiu" target="_blank" itemprop="author">Lujunqiu</a>
 		
   <p class="article-time">
-    <time datetime="2017-06-24T15:38:47.000Z" itemprop="datePublished"> Published 2017-06-24</time>
+    <time datetime="2017-06-24T15:38:47.000Z" itemprop="datePublished"> 发表于 2017-06-24</time>
     
   </p>
 </header>
@@ -1142,10 +1148,10 @@
   </nav>
 
 </div>
-      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
 <aside class="clearfix">
 
   
@@ -1153,7 +1159,7 @@
 
   
 <div class="categorieslist">
-	<p class="asidetitle">Categories</p>
+	<p class="asidetitle">分类</p>
 		<ul>
 		
 		  
@@ -1194,7 +1200,7 @@
 
   
 <div class="tagslist">
-	<p class="asidetitle">Tags</p>
+	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
 			
@@ -1214,7 +1220,7 @@
 			
 		
 			
-				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
+				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
 			
 		
 			
@@ -1222,7 +1228,7 @@
 			
 		
 			
-				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
+				<li><a href="/tags/MySQL锁/" title="MySQL锁">MySQL锁<sup>1</sup></a></li>
 			
 		
 			
@@ -1230,15 +1236,23 @@
 			
 		
 			
-				<li><a href="/tags/MySQL锁/" title="MySQL锁">MySQL锁<sup>1</sup></a></li>
+				<li><a href="/tags/Maven/" title="Maven">Maven<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/编程题/" title="编程题">编程题<sup>1</sup></a></li>
+				<li><a href="/tags/java8/" title="java8">java8<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/内部类/" title="内部类">内部类<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Mysql索引/" title="Mysql索引">Mysql索引<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/模版方法模式/" title="模版方法模式">模版方法模式<sup>1</sup></a></li>
 			
 		
 			
@@ -1250,15 +1264,7 @@
 			
 		
 			
-				<li><a href="/tags/模版方法模式/" title="模版方法模式">模版方法模式<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/策略模式/" title="策略模式">策略模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Mysql索引/" title="Mysql索引">Mysql索引<sup>1</sup></a></li>
 			
 		
 			
@@ -1270,7 +1276,7 @@
 
 
   <div class="linkslist">
-  <p class="asidetitle">Links</p>
+  <p class="asidetitle">友情链接</p>
     <ul>
         
     </ul>
@@ -1280,11 +1286,11 @@
 
 
   <div class="rsspart">
-	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
   <div class="weiboshow">
-  <p class="asidetitle">Weibo</p>
+  <p class="asidetitle">新浪微博</p>
     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2831891302&verifier=a2b6ee82&dpc=1"></iframe>
 </div>
 
@@ -1434,7 +1440,7 @@ var _hmt = _hmt || [];
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
