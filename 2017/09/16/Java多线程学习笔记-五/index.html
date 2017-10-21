@@ -79,27 +79,21 @@
 
 
 
-<meta name="description" content="Java内存模型基础在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。
-Java线程之间的通信由Java内存模型(JMM)控制，JMM通过控制主内存与每个线程的本地内存之间的交互来决定了一个线程对共享变量的写入何时对另一个线程可见。
-JMM定义了线程和主内存之间的抽象关系:线程之间">
+<meta name="description" content="Java内存模型基础在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程学习笔记(五)">
 <meta property="og:url" content="http://yoursite.com/2017/09/16/Java多线程学习笔记-五/index.html">
 <meta property="og:site_name" content="Qiu homepage">
-<meta property="og:description" content="Java内存模型基础在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。
-Java线程之间的通信由Java内存模型(JMM)控制，JMM通过控制主内存与每个线程的本地内存之间的交互来决定了一个线程对共享变量的写入何时对另一个线程可见。
-JMM定义了线程和主内存之间的抽象关系:线程之间">
+<meta property="og:description" content="Java内存模型基础在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。">
 <meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-1.png">
 <meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-3.png">
 <meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-16.png">
 <meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-29.png">
 <meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-40.png">
-<meta property="og:updated_time" content="2017-09-16T14:23:30.000Z">
+<meta property="og:updated_time" content="2017-10-21T05:30:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java多线程学习笔记(五)">
-<meta name="twitter:description" content="Java内存模型基础在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。
-Java线程之间的通信由Java内存模型(JMM)控制，JMM通过控制主内存与每个线程的本地内存之间的交互来决定了一个线程对共享变量的写入何时对另一个线程可见。
-JMM定义了线程和主内存之间的抽象关系:线程之间">
+<meta name="twitter:description" content="Java内存模型基础在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。">
 <meta name="twitter:image" content="http://yoursite.com/../../../../img/bingfa/3-1.png">
 
 
@@ -362,8 +356,7 @@ JMM定义了线程和主内存之间的抽象关系:线程之间">
       
 
       
-        <h1 id="Java内存模型基础"><a href="#Java内存模型基础" class="headerlink" title="Java内存模型基础"></a>Java内存模型基础</h1><p>在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。</p>
-<p>Java线程之间的通信由Java内存模型(JMM)控制，JMM通过控制主内存与每个线程的本地内存之间的交互来决定了一个线程对共享变量的写入何时对另一个线程可见。</p>
+        <h1 id="Java内存模型基础"><a href="#Java内存模型基础" class="headerlink" title="Java内存模型基础"></a>Java内存模型基础</h1><p>在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。<br><a id="more"></a><br>Java线程之间的通信由Java内存模型(JMM)控制，JMM通过控制主内存与每个线程的本地内存之间的交互来决定了一个线程对共享变量的写入何时对另一个线程可见。</p>
 <p>JMM定义了线程和主内存之间的抽象关系:线程之间的共享变量存储在主内存中,每个线程都有一个私有的本地内存,本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的一个抽象概念,并不真实存在。它涵盖了缓存、写缓冲区、寄存器以及其他的硬件和编译器优化。但是这里需要说明的是，由于写缓存仅对自己的处理器可见，它会导致处理器执行内存操作的顺序与内存实际的操作顺序不一致，因为只有在JMM将缓存区数据刷新到内存中，才算完成了对内存的实际的操作。<br><img src="../../../../img/bingfa/3-1.png" alt=""></p>
 <h1 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h1><p>重排序是指编译器和处理器为了优化程序性能而对指令序列进行重新排序的一种手段。从Java源代码到最终实际执行的指令序列，会分别经历3种重排序。<br><img src="../../../../img/bingfa/3-3.png" alt=""></p>
 <ol>

@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/../../../../img/mysql/myisam.png">
 <meta property="og:image" content="http://yoursite.com/../../../../img/mysql/suoyin1.png">
 <meta property="og:image" content="http://yoursite.com/../../../../img/mysql/suoyin2.png">
-<meta property="og:updated_time" content="2017-10-03T04:44:16.000Z">
+<meta property="og:updated_time" content="2017-10-21T05:30:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql学习笔记---索引">
 <meta name="twitter:description" content="Mysql索引的数据结构查询功能是数据库最为常用的功能之一，为了提高查询的效率，我们学习了很多查询算法。最基本的查询算法是顺序查找，这种复杂度为O(n)的算法在数据量很大时显然是不合适的。除了顺序查找我们还了解其他查询算法，例如二分查找、二叉树查找等。但是每种查找算法都只能应用于特定的数据结构之上，例如二分查找要求被检索数据有序，而二叉树查找只能应用于二叉查找树上，数据本身的组织结构不可能完全满足">
@@ -358,7 +358,7 @@
       
 
       
-        <h1 id="Mysql索引的数据结构"><a href="#Mysql索引的数据结构" class="headerlink" title="Mysql索引的数据结构"></a>Mysql索引的数据结构</h1><p>查询功能是数据库最为常用的功能之一，为了提高查询的效率，我们学习了很多查询算法。最基本的查询算法是顺序查找，这种复杂度为O(n)的算法在数据量很大时显然是不合适的。除了顺序查找我们还了解其他查询算法，例如二分查找、二叉树查找等。但是每种查找算法都只能应用于特定的数据结构之上，例如二分查找要求被检索数据有序，而二叉树查找只能应用于二叉查找树上，数据本身的组织结构不可能完全满足各种数据结构。所以在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法。这种数据结构，就是索引。</p>
+        <h1 id="Mysql索引的数据结构"><a href="#Mysql索引的数据结构" class="headerlink" title="Mysql索引的数据结构"></a>Mysql索引的数据结构</h1><p>查询功能是数据库最为常用的功能之一，为了提高查询的效率，我们学习了很多查询算法。最基本的查询算法是顺序查找，这种复杂度为O(n)的算法在数据量很大时显然是不合适的。除了顺序查找我们还了解其他查询算法，例如二分查找、二叉树查找等。但是每种查找算法都只能应用于特定的数据结构之上，例如二分查找要求被检索数据有序，而二叉树查找只能应用于二叉查找树上，数据本身的组织结构不可能完全满足各种数据结构。<a id="more"></a>所以在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法。这种数据结构，就是索引。</p>
 <h2 id="B-Tree和B-Tree"><a href="#B-Tree和B-Tree" class="headerlink" title="B-Tree和B+Tree"></a>B-Tree和B+Tree</h2><p><em>B-Tree:</em></p>
 <ol>
 <li>非叶子结点的关键字个数=指向儿子的指针个数-1，关键字和指针互相间隔，关键字两端是指针</li>

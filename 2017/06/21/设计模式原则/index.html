@@ -79,22 +79,16 @@
 
 
 
-<meta name="description" content="单一职责原则(Single Responsibility Principle)定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。
-例如：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。
-按照单一职责原则，我们做出如下的修改：分别建立两个类T1、T2，使T1完成职责P1功能，">
+<meta name="description" content="单一职责原则(Single Responsibility Principle)定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式原则">
 <meta property="og:url" content="http://yoursite.com/2017/06/21/设计模式原则/index.html">
 <meta property="og:site_name" content="Qiu homepage">
-<meta property="og:description" content="单一职责原则(Single Responsibility Principle)定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。
-例如：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。
-按照单一职责原则，我们做出如下的修改：分别建立两个类T1、T2，使T1完成职责P1功能，">
-<meta property="og:updated_time" content="2017-06-22T01:36:40.000Z">
+<meta property="og:description" content="单一职责原则(Single Responsibility Principle)定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。">
+<meta property="og:updated_time" content="2017-10-21T05:33:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式原则">
-<meta name="twitter:description" content="单一职责原则(Single Responsibility Principle)定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。
-例如：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。
-按照单一职责原则，我们做出如下的修改：分别建立两个类T1、T2，使T1完成职责P1功能，">
+<meta name="twitter:description" content="单一职责原则(Single Responsibility Principle)定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。">
 
 
 
@@ -356,8 +350,7 @@
       
 
       
-        <h1 id="单一职责原则-Single-Responsibility-Principle"><a href="#单一职责原则-Single-Responsibility-Principle" class="headerlink" title="单一职责原则(Single Responsibility Principle)"></a>单一职责原则(Single Responsibility Principle)</h1><p>定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。</p>
-<p>例如：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+        <h1 id="单一职责原则-Single-Responsibility-Principle"><a href="#单一职责原则-Single-Responsibility-Principle" class="headerlink" title="单一职责原则(Single Responsibility Principle)"></a>单一职责原则(Single Responsibility Principle)</h1><p>定义：就一个类而言，不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。<br><a id="more"></a><br>例如：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
 <p>按照单一职责原则，我们做出如下的修改：分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。</p>
 <p>很多情况是，我们在设计之初是遵循单一职责原则的。随着需求的增加，类的职责被细化，被分为粒度更加小的职责。这个时候我们本应该是把原来的类分为2个类来写的，但是为了方便，我们大多数选择直接修改原来的类，这样就使原来的类拥有了不止1个职责。虽然这样做有悖于单一职责原则。但是这样做的风险在于职责扩散的不确定性，因为我们不会想到某个职责P，在未来可能会扩散为P1，P2，P3，P4……Pn。所以，在职责扩散到我们无法控制的程度之前，立刻对代码进行重构。</p>
 <p>单一职责原则的特点：</p>
