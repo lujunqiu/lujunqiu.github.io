@@ -85,13 +85,13 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/13/MySQL的锁问题/index.html">
 <meta property="og:site_name" content="Qiu homepage">
 <meta property="og:description" content="概述MySQL的锁机制最显著的特点就是不同的存储引擎支持不同的锁机制。比如，MyISAM存储引擎采用的是表级锁；InnoDB存储引擎既支持行级锁，也支持表级锁，但默认情况下采用行级锁。">
-<meta property="og:image" content="http://yoursite.com/../../../../img/mysql/geli.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/mysql/geli.png">
 <meta property="og:image" content="http://yoursite.com/../../../../img/mysql/next-key.png">
-<meta property="og:updated_time" content="2017-10-21T02:54:57.000Z">
+<meta property="og:updated_time" content="2017-10-21T05:49:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL的锁问题">
 <meta name="twitter:description" content="概述MySQL的锁机制最显著的特点就是不同的存储引擎支持不同的锁机制。比如，MyISAM存储引擎采用的是表级锁；InnoDB存储引擎既支持行级锁，也支持表级锁，但默认情况下采用行级锁。">
-<meta name="twitter:image" content="http://yoursite.com/../../../../img/mysql/geli.png">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/mysql/geli.png">
 
 
 
@@ -392,7 +392,7 @@
 <li>不加任何锁，通过一定机制生成一个数据请求时间点的一致性数据快照，并用这个快照来提供一定级别的一致性读取。从用户的角度来看，好像是数据库可以提供一个数据的多个版本，称为数据多版本并发控制(MultiVersion Concurrency Control,简称MVCC)。</li>
 </ul>
 <p>在不同的隔离级别下，InnoDB处理SQL时采用的一致性读策略和需要的锁是不同的。</p>
-<p><img src="../../../../img/mysql/geli.png" alt=""></p>
+<p><img src="../../../../images/mysql/geli.png" alt=""></p>
 <h2 id="InnoDB的锁"><a href="#InnoDB的锁" class="headerlink" title="InnoDB的锁"></a>InnoDB的锁</h2><p>在介绍InnoDB的锁之前，我们先学习并发控制的机制，分为两种：悲观锁和乐观锁。</p>
 <h3 id="悲观锁与乐观锁"><a href="#悲观锁与乐观锁" class="headerlink" title="悲观锁与乐观锁"></a>悲观锁与乐观锁</h3><ul>
 <li>悲观锁:它会在获取资源前对资源进行加锁，确保同一时刻只有有限的线程能够访问该资源，其他想要尝试获取资源的操作都会进入等待状态，直到该线程完成了对资源的操作并且释放了锁后，其他线程才能重新操作资源。</li>
