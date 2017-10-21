@@ -86,8 +86,8 @@
 <meta property="og:site_name" content="Qiu homepage">
 <meta property="og:description" content="概述MySQL的锁机制最显著的特点就是不同的存储引擎支持不同的锁机制。比如，MyISAM存储引擎采用的是表级锁；InnoDB存储引擎既支持行级锁，也支持表级锁，但默认情况下采用行级锁。">
 <meta property="og:image" content="http://yoursite.com/../../../../images/mysql/geli.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/mysql/next-key.png">
-<meta property="og:updated_time" content="2017-10-21T05:49:09.000Z">
+<meta property="og:image" content="http://yoursite.com/../../../../images/mysql/next-key.png">
+<meta property="og:updated_time" content="2017-10-21T05:51:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL的锁问题">
 <meta name="twitter:description" content="概述MySQL的锁机制最显著的特点就是不同的存储引擎支持不同的锁机制。比如，MyISAM存储引擎采用的是表级锁；InnoDB存储引擎既支持行级锁，也支持表级锁，但默认情况下采用行级锁。">
@@ -425,7 +425,7 @@
 <p>InnoDB这种行锁实现特点意味着：如果不通过索引条件检索数据，那么InnoDB将对表中的所有记录加锁，实际效果和表锁一样。</p>
 <p>下面介绍Next-key锁：当我们用范围条件而不是相等条件检索数据，并请求共享或排他锁时，InnoDB会给符合条件的已有数据记录的索引项加锁；对于键值在条件范围内但并不存在的记录，叫做“间隙”，同样InnoDB也会给这个“间隙”加锁。</p>
 <p>举个例子：</p>
-<p><img src="../../../../img/mysql/next-key.png" alt=""></p>
+<p><img src="../../../../images/mysql/next-key.png" alt=""></p>
 <p>当我们更新一条记录，比如”SELECT * FROM users WHERE age = 30 FOR UPDATE;” ，InnoDB 不仅会在范围 (21, 30] 上加 Next-Key 锁，还会在这条记录后面的范围 (30, 40] 加间隙锁，所以插入 (21, 40] 范围内的记录都会被锁定。</p>
 <p>虽然间隙锁中也分为共享锁和互斥锁，不过它们之间并不是互斥的，也就是不同的事务可以同时持有一段相同范围的共享锁和互斥锁，它唯一阻止的就是其他事务向这个范围中添加新的记录。并且间隙锁是存储引擎对于性能和并发做出的权衡，并且只用于某些事务隔离级别，防止幻读。</p>
 <h3 id="MVCC在MySQl中的实现"><a href="#MVCC在MySQl中的实现" class="headerlink" title="MVCC在MySQl中的实现"></a>MVCC在MySQl中的实现</h3><p>MVCC属于乐观锁的思想，它的实现没有固定的规范，每个数据库都会有不同的实现方式。在InnoDB中，会在每行数据后添加两个额外的隐藏的值来实现MVCC，这两个值一个记录这行数据何时被创建，另外一个记录这行数据何时过期。 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。通过MVCC，虽然每行记录都需要额外的存储空间，更多的行检查工作以及一些额外的维护工作，但可以减少锁的使用，大多数读操作都不用加锁，读数据操作很简单，性能很好，并且也能保证只会读取到符合标准的行，也只锁住必要行。</p>

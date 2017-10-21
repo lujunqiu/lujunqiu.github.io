@@ -85,23 +85,23 @@
 <meta property="og:url" content="http://yoursite.com/2017/04/08/http/index.html">
 <meta property="og:site_name" content="Qiu homepage">
 <meta property="og:description" content="前言之前在学习javaEE相关的javaWeb技术的时候，发现自己对HTTP协议的了解太缺乏了，导致看起书来“香菇，难受”，于是花了一点时间学习了HTTP协议，当时也没有很详细去了解细节。现在过了几个星期，是时候写篇博客复习一下了。">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/1.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/2.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/3.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/4.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/5.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/6.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/7.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/8.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/9.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/10.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/11.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/http/12.png">
-<meta property="og:updated_time" content="2017-10-21T05:33:29.000Z">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/1.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/2.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/3.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/4.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/5.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/6.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/7.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/8.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/9.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/10.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/11.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/http/12.png">
+<meta property="og:updated_time" content="2017-10-21T05:54:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP">
 <meta name="twitter:description" content="前言之前在学习javaEE相关的javaWeb技术的时候，发现自己对HTTP协议的了解太缺乏了，导致看起书来“香菇，难受”，于是花了一点时间学习了HTTP协议，当时也没有很详细去了解细节。现在过了几个星期，是时候写篇博客复习一下了。">
-<meta name="twitter:image" content="http://yoursite.com/../../../../img/http/1.png">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/http/1.png">
 
 
 
@@ -364,7 +364,7 @@
 
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前在学习javaEE相关的javaWeb技术的时候，发现自己对HTTP协议的了解太缺乏了，导致看起书来“香菇，难受”，于是花了一点时间学习了HTTP协议，当时也没有很详细去了解细节。现在过了几个星期，是时候写篇博客复习一下了。<a id="more"></a></p>
-<h1 id="什么是http？"><a href="#什么是http？" class="headerlink" title="什么是http？"></a>什么是http？</h1><p>&nbsp;&nbsp;可以这么说，只要是上过网的人都接触过http协议。我们每天都会通过浏览器（Web browser）来访问网页的信息，过程再熟悉不过了：首先在浏览器地址栏输入URL(Uniform Resource Identifier)，也就是我们常说的网址，如果访问的网址是正确的且允许访问的，那么我们就可以得到网页信息了。<br><img src="../../../../img/http/1.png" alt=""></p>
+<h1 id="什么是http？"><a href="#什么是http？" class="headerlink" title="什么是http？"></a>什么是http？</h1><p>&nbsp;&nbsp;可以这么说，只要是上过网的人都接触过http协议。我们每天都会通过浏览器（Web browser）来访问网页的信息，过程再熟悉不过了：首先在浏览器地址栏输入URL(Uniform Resource Identifier)，也就是我们常说的网址，如果访问的网址是正确的且允许访问的，那么我们就可以得到网页信息了。<br><img src="../../../../images/http/1.png" alt=""></p>
 <p>如图中所示的过程，客户端(Web browser)与所要访问的互联网资源(resource)所在的服务器(Server)是使用http协议来交换信息的。那么，什么是通信协议呢？打个比方，在中国人与人之间的“通信协议”是中文，在那些English speaking countries的人们则是用英文交流。中文与英文就好比是不同地区人们的“通信协议”。同样的道理，在互联网上每天都有大量的数据信息在交换，通信协议的重要性不言而喻。我们介绍的Http协议正是Web服务器与Web客服端之间的顶层通信协议之一，也是我们作为互联网使用者最常见的协议。</p>
 <blockquote>
 <p><em>HTTP:HyperText Transfer Protocol , 超文本传输协议</em></p>
@@ -384,32 +384,32 @@
 <p>4.数据链路层</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用来处理连接网络的硬件部分，硬件上的范畴均在数据链路层的作用范围之内。</p>
 <p><strong>经典的TCP/IP通信传输过程：</strong></p>
-<p><img src="../../../../img/http/2.png" alt=""></p>
+<p><img src="../../../../images/http/2.png" alt=""></p>
 <p>利用TCP/IP协议族进行网络通信时，会通过分层顺序与对方进行通信。发送端从应用层往下走，接受端则往应用层上走。</p>
 <p>这里我们简单介绍了计算机网络协议体系，具体的TCP/IP协议族的内容可以参考《TCP/IP详解，卷1》。</p>
 <h2 id="URI和URL的区别"><a href="#URI和URL的区别" class="headerlink" title="URI和URL的区别"></a>URI和URL的区别</h2><p>与URI(Uniform Resource Identifier,统一资源标识符)相比，我们其实更加熟悉URL(Uniform Resource Location,统一资源定位符)。URL正是使用的Web浏览器访问Web页面时需要输入的网页地址。比如，图中的<a href="https://lujunqiu.github.io" target="_blank" rel="external">https://lujunqiu.github.io</a>就是URL。</p>
-<p><img src="../../../../img/http/3.png" alt=""></p>
+<p><img src="../../../../images/http/3.png" alt=""></p>
 <p>URI可以分为URL(uniform resource locator，统一资源定位器),URN(uniform resource name，统一资源命名)或同时具备locators 和names特性的一个东西。URN作用就好像一个人的名字，URL就像一个人的地址。换句话说：URN确定了东西的身份，URL提供了找到它的方式。</p>
-<p>他们之间的关系：URI是以一种抽象的，高层次概念定义统一资源标识，而URL和URN则是具体的资源标识的方式。URL和URN都是一种URI。如图所示，<br><img src="../../../../img/http/4.png" alt=""></p>
+<p>他们之间的关系：URI是以一种抽象的，高层次概念定义统一资源标识，而URL和URN则是具体的资源标识的方式。URL和URN都是一种URI。如图所示，<br><img src="../../../../images/http/4.png" alt=""></p>
 <h1 id="简单的http协议"><a href="#简单的http协议" class="headerlink" title="简单的http协议"></a>简单的http协议</h1><p>这里我们介绍的http协议是基于HTTP/1.1版本，可能与现行主流的版本不一致，但是大同小异。</p>
-<p>http协议规定，请求从客服端发出，最后服务器端响应该请求并返回。换句话说，肯定是从客服端开始建立通信的，服务器端在没有接收到请求之前不会发送响应。<br><img src="../../../../img/http/5.png" alt=""></p>
+<p>http协议规定，请求从客服端发出，最后服务器端响应该请求并返回。换句话说，肯定是从客服端开始建立通信的，服务器端在没有接收到请求之前不会发送响应。<br><img src="../../../../images/http/5.png" alt=""></p>
 <p>接下来，通过一个具体http通信示例来了解http协议。</p>
-<p><img src="../../../../img/http/6.png" alt=""></p>
+<p><img src="../../../../images/http/6.png" alt=""></p>
 <p>客服端的发送的是请求报文，服务器端收到请求报文解析之后返回响应报文。</p>
 <p>请求报文的起始行的GET表示请求访问服务器的类型，称为方法(method)。随后的HTTP/1.1，即HTTP的版本号，用来提示客服端使用的HTTP协议功能。最后的Host:hackr.jp表示客服端想要访问的服务器的域名。</p>
 <p>响应报文的起始行的HTTP/1.1 表示服务器对应的HTTP版本。接着就是200 OK 表示请求的处理结果的状态码(status code)和原因短语，这个稍后会介绍。下一行显示了创建响应的时间，然后就是响应资源主体的长度以及响应内容的文本类型。</p>
 <p>请求报文与响应报文各个字段功能介绍的过于繁琐，这里不再啰嗦拉，可以参考《HTTP权威指南》，绝对是经典中的经典。</p>
-<h2 id="http是不保存状态的协议"><a href="#http是不保存状态的协议" class="headerlink" title="http是不保存状态的协议"></a>http是不保存状态的协议</h2><p>HTTP协议是一种不保存状态，即无状态(stateless)协议。HTTP协议自身不对请求和响应之间的通信状态进行保存，每当有新的请求发送时，就会有对应的新的响应产生。专业一点来说就是，在HTTP这个级别，协议对于发送过的请求或响应都不做持久化处理。不可否认，无状态协议有它的优点。由于不必保存状态，自然可减少服务器的CPU及内存资源的消耗。从另一个侧面来说，也正是因为HTTP协议本身是非常简答的，所以才会被应用在各种场景里。<br><img src="../../../../img/http/7.png" alt=""></p>
+<h2 id="http是不保存状态的协议"><a href="#http是不保存状态的协议" class="headerlink" title="http是不保存状态的协议"></a>http是不保存状态的协议</h2><p>HTTP协议是一种不保存状态，即无状态(stateless)协议。HTTP协议自身不对请求和响应之间的通信状态进行保存，每当有新的请求发送时，就会有对应的新的响应产生。专业一点来说就是，在HTTP这个级别，协议对于发送过的请求或响应都不做持久化处理。不可否认，无状态协议有它的优点。由于不必保存状态，自然可减少服务器的CPU及内存资源的消耗。从另一个侧面来说，也正是因为HTTP协议本身是非常简答的，所以才会被应用在各种场景里。<br><img src="../../../../images/http/7.png" alt=""></p>
 <p>这时候你可能要怀疑了，平时在浏览网页的时候，比如当你登录了淘宝，即使在你关闭浏览器一会之后再访问淘宝时，你的登录状态仍然正常，很明显这里保存了之前的登录状态啊。没错，HTTP协议的确是无状态协议，淘宝服务器的确保存了你的登录状态。这是如何做到的呢？答案就是Cookie技术，将Cookie技术与HTTP协议结合起来，就可以做到状态管理。</p>
 <p>Cookie技术通过在请求和响应报文中写入Cookie信息来控制客户端的状态。Cookie会根据从服务器端发送的响应报文内的一个叫做Set-Cookie的首部字段信息，通知客户端保存Cookie。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入Cookie值后发送出去。</p>
-<p>服务器端发现客户端发送过来的Cookie厚，会去检查究竟是从哪个客户端发来的连接请求，然后对比服务器上的记录，最后就可以得到之前的状态信息。<br>如图所示：<br><img src="../../../../img/http/8.png" alt=""><br><img src="../../../../img/http/9.png" alt=""></p>
+<p>服务器端发现客户端发送过来的Cookie厚，会去检查究竟是从哪个客户端发来的连接请求，然后对比服务器上的记录，最后就可以得到之前的状态信息。<br>如图所示：<br><img src="../../../../images/http/8.png" alt=""><br><img src="../../../../images/http/9.png" alt=""></p>
 <h2 id="http的keep-alive方法"><a href="#http的keep-alive方法" class="headerlink" title="http的keep-alive方法"></a>http的keep-alive方法</h2><p>http的初始版本中，每进行一次http通信就要断开一次tcp连接。随着http的普及，在使用浏览器浏览一个包含多张图片的HTML网页时，在发送请求访问HTML网页资源的同时也会请求网页内包含的其他资源。因此，每次的请求都会造成无谓的tcp连接的建立和断开，增加通信量的开销。</p>
-<p><img src="../../../../img/http/10.png" alt=""></p>
+<p><img src="../../../../images/http/10.png" alt=""></p>
 <p>在后续的HTTP版本中提出了持久连接的观点，也就是keep-alive方法，只要任意一端没有明确提出断开连接，则保持tcp连接状态。这样一来，减少了tcp连接的重复建立和断开所造成的额外开销，减轻了服务器端的负载，提高了Web页面的访问速度。</p>
-<h1 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h1><p>大家肯定遇到过在访问网页的时候返回一个404 not found。是的，每次看到这个东西就很生气。最后我们来看一看404这些状态码到底是什么意思。<br><img src="../../../../img/http/11.png" alt=""></p>
+<h1 id="http状态码"><a href="#http状态码" class="headerlink" title="http状态码"></a>http状态码</h1><p>大家肯定遇到过在访问网页的时候返回一个404 not found。是的，每次看到这个东西就很生气。最后我们来看一看404这些状态码到底是什么意思。<br><img src="../../../../images/http/11.png" alt=""></p>
 <p>状态码的职责是当客户端向服务器发送请求时，描述返回的请求结果。借助状态码，用户可以知道服务器端是正常处理了请求，还是出现了错误。</p>
 <p>状态码的类别如图：</p>
-<p><img src="../../../../img/http/12.png" alt=""></p>
+<p><img src="../../../../images/http/12.png" alt=""></p>
 <p>这里介绍几个常见的状态码：</p>
 <ol>
 <li>200 OK :表示从客户端发来的请求在服务器端被正常处理了；</li>

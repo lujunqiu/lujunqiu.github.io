@@ -85,16 +85,16 @@
 <meta property="og:url" content="http://yoursite.com/2017/09/16/Java多线程学习笔记-五/index.html">
 <meta property="og:site_name" content="Qiu homepage">
 <meta property="og:description" content="Java内存模型基础在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。">
-<meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-1.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-3.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-16.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-29.png">
-<meta property="og:image" content="http://yoursite.com/../../../../img/bingfa/3-40.png">
-<meta property="og:updated_time" content="2017-10-21T05:30:45.000Z">
+<meta property="og:image" content="http://yoursite.com/../../../../images/bingfa/3-1.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/bingfa/3-3.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/bingfa/3-16.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/bingfa/3-29.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/bingfa/3-40.png">
+<meta property="og:updated_time" content="2017-10-21T05:52:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java多线程学习笔记(五)">
 <meta name="twitter:description" content="Java内存模型基础在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。">
-<meta name="twitter:image" content="http://yoursite.com/../../../../img/bingfa/3-1.png">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/bingfa/3-1.png">
 
 
 
@@ -357,8 +357,8 @@
 
       
         <h1 id="Java内存模型基础"><a href="#Java内存模型基础" class="headerlink" title="Java内存模型基础"></a>Java内存模型基础</h1><p>在命令式编程中，线程之间的通信机制有两种：共享内存和消息传递。Java的并发采用的就是共享内存模型，线程之间共享程序的公共状态，通过写－读内存中的公共状态进行隐式通信。<br><a id="more"></a><br>Java线程之间的通信由Java内存模型(JMM)控制，JMM通过控制主内存与每个线程的本地内存之间的交互来决定了一个线程对共享变量的写入何时对另一个线程可见。</p>
-<p>JMM定义了线程和主内存之间的抽象关系:线程之间的共享变量存储在主内存中,每个线程都有一个私有的本地内存,本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的一个抽象概念,并不真实存在。它涵盖了缓存、写缓冲区、寄存器以及其他的硬件和编译器优化。但是这里需要说明的是，由于写缓存仅对自己的处理器可见，它会导致处理器执行内存操作的顺序与内存实际的操作顺序不一致，因为只有在JMM将缓存区数据刷新到内存中，才算完成了对内存的实际的操作。<br><img src="../../../../img/bingfa/3-1.png" alt=""></p>
-<h1 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h1><p>重排序是指编译器和处理器为了优化程序性能而对指令序列进行重新排序的一种手段。从Java源代码到最终实际执行的指令序列，会分别经历3种重排序。<br><img src="../../../../img/bingfa/3-3.png" alt=""></p>
+<p>JMM定义了线程和主内存之间的抽象关系:线程之间的共享变量存储在主内存中,每个线程都有一个私有的本地内存,本地内存中存储了该线程以读/写共享变量的副本。本地内存是JMM的一个抽象概念,并不真实存在。它涵盖了缓存、写缓冲区、寄存器以及其他的硬件和编译器优化。但是这里需要说明的是，由于写缓存仅对自己的处理器可见，它会导致处理器执行内存操作的顺序与内存实际的操作顺序不一致，因为只有在JMM将缓存区数据刷新到内存中，才算完成了对内存的实际的操作。<br><img src="../../../../images/bingfa/3-1.png" alt=""></p>
+<h1 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h1><p>重排序是指编译器和处理器为了优化程序性能而对指令序列进行重新排序的一种手段。从Java源代码到最终实际执行的指令序列，会分别经历3种重排序。<br><img src="../../../../images/bingfa/3-3.png" alt=""></p>
 <ol>
 <li>编译器优化的重排序：编译器在不改变单线程程序语义的前提下,可以重新安排语句的执行顺序。</li>
 <li>指令级并行的重排序：如果不存在数据依赖性,处理器可以改变语句对应机器指令的执行顺序，将多条指令重叠执行。</li>
@@ -388,7 +388,7 @@
 <li>volatile读：当读一个volatile变量时，JMM会把该线程对应的本地内存置为无效，线程接下来将从主内存中读取共享变量</li>
 </ul>
 <p>为了实现volatile的内存语义，编译器在生成字节码时，会在指令序列中插入内存屏障来禁止特定类型的处理器重排序。</p>
-<p><img src="../../../../img/bingfa/3-16.png" alt=""></p>
+<p><img src="../../../../images/bingfa/3-16.png" alt=""></p>
 <p>在上图中，黑色箭头表示happens－before的程序顺序规则，橙色箭头表示volatile规则，蓝色箭头表示happens－before关系的传递性。</p>
 <p>另外，Java的CAS操作同时具有volatile读和volatile写的内存语义，是整个concurrent包得以实现的基石。</p>
 <h1 id="锁的内存语义"><a href="#锁的内存语义" class="headerlink" title="锁的内存语义"></a>锁的内存语义</h1><p>锁是Java并发编程中最重要的同步机制，除了让临界区互斥执行外，还可以让释放锁的线程向获取同一个锁的线程发送消息。</p>
@@ -403,7 +403,7 @@
 <li>初次读一个包含final域的对象的引用，与随后初次读这个final域，这两个操作之间不能重排序，确保在读一个对象域之间，一定会先读包含这个final域的对象引用</li>
 </ol>
 <p>从上面两个规则我们可以知道，写final域的重排序规则禁止把final域的写重排序到构造函数之外，编译器会在final域的写之后，构造函数return之前，插入一个StoreStore屏障。我们可以确保，在对象引用为任意线程可见之前，对象的final域已经被正确初始化过了，而普通域不具有这个保障。</p>
-<p><img src="../../../../img/bingfa/3-29.png" alt=""></p>
+<p><img src="../../../../images/bingfa/3-29.png" alt=""></p>
 <p>同时我们需要保证在构造函数内部，不能让这个被构造对象的引用为其他线程所见，也就是对象引用不能在构造函数中“逸出”。</p>
 <p>于是JMM提供了初始化安全保证：只要对象是正确构造的(被构造对象的引用在构造函数中没有“逸出”)，那么不需要使用同步，就可以保证任意线程都能看到这个final域在构造函数中被初始化之后的值。</p>
 <h1 id="双重检查锁定解决多线程中的单例"><a href="#双重检查锁定解决多线程中的单例" class="headerlink" title="双重检查锁定解决多线程中的单例"></a>双重检查锁定解决多线程中的单例</h1><p>在Java多线程程序中，有时候需要使用单例模式，并采用延迟初始化来降低初始化类和创建对象的开销，人们首先提出了双重锁定检查来降低使用synchronized来锁定方法的同步开销，示例如下：</p>
@@ -414,7 +414,7 @@
 <p>上述问题的解决方案也很简单，在JDK5增强了volatile的内存语义之后，我们只需一点小小的修改就行了，声明instance为volatile即可。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> class <span class="title">DoubleCheckedLocking</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Instance instance;                    </div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Instance <span class="title">getInstance</span><span class="params">()</span></span>&#123;                </div><div class="line">        <span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;                            </div><div class="line">            <span class="keyword">synchronized</span>(DoubleCheckedLocking.class)&#123;    </div><div class="line">                <span class="keyword">if</span>(instance == <span class="keyword">null</span>)                     </div><div class="line">                    instance = <span class="keyword">new</span> Instance();           </div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h1 id="类初始化解决多线程中的单例"><a href="#类初始化解决多线程中的单例" class="headerlink" title="类初始化解决多线程中的单例"></a>类初始化解决多线程中的单例</h1><p>JVM在类初始化阶段(即在Class被加载后，且被线程使用之前)，会执行类的初始化。初始化一个类，包含执行这个类的静态初始化和初始化在这个类中声明的静态字段。JVM在执行类的初始化期间，会去获取一个锁，这个锁可以同步多个线程对同一个类的初始化。Java语言规范规定，对于每一个类或接口C，都有一个唯一的初始化锁LC与之对应。JVM在类初始化期间会获取这个初始化锁，确保每一个线程至少获取一次锁来确保这个类已经被初始化过了(获取Class对象锁之后，若类或者接口没有初始化则开始初始化，若已经被标记为初始化过了，则开始访问)。</p>
-<p><img src="../../../../img/bingfa/3-40.png" alt=""></p>
+<p><img src="../../../../images/bingfa/3-40.png" alt=""></p>
 <p>基于这个特性，可以实现另一种线程安全的延迟初始化方案：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InstanceFactory</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">InstanceHolder</span></span>&#123;</div><div class="line">        <span class="keyword">public</span> <span class="keyword">static</span> Instance instance = <span class="keyword">new</span> Instance();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Instance <span class="title">getInstance</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> InstanceHolder.instance;   <span class="comment">//导致InstanceHolder类被初始化</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       

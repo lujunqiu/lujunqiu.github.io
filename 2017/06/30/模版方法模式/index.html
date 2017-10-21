@@ -85,12 +85,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/30/模版方法模式/index.html">
 <meta property="og:site_name" content="Qiu homepage">
 <meta property="og:description" content="模板方法模式定义：规定一个操作中的算法的骨架，而将步骤延迟到子类中。模板方法使得子类可以不改变一个算法的结构即可重定义算法的某些特定步骤。">
-<meta property="og:image" content="http://yoursite.com/../../../../img/moshi/moban.png">
-<meta property="og:updated_time" content="2017-10-21T05:32:21.000Z">
+<meta property="og:image" content="http://yoursite.com/../../../../images/moshi/moban.png">
+<meta property="og:updated_time" content="2017-10-21T05:53:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="模版方法模式">
 <meta name="twitter:description" content="模板方法模式定义：规定一个操作中的算法的骨架，而将步骤延迟到子类中。模板方法使得子类可以不改变一个算法的结构即可重定义算法的某些特定步骤。">
-<meta name="twitter:image" content="http://yoursite.com/../../../../img/moshi/moban.png">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/moshi/moban.png">
 
 
 
@@ -354,7 +354,7 @@
       
         <h1 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h1><p><em>定义：规定一个操作中的算法的骨架，而将步骤延迟到子类中。模板方法使得子类可以不改变一个算法的结构即可重定义算法的某些特定步骤。</em><br><a id="more"></a></p>
 <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>通过模板方法我们可以控制子类扩展，因为子类必须遵守算法规则(从父类继承而来)。在多个子类拥有相同的方法，并且这些方法逻辑相同时，可以考虑使用模版方法模式。在程序的主框架相同，细节不同的场合下，也比较适合使用这种模式。</p>
-<h2 id="策略模式的结构："><a href="#策略模式的结构：" class="headerlink" title="策略模式的结构："></a>策略模式的结构：</h2><p><img src="../../../../img/moshi/moban.png" alt=""></p>
+<h2 id="策略模式的结构："><a href="#策略模式的结构：" class="headerlink" title="策略模式的结构："></a>策略模式的结构：</h2><p><img src="../../../../images/moshi/moban.png" alt=""></p>
 <p>图中的角色：</p>
 <p>抽象类（AbstractClass）：在抽象类中定义了一系列基本操作，这些基本操作可以是具体的，也可以是抽象的，每一个基本操作对应算法的一个步骤，在其子类中可以重定义或实现这些步骤。同时，在抽象类中实现了一个模板方法，用于定义一个算法的框架，模板方法不仅可以调用在抽象类中实现的基本方法，也可以调用在抽象类的子类中实现的基本方法，还可以调用其他对象中的方法。</p>
 <p>具体类（ConcreteClass)：它是抽象类的子类，用于实现在父类中声明的抽象基本操作以完成子类特定算法的步骤，也可以覆盖在父类中已经实现的具体基本操作</p>
