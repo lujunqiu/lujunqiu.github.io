@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaEE," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="JSP概述JSP是构建在Java Web应用程序上的第二种技术，是Servlet技术的补充，JSP页面本质上是一个Servlet。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSP学习笔记">
+<meta property="og:url" content="http://yoursite.com/2017/10/25/JSP学习笔记/index.html">
+<meta property="og:site_name" content="Qiu homepage">
+<meta property="og:description" content="JSP概述JSP是构建在Java Web应用程序上的第二种技术，是Servlet技术的补充，JSP页面本质上是一个Servlet。">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/1.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/2.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/3.png">
+<meta property="og:updated_time" content="2017-10-26T08:22:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSP学习笔记">
+<meta name="twitter:description" content="JSP概述JSP是构建在Java Web应用程序上的第二种技术，是Servlet技术的补充，JSP页面本质上是一个Servlet。">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/web/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/25/JSP学习笔记/"/>
+
+
+
+
+
+  <title>JSP学习笔记 | Qiu homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/25/JSP学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JSP学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-25T00:33:22+08:00">
+                2017-10-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="JSP概述"><a href="#JSP概述" class="headerlink" title="JSP概述"></a>JSP概述</h1><p>JSP是构建在Java Web应用程序上的第二种技术，是Servlet技术的补充，JSP页面本质上是一个Servlet。<br><a id="more"></a><br>当一个JSP页面第一次被请求的时候，Servlet/JSP容器主要做以下两件事情：</p>
+<ol>
+<li>转换JSP页面到JSP页面实现类，该实现类就是一个Servlet</li>
+<li>如果转换成功，Servlet/JSP容器随后编译该Servlet类，并装载和实例化该类，然后和其他正常Servlet一样执行生命周期</li>
+</ol>
+<p>JSP页面可以包含模板数据和语法元素。这里，语法元素是一些具有特殊意义的JSP转换符。例如，”&lt;%”是一个元素，表示java代码块的开始，”%&gt;”也是一个元素，表示java代码块的结束，&lt;%…%&gt;块被称为scriplet。除去语法元素外的一切是模板数据，模板数据会原样发送给浏览器。</p>
+<h2 id="隐式对象"><a href="#隐式对象" class="headerlink" title="隐式对象"></a>隐式对象</h2><p>Servlet容器会传递几个对象给它运行的Servlet，例如HttpServletRequest和HttpServletResponse对象，等等。在JSP中，同样可以通过隐式对象来访问这些对象。如下图所示：</p>
+<p><img src="../../../../images/web/1.png" alt=""></p>
+<p>特别说明的是，PageContext中提供了用于获取和设置属性的方法，即getAttribute方法和setAttribute方法。属性值可以被存储为4个范围之一：页面、请求、会话和应用程序：</p>
+<ul>
+<li>PAGE_SCOPE：最小范围，存储的属性只能在用一个JSP页面可用</li>
+<li>REQUEST_SCOPE：当前的ServletRequest范围</li>
+<li>SESSION_SCOPE:当前的HttpSession范围</li>
+<li>APPLICATION_SCOPE：当前的应用程序范围</li>
+</ul>
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><p>指令是一种JSP语法元素的类型，指示JSP转换器如何翻译JSP页面为Servlet。</p>
+<h3 id="page指令"><a href="#page指令" class="headerlink" title="page指令"></a>page指令</h3><p>通过page指令来控制JSP转换器转换当前JSP页面的某些方面。例如，可以告诉JSP用于转换隐式对象out的缓冲器的大小，内容类型，以及需要导入的Java类型，等等。</p>
+<p>page指令的语法：</p>
+<p>&lt;%@ page attribute1=”value1” attribute2=”value2” …%&gt;</p>
+<p>以下列举一些常见的page指令属性：</p>
+<ul>
+<li>import：定义一个或多个页面中将被导入和使用的java类型。</li>
+<li>buffer：以KB为单位，定义隐式对象out的缓冲大小，该值可以为none，表示没有缓冲，所有数据直接写入PrintWriter</li>
+<li>autoFlush：默认值为true，表示当缓冲满时会自动写入输出流。而值为false，表示仅当调用隐式对象out的flush方法时，才会写入输出流</li>
+<li>contentType：定义本页面隐式对象response的内容类型，默认是text/html</li>
+</ul>
+<h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>使用page指令的的isErrorPage属性(值为true)来标识一个JSP页面是错误处理页面。其他需要防止<em>未捕获的异常</em>的页面使用page指令的errorPage属性来指向错误处理页面即可。</p>
+<h3 id="include指令"><a href="#include指令" class="headerlink" title="include指令"></a>include指令</h3><p>可以使用include指令将其他文件中的内容包含到当前的JSP页面。</p>
+<p>include指令语法：<br>&lt;%@ include file = “url”%&gt;</p>
+<p>url为被包含文件的相对路径，若url以一个斜杠(/)开始，则该url为文件在服务器上的绝对路径，否则为当前JSP页面的相对路径。</p>
+<h2 id="脚本元素"><a href="#脚本元素" class="headerlink" title="脚本元素"></a>脚本元素</h2><p>脚本程序也是JSP的语法元素，是一个java代码块，以符号&lt;%开始，符号%&gt;结束。但是，随着JSP2.0对表达式语言的加强，在JSP页面中使用EL访问服务器端对象且不写Java代码，所以可以禁用脚本元素。关于脚本元素在这就不多做介绍了。</p>
+<h2 id="动作"><a href="#动作" class="headerlink" title="动作"></a>动作</h2><p>动作是JSP第三种类型的语法元素，可以被转换成java代码来执行操作，如访问一个java对象或调用方法，除了标准之外，还可以创建自定义标签执行某些操作。</p>
+<p>介绍一些常见的动作：</p>
+<p>1.useBean:创建一个关联Java对象的脚本变量。例如，下面代码将创建一个java.util.Date实例，并赋值给名为today的脚本变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:useBean id=&quot;today&quot;class=&quot;java.util.Date&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>2.setProperty和getProperty:setProperty动作用于对一个Java对象设置属性，getProperty则输出Java对象的一个属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:useBean id=&quot;employee&quot;class=&quot;test.Employee&quot;/&gt;</div><div class="line">&lt;jsp:setProperty name=&quot;employee&quot; property=&quot;firstname&quot;value=&quot;Abigail&quot;/&gt;</div><div class="line">&lt;jsp:getProperty name=&quot;employee&quot; property=&quot;firstname&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>3.include:用来动态地引入另一个资源，可以引入一个JSP页面，一个Servlet或者一个静态的HTML页面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:include page = &quot;url&quot;&gt;</div><div class="line">    &lt;jsp:param name=&quot;text&quot;value=&quot;How are you&quot;/&gt;</div><div class="line">&lt;/jsp:include&gt;</div></pre></td></tr></table></figure>
+<p>include指令与include动作的区别：对于include指令，资源引入发生在JSP容器将页面转换成为Servlet的时候。对于include动作，资源引入发生在页面请求时，因此，include动作可以传递参数。</p>
+<p>4.forward：将当前页面转向到其他资源<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:forward page = &quot;url&quot;&gt;</div><div class="line">    &lt;jsp:param name=&quot;text&quot;value=&quot;How are you&quot;/&gt;</div><div class="line">&lt;/jsp：forward&gt;</div></pre></td></tr></table></figure></p>
+<h1 id="表达式语言"><a href="#表达式语言" class="headerlink" title="表达式语言"></a>表达式语言</h1><p>表达式语言(Expression Language):用户用它来访问应用程序数据，编写免脚本的JSP页面。</p>
+<h2 id="EL语法"><a href="#EL语法" class="headerlink" title="EL语法"></a>EL语法</h2><p>EL表达式以 ${开头，以}结束。结构：${expression}<br>例如，若a+b=8，c+d=10，那么 ${a+b} ${c+d}的计算结果为字符串类型的”810”</p>
+<p>为了访问对象的属性，可以使用以下任意一种形式：<br>${object[“propertyName”]}<br>${object.propertyName}</p>
+<p>但是，如果propertyName不是有效的Java变量名，只能使用[]运算符。</p>
+<p>在EL表达式中，想要访问List，Array，Map对象的某个元素，使用expr-a[expr-b]形式的表达式。假设，expr-a为java.util.Map，expr-a[expr-b]会查看expr-b是否为Map中的一个key，若是，则返回expr-a.get(expr-b)，若不是，则返回null。</p>
+<h2 id="EL隐式表达式"><a href="#EL隐式表达式" class="headerlink" title="EL隐式表达式"></a>EL隐式表达式</h2><p><img src="../../../../images/web/2.png" alt=""></p>
+<h2 id="EL表达式中的函数"><a href="#EL表达式中的函数" class="headerlink" title="EL表达式中的函数"></a>EL表达式中的函数</h2><p>在EL表达式，可以使用function标签库中函数，为了使用这些函数，必须在JSP的最前面使用以下taglib指令：<br>&lt;%@ tablig uri=”<a href="http://java.sun.com/jsp/jstl/functions" target="_blank" rel="external">http://java.sun.com/jsp/jstl/functions</a>“ prefix=”fn”%&gt;</p>
+<p>调用格式：<br>${fn:functionName}，这里functionName是函数名    </p>
+<p>下面介绍一些常用的函数：</p>
+<ul>
+<li>contains(string,substring)：测试一个字符串中是否包含指定的子字符串</li>
+<li>endsWith(string,suffix)：测试一个字符串是否以指定的后缀结尾</li>
+<li>escapeXml(string)：将字符串进行XML转义，保证该字符串能正确被XML解析器解析出来</li>
+<li>indexOf(string,substring)：返回指定子字符串在某个字符串中第一次出现时的索引</li>
+<li>join(array,separator)：将一个string数组中的所有元素合并成为一个字符串，并用指定的分隔符分开</li>
+<li>split(array,delimeters)：将字符串按照给定的分隔符分隔开，返回一个字符串数组</li>
+<li>replace(string,beforeSubstring,afterSubstring)：将字符串中出现的所有beforeString用afterString替换</li>
+<li>trim(string)：用于删除一个字符串开头和结尾的空白</li>
+</ul>
+<h1 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h1><p>JSP标准标签库(JavaServer Pages Standard Tag Library,JSTL)是一个定制标签库的集合。用来解决像遍历Map或集合，条件测试，XML处理，甚至数据库访问和数据操作等常见的问题。</p>
+<p>JSTL标签库：</p>
+<p><img src="../../../../images/web/3.png" alt=""></p>
+<p>在JSP页面中使用JSTL库，必须通过<em>taglib指令</em>：</p>
+<p>&lt;%@ taglib uri=”uri” prefix=”prefix”%&gt;</p>
+<p>例如，要使用Core库，必须在JSP页面开头处做以下声明：<br>&lt;%@ taglib uri=”<a href="http://java.sun.com/jsp/jstl/core" target="_blank" rel="external">http://java.sun.com/jsp/jstl/core</a>“ prefix=”c”%&gt;</p>
+<h2 id="一般行为"><a href="#一般行为" class="headerlink" title="一般行为"></a>一般行为</h2><p>下面介绍Core标签库中常用的一般行为：out，set，remove</p>
+<h3 id="out标签"><a href="#out标签" class="headerlink" title="out标签"></a>out标签</h3><p>out标签将结果输出到当前的JspWriter，out的语法有以下两种形式，一种有body content和没有body content：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;c:out value=&quot;value&quot; [default=&quot;defaultValue&quot;]/&gt;</div><div class="line">&lt;c:out value=&quot;value&quot;&gt;</div><div class="line">    default value</div><div class="line">&lt;/c:out&gt;</div></pre></td></tr></table></figure>
+<p>out中的default属性可以赋一个默认值，当赋予其value属性的EL表达式返回null时，就会显示默认值，如果default值返回null，out就会显示一个空字符串。</p>
+<h3 id="set标签"><a href="#set标签" class="headerlink" title="set标签"></a>set标签</h3><p>set标签可以完成以下工作：</p>
+<ul>
+<li>创建一个字符串和一个引用该字符串的有界变量</li>
+<li>创建一个引用现存有界对象的有界变量</li>
+<li>设置有界对象的属性</li>
+</ul>
+<p>set标签用法：<br>1.创建字符串和一个引用该字符串的有界变量 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;c:set var=&quot;varName&quot; value=&quot;value&quot; [scope=&quot;&#123;page|request|session|application&#125;&quot;] /&gt;</div><div class="line">&lt;c:set var=&quot;varName&quot; [scope=&quot;&#123;page|request|session|application&#125;&quot;]&gt;</div><div class="line">    body content</div><div class="line">&lt;/c:set&gt;</div></pre></td></tr></table></figure>
+<p>2.设置有界对象的属性值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;c:set target=&quot;target&quot; property=&quot;propertyName&quot; value=&quot;value&quot;/&gt;</div></pre></td></tr></table></figure>
+<p>注意上面的target属性中必须要用一个EL表达式引用这个有界变量<br>例如，下面set标签将字符串”Beijing”赋予有界对象address的city属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;c:set target=&quot;$&#123;address&#125;&quot; property=&quot;city&quot;&gt;Beijing&lt;/c:set&gt;</div></pre></td></tr></table></figure>
+<h3 id="remove标签"><a href="#remove标签" class="headerlink" title="remove标签"></a>remove标签</h3><p>remove标签用于删除有界变量，但是有界变量引用的对象不能删除，语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;c:remove var=&quot;varName&quot; [scope=&quot;&#123;page|request|session|application&#125;&quot;]/&gt;</div></pre></td></tr></table></figure>
+<h2 id="条件行为"><a href="#条件行为" class="headerlink" title="条件行为"></a>条件行为</h2><p>条件行为用于处理页面输出取决于特定输入值的情况，对应Java语言中的if,if…else和switch语法。</p>
+<h3 id="if标签"><a href="#if标签" class="headerlink" title="if标签"></a>if标签</h3><p>if标签是对某一个条件进行测试，假设结果为True，就处理它的body content，测试结果保存在Boolean对象中，并创建有界变量来引用这个Boolean对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;c:if test=&quot;testCondition&quot; [var=&quot;varName&quot;] [scope=&quot;&#123;page|request|session|application&#125;&quot;]&gt;</div><div class="line">    body content</div><div class="line">&lt;/c:if&gt;</div></pre></td></tr></table></figure>
+<h3 id="choose、when和otherwise标签"><a href="#choose、when和otherwise标签" class="headerlink" title="choose、when和otherwise标签"></a>choose、when和otherwise标签</h3><p>choose、when和otherwise类比与Java语言中的switch、case和default。</p>
+<p>举个例子就明白了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;c:choose&gt;</div><div class="line">    &lt;c:when test=&quot;$&#123;param.status==&quot;full&quot;&#125;&quot;&gt;</div><div class="line">        You are a full member</div><div class="line">    &lt;/c:when&gt;</div><div class="line">    </div><div class="line">    &lt;c:when test=&quot;$&#123;param.status=&quot;student&quot;&#125;&quot;&gt;</div><div class="line">        You are a student member</div><div class="line">    &lt;/c:when&gt;</div><div class="line">    </div><div class="line">    &lt;c:otherwise&gt;</div><div class="line">        Please register</div><div class="line">    &lt;/c:otherwise&gt;</div><div class="line">&lt;/c:choose&gt;</div></pre></td></tr></table></figure>
+<h2 id="遍历行为"><a href="#遍历行为" class="headerlink" title="遍历行为"></a>遍历行为</h2><p>当需要遍历一个对象集合时，遍历行为就很有帮助。JSTL提供了forEach和forTokens两个执行遍历行为的标签。</p>
+<h3 id="forEach标签"><a href="#forEach标签" class="headerlink" title="forEach标签"></a>forEach标签</h3><p>forEach标签会固定次数重复body content或者遍历对象集合，语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;c:forEach [var=&quot;varName&quot;] begin=&quot;begin&quot; end=&quot;end&quot; step=&quot;step&quot;&gt;</div><div class="line">    body content</div><div class="line">&lt;/c:forEach&gt;</div><div class="line"></div><div class="line">&lt;c:forEach items=&quot;collections&quot; [var=&quot;varName&quot;] [varStatus=&quot;varStatusName&quot;] [begin=&quot;begin&quot;] [end=&quot;end&quot;] [step=&quot;step&quot;]&gt;</div><div class="line">    body content</div><div class="line">&lt;/c:forEach&gt;</div></pre></td></tr></table></figure>
+<p>我们注意到forEach标签属性中有一个类型为javax.servlet.jsp.jstl.core.LoopTagStatus的变量varStatus，该类型描述了遍历行为的状态，例如，varStatus有count属性，返回当前遍历的次数。</p>
+<h3 id="forTokens标签"><a href="#forTokens标签" class="headerlink" title="forTokens标签"></a>forTokens标签</h3><p>forTokens标签用于遍历以特定分隔符隔开的令牌，其语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;c:forTokens items=&quot;stringOfTokens&quot; delims=&quot;delimiters&quot;  [var=&quot;varName&quot;] [varStatus=&quot;varStatusName&quot;] [begin=&quot;begin&quot;] [end=&quot;end&quot;] [step=&quot;step&quot;]&gt;</div><div class="line">    body content</div><div class="line">&lt;/c:forTokens&gt;</div></pre></td></tr></table></figure>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;c:forTokens items=&quot;A,B,C&quot; var=&quot;item&quot; delims=&quot;,&quot;&gt;</div><div class="line">    &lt;c:out value=&quot;$&#123;item&#125;&quot;/&gt;&lt;br/&gt;</div><div class="line">&lt;c:forTokens&gt;</div></pre></td></tr></table></figure></p>
+<p>输出：<br>A<br>B<br>C</p>
+<h2 id="格式化行为"><a href="#格式化行为" class="headerlink" title="格式化行为"></a>格式化行为</h2><p>JSTL提供了格式化和解析数字与日期的标签，它们是formatNumber,formatData,timeZone,setTimeZone,parseNumber,parseData。这里就不介绍细节了，需要使用到的时候去官网查询它们的标签属性。</p>
+<h2 id="标签文件-自定义标签"><a href="#标签文件-自定义标签" class="headerlink" title="标签文件(自定义标签)"></a>标签文件(自定义标签)</h2><p>从JSP2.0开始，通过tag file的方式，无须编写标签处理类和标签库描述文件，也能够自定义标签了。tag file在使用之前无须编译，并且不需要标签库定义文件。</p>
+<p>tag文件必须放在应用路径的WEB-INF/tags目录下才能生效，和其他文件一样，tag文件可以被打包到jar包里。</p>
+<h3 id="tag-file指令"><a href="#tag-file指令" class="headerlink" title="tag file指令"></a>tag file指令</h3><p>和JSP页面一样，tag file可以使用指令来指挥JSP容器如何编译这个tag file。除了page指令，其他所有的JSP指令都可以用于tag file，在tag file中可以使用tag指令代替page指令</p>
+<p>taglib 指令：用于在tag file中使用自定义标签，语法如下：<br>&lt;%@ taglib uri=”tagLibraryURI” prefix=”tagPrefix”%&gt;</p>
+<p>attribute指令：用于设定tag file中标签的属性,将值从JSP页面传递到tag file中处理</p>
+<p>variable指令：将tag file中的一些值传递到JSP页面，定义那些需要传递到JSP页面的变量。相对而言，attribute指令将值从JSP页面传递到tag file。</p>
+<p>举个tag file的简单例子：</p>
+<p>我们创建一个tag file，名称是firstTag.tag，代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;%@ tag import=&quot;java.util.Date&quot; import=&quot;java.text.DateFormat&quot;%&gt;</div><div class="line"></div><div class="line">&lt;%</div><div class="line">    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);</div><div class="line">    Date now = new Date(System.currentTimeMills());</div><div class="line">    out.println(dateFormat.format(now));</div><div class="line">%&gt;</div></pre></td></tr></table></figure>
+<p>下面是使用这个tag file的JSP页面代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ taglib prefix=&quot;easy&quot; tagdir=&quot;WEB-INF/tags&quot;%&gt;</div><div class="line">Today is &lt;easy:firstTag/&gt;</div></pre></td></tr></table></figure>
+<h3 id="doBody"><a href="#doBody" class="headerlink" title="doBody"></a>doBody</h3><p>doBody动作元素只能在tag file中使用，它用来调用一个标签的本体内容(body content)并将内容保存在一个java.lang.String类型(var属性指定)或者java.io.Reader类型(varReader属性指定)变量中。如果不指定变量，doBody动作元素会把主体内容写到JSP页面的JspWriter上。</p>
+<p>语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;jsp:dobody &#123;[var=&quot;varName&quot;]|[varReader=&quot;varReaderName&quot;]&#125; scope=&quot;&#123;page|request|session|application&#125;&quot;/&gt;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaEE/" rel="tag"><i class="fa fa-tag"></i> JavaEE</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/19/Servlet学习笔记/" rel="next" title="Servlet学习笔记">
+                <i class="fa fa-chevron-left"></i> Servlet学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/25/关于二分查找法/" rel="prev" title="关于二分查找法">
+                关于二分查找法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JSP概述"><span class="nav-number">1.</span> <span class="nav-text">JSP概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#隐式对象"><span class="nav-number">1.1.</span> <span class="nav-text">隐式对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令"><span class="nav-number">1.2.</span> <span class="nav-text">指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#page指令"><span class="nav-number">1.2.1.</span> <span class="nav-text">page指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误处理"><span class="nav-number">1.2.2.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#include指令"><span class="nav-number">1.2.3.</span> <span class="nav-text">include指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脚本元素"><span class="nav-number">1.3.</span> <span class="nav-text">脚本元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动作"><span class="nav-number">1.4.</span> <span class="nav-text">动作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#表达式语言"><span class="nav-number">2.</span> <span class="nav-text">表达式语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#EL语法"><span class="nav-number">2.1.</span> <span class="nav-text">EL语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EL隐式表达式"><span class="nav-number">2.2.</span> <span class="nav-text">EL隐式表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EL表达式中的函数"><span class="nav-number">2.3.</span> <span class="nav-text">EL表达式中的函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSTL"><span class="nav-number">3.</span> <span class="nav-text">JSTL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一般行为"><span class="nav-number">3.1.</span> <span class="nav-text">一般行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#out标签"><span class="nav-number">3.1.1.</span> <span class="nav-text">out标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set标签"><span class="nav-number">3.1.2.</span> <span class="nav-text">set标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#remove标签"><span class="nav-number">3.1.3.</span> <span class="nav-text">remove标签</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件行为"><span class="nav-number">3.2.</span> <span class="nav-text">条件行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#if标签"><span class="nav-number">3.2.1.</span> <span class="nav-text">if标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#choose、when和otherwise标签"><span class="nav-number">3.2.2.</span> <span class="nav-text">choose、when和otherwise标签</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历行为"><span class="nav-number">3.3.</span> <span class="nav-text">遍历行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#forEach标签"><span class="nav-number">3.3.1.</span> <span class="nav-text">forEach标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#forTokens标签"><span class="nav-number">3.3.2.</span> <span class="nav-text">forTokens标签</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式化行为"><span class="nav-number">3.4.</span> <span class="nav-text">格式化行为</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标签文件-自定义标签"><span class="nav-number">3.5.</span> <span class="nav-text">标签文件(自定义标签)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tag-file指令"><span class="nav-number">3.5.1.</span> <span class="nav-text">tag file指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#doBody"><span class="nav-number">3.5.2.</span> <span class="nav-text">doBody</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
