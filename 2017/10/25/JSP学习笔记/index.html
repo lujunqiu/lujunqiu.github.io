@@ -88,7 +88,7 @@
 <meta property="og:image" content="http://yoursite.com/../../../../images/web/1.png">
 <meta property="og:image" content="http://yoursite.com/../../../../images/web/2.png">
 <meta property="og:image" content="http://yoursite.com/../../../../images/web/3.png">
-<meta property="og:updated_time" content="2017-10-26T08:22:44.000Z">
+<meta property="og:updated_time" content="2017-10-26T14:53:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSP学习笔记">
 <meta name="twitter:description" content="JSP概述JSP是构建在Java Web应用程序上的第二种技术，是Servlet技术的补充，JSP页面本质上是一个Servlet。">
@@ -450,7 +450,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;c:forTokens items=&quot;stringOfTokens&quot; delims=&quot;delimiters&quot;  [var=&quot;varName&quot;] [varStatus=&quot;varStatusName&quot;] [begin=&quot;begin&quot;] [end=&quot;end&quot;] [step=&quot;step&quot;]&gt;</div><div class="line">    body content</div><div class="line">&lt;/c:forTokens&gt;</div></pre></td></tr></table></figure>
 <p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;c:forTokens items=&quot;A,B,C&quot; var=&quot;item&quot; delims=&quot;,&quot;&gt;</div><div class="line">    &lt;c:out value=&quot;$&#123;item&#125;&quot;/&gt;&lt;br/&gt;</div><div class="line">&lt;c:forTokens&gt;</div></pre></td></tr></table></figure></p>
 <p>输出：<br>A<br>B<br>C</p>
-<h2 id="格式化行为"><a href="#格式化行为" class="headerlink" title="格式化行为"></a>格式化行为</h2><p>JSTL提供了格式化和解析数字与日期的标签，它们是formatNumber,formatData,timeZone,setTimeZone,parseNumber,parseData。这里就不介绍细节了，需要使用到的时候去官网查询它们的标签属性。</p>
+<h2 id="格式化行为"><a href="#格式化行为" class="headerlink" title="格式化行为"></a>格式化行为</h2><p>JSTL提供了格式化和解析数字与日期的标签，它们是:</p>
+<p>formatNumber,formatData,timeZone,setTimeZone,parseNumber,parseData。</p>
+<p>这里就不介绍细节了，需要使用到的时候去官网查询它们的标签属性。</p>
 <h2 id="标签文件-自定义标签"><a href="#标签文件-自定义标签" class="headerlink" title="标签文件(自定义标签)"></a>标签文件(自定义标签)</h2><p>从JSP2.0开始，通过tag file的方式，无须编写标签处理类和标签库描述文件，也能够自定义标签了。tag file在使用之前无须编译，并且不需要标签库定义文件。</p>
 <p>tag文件必须放在应用路径的WEB-INF/tags目录下才能生效，和其他文件一样，tag文件可以被打包到jar包里。</p>
 <h3 id="tag-file指令"><a href="#tag-file指令" class="headerlink" title="tag file指令"></a>tag file指令</h3><p>和JSP页面一样，tag file可以使用指令来指挥JSP容器如何编译这个tag file。除了page指令，其他所有的JSP指令都可以用于tag file，在tag file中可以使用tag指令代替page指令</p>
