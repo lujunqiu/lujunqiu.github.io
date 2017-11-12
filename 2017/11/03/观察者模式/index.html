@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Qiu Homepage">
 <meta property="og:description" content="观察者模式定义：描述了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象，这个主题对象在状态变化时，会通知所有的观察者对象，使他们能够自动做出相应的反应。">
 <meta property="og:image" content="http://yoursite.com/../../../../images/moshi/guanchazhe.png">
-<meta property="og:updated_time" content="2017-11-07T10:39:11.000Z">
+<meta property="og:updated_time" content="2017-11-07T12:47:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="观察者模式">
 <meta name="twitter:description" content="观察者模式定义：描述了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象，这个主题对象在状态变化时，会通知所有的观察者对象，使他们能够自动做出相应的反应。">
@@ -386,9 +386,9 @@
 <p>具体观察者(ConcreteObserver):</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UniversityStudent</span> <span class="keyword">implements</span> <span class="title">Observer</span> </span>&#123;</div><div class="line">    Subject subject;</div><div class="line">    File myFile;</div><div class="line">    UniversityStudent(Subject subject,String fileName)&#123;</div><div class="line">        <span class="keyword">this</span>.subject = subject;</div><div class="line">        subject.addObserver(<span class="keyword">this</span>);       <span class="comment">//使当前实例成为subject所使用的具体主题的观察者</span></div><div class="line">        myFile = <span class="keyword">new</span> File(fileName);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hearTelephone</span><span class="params">(String heardMess)</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            RandomAccessFile out1 = <span class="keyword">new</span> RandomAccessFile(myFile,<span class="string">"rw"</span>);</div><div class="line">            out1.seek(out1.length());</div><div class="line">            <span class="keyword">byte</span>[] b = heardMess.getBytes();</div><div class="line">            out1.write(b);       <span class="comment">//更新文件中的内容</span></div><div class="line">            System.out.print(<span class="string">"我是一个大学生，"</span>);</div><div class="line">            System.out.println(<span class="string">"我向文件"</span>+myFile.getName()+<span class="string">"写入如下内容："</span>);</div><div class="line">            System.out.println(heardMess);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">catch</span>(IOException exp)&#123;</div><div class="line">            System.out.println(exp.toString());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>具体调用实现：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        SeekJobCenter center = <span class="keyword">new</span> SeekJobCenter();     <span class="comment">//具体主题center</span></div><div class="line">        UniversityStudent zhanglin = <span class="keyword">new</span> UniversityStudent(center,<span class="string">"A.txt"</span>);  <span class="comment">//具体观察者zhanglin</span></div><div class="line">        center.getNewMess(<span class="string">"腾辉公司需要10个Java程序员。"</span>);      <span class="comment">//具体主题给出新信息</span></div><div class="line">        center.notifyObservers();                       <span class="comment">//具体主题通知信息</span></div><div class="line">        center.getNewMess(<span class="string">"海景公司需要8个动画设计师。"</span>);</div><div class="line">        center.notifyObservers();</div><div class="line">        center.getNewMess(<span class="string">"仁海公司需要9个电工。"</span>);</div><div class="line">        center.notifyObservers();</div><div class="line">        center.getNewMess(<span class="string">"仁海公司需要9个电工。"</span>);            <span class="comment">//信息不是新的</span></div><div class="line">        center.notifyObservers();                       <span class="comment">//观察者不会执行更新操作</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        SeekJobCenter center = <span class="keyword">new</span> SeekJobCenter();     <span class="comment">//具体主题center</span></div><div class="line">        UniversityStudent qiuqiu = <span class="keyword">new</span> UniversityStudent(center,<span class="string">"A.txt"</span>);  <span class="comment">//具体观察者qiuqiu</span></div><div class="line">        center.getNewMess(<span class="string">"阿里巴巴需要10个Java程序员。"</span>);      <span class="comment">//具体主题给出新信息</span></div><div class="line">        center.notifyObservers();                       <span class="comment">//具体主题通知信息</span></div><div class="line">        center.getNewMess(<span class="string">"网易需要8个动画设计师。"</span>);</div><div class="line">        center.notifyObservers();</div><div class="line">        center.getNewMess(<span class="string">"网易需要9个前端。"</span>);</div><div class="line">        center.notifyObservers();</div><div class="line">        center.getNewMess(<span class="string">"网易需要9个前端。"</span>);            <span class="comment">//信息不是新的</span></div><div class="line">        center.notifyObservers();                       <span class="comment">//观察者不会执行更新操作</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>输出：</p>
-<p>我是一个大学生，我向文件A.txt写入如下内容：<br>腾辉公司需要10个Java程序员。<br>我是一个大学生，我向文件A.txt写入如下内容：<br>海景公司需要8个动画设计师。<br>我是一个大学生，我向文件A.txt写入如下内容：<br>仁海公司需要9个电工。</p>
+<p>我是一个大学生，我向文件A.txt写入如下内容：<br>阿里巴巴需要10个Java程序员。<br>我是一个大学生，我向文件A.txt写入如下内容：<br>网易需要8个动画设计师。<br>我是一个大学生，我向文件A.txt写入如下内容：<br>网易需要9个前端。</p>
 
       
     </div>
@@ -428,6 +428,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/08/工厂模式/" rel="prev" title="工厂模式(上)">
+                工厂模式(上) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -506,7 +510,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -528,7 +532,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
