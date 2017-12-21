@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="动态规划," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言之前在刷leetcode的时候，遇到过一些有关股票售卖获利的问题，觉得挺有意思的，于是便写一篇博客来总结一下这类问题的解法，顺便复习一下动态规划。这些有关股票的问题有很多变种，其核心的问题是：给定每天的股票价格，怎么操作才能取得最大的获利？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="股票中的动态规划">
+<meta property="og:url" content="http://yoursite.com/2017/12/16/股票中的动态规划/index.html">
+<meta property="og:site_name" content="Qiu Homepage">
+<meta property="og:description" content="前言之前在刷leetcode的时候，遇到过一些有关股票售卖获利的问题，觉得挺有意思的，于是便写一篇博客来总结一下这类问题的解法，顺便复习一下动态规划。这些有关股票的问题有很多变种，其核心的问题是：给定每天的股票价格，怎么操作才能取得最大的获利？">
+<meta property="og:updated_time" content="2017-12-21T14:35:45.339Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="股票中的动态规划">
+<meta name="twitter:description" content="前言之前在刷leetcode的时候，遇到过一些有关股票售卖获利的问题，觉得挺有意思的，于是便写一篇博客来总结一下这类问题的解法，顺便复习一下动态规划。这些有关股票的问题有很多变种，其核心的问题是：给定每天的股票价格，怎么操作才能取得最大的获利？">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/16/股票中的动态规划/"/>
+
+
+
+
+
+  <title>股票中的动态规划 | Qiu Homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/16/股票中的动态规划/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">股票中的动态规划</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-16T10:52:04+08:00">
+                2017-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前在刷leetcode的时候，遇到过一些有关股票售卖获利的问题，觉得挺有意思的，于是便写一篇博客来总结一下这类问题的解法，顺便复习一下动态规划。这些有关股票的问题有很多变种，其核心的问题是：给定每天的股票价格，怎么操作才能取得最大的获利？<a id="more"></a></p>
+<h1 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h1><p>我只是简单介绍一下动态规划，因为这篇博客要解决的问题就是基于动态规划思想来求解的。如果想要深入了解动态规划，还是多学习《算法导论》然后多做题，最重要的是多思考，这样才能真正理解并运用动态规划来解决问题。</p>
+<p>笼统地说，动态规划是通过拆分问题，定义问题状态和状态之间的关系，使得问题能够以递推（或者说分治）的方式去解决。从这个定义可以看出动态规划的本质，是对问题状态的定义和状态转移方程的定义。</p>
+<h2 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h2><p>计算机的本质是一个状态机，内存里存储的所有数据构成了当前的状态，CPU只能利用当前的状态计算出下一个状态。当你企图使用计算机解决一个问题是，其实就是在思考如何将这个问题表达成状态（用哪些变量存储哪些数据）以及如何在状态中转移（怎样根据一些变量计算出另一些变量）。所谓的空间复杂度就是为了支持你的计算所必需存储的状态最多有多少，所谓时间复杂度就是从初始状态到达最终状态中间需要多少步，也可以理解为在状态空间搜索最终状态的步数。</p>
+<p>以上介绍的状态是所有算法问题里面都可以抽象出来的，而且不是所有的状态定义都可以使用动态规划来求解。要使用动态规划求解问题，我们定义的状态要满足2个性质：最优子结构和后无效性。</p>
+<ul>
+<li>最优子结构：当前状态是由之前的某个或者某几个状态得到的</li>
+<li>后无效性：当前状态得到之后，可以不用管之前是如何得到这个状态的</li>
+</ul>
+<p>当然，我们还可以更加抽象一点：动态规划说到底就是在所有的状态空间中找到最优解的路径搜索问题。</p>
+<p>balabala说了这么多，动态规划到底是个啥，大家可能还是似懂非懂，接下来我们利用动态规划来解决实际的问题，也就是本篇博客要解决的股票售卖获利的问题。</p>
+<h1 id="学以致用"><a href="#学以致用" class="headerlink" title="学以致用"></a>学以致用</h1><p>重复一下，我们要解决的是哪类问题：给定每天的股票价格，怎么操作才能取得最大的获利？</p>
+<h2 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h2><p>用数学语言描述一下(建模)：prices[]数组代表了每天的股票价格，长度为n，prices[i]代表第i天的股票价格(0&lt;=i&lt;=n-1)。接下来，我们来定义状态：k表示我们可以操作(售卖股票)的次数，T[i][k]表示最多操作k次的情况下，在第i天可以获得的最大利润。基于以上的建模，我们可以知道 T[-1][k] = T[i][0] = 0；</p>
+<p>至此，T[i][k]能否代表问题的状态呢？先不着急，来看看我们每天能做的操作(状态转移方程)。在某一天，我们只能做一次操作，要不是买股票，要不是卖股票，要不就是无作为。根据题目的意思，想要买股票就必须之前是没有股票的情况才可以，同理想要卖股票必须是之前拥有股票才能可以卖。那么，基于此我们可以给出这类问题的状态的定义了：</p>
+<ul>
+<li>T[i][k][0]：第i天<em>操作结束</em>后，在最多操作了k次并且不持有股票的情况下的最大的获利</li>
+<li>T[i][k][1]：第i天<em>操作结束</em>后，在最多操作了k次并且持有股票的情况下的最大的获利</li>
+</ul>
+<p>上述状态的定义是满足最优子结构和后无效性的，定义好了状态，状态转移方程就顺理成章了。</p>
+<ul>
+<li>T[i][k][0] = Math.max(T[i-1][k][0], T[i-1][k][1] + prices[i])</li>
+<li>T[i][k][1] = Math.max(T[i-1][k][1], T[i-1][k-1][0] - prices[i])</li>
+<li>T[-1][k][0] = 0 = T[i][0][0]；     //0次操作或者第-1天的获利都是0</li>
+<li>T[-1][k][1]= -Infinity = T[i][0][1]；    //不可能出现的情况，视为负无穷</li>
+</ul>
+<p>状态转移方程很直观，假设当天的最大获利我是不知道的，那么我就把我所有可能做的操作(买，卖，不作为)都试一次，然后在这些结果中找到最大的即可。我们要找的最终的结果就是T[prices.length-1][k][0]。</p>
+<p>最后需要注意的是在状态的定义中设计到了操作次数，我们约定买和卖视为一次操作，统一在买操作的时候操作次数加1，为了避免误解，特此说明。</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>leetcode上关于这类股票问题有以下几道：</p>
+<ol>
+<li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/#/description" target="_blank" rel="external">121. Best Time to Buy and Sell Stock</a></li>
+<li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/" target="_blank" rel="external">122. Best Time to Buy and Sell Stock II</a></li>
+<li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/description/" target="_blank" rel="external">123. Best Time to Buy and Sell Stock III</a></li>
+<li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/description/" target="_blank" rel="external">188. Best Time to Buy and Sell Stock IV</a></li>
+<li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/" target="_blank" rel="external">309. Best Time to Buy and Sell Stock with Cooldown</a></li>
+<li><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/" target="_blank" rel="external">714. Best Time to Buy and Sell Stock with Transaction Fee</a></li>
+</ol>
+<p>以上的6道题，都可以使用以上的建模来解决，区别在于k值的不同，或者加上了不同的限制条件，万变不离其宗。</p>
+<h3 id="No-121-k-1"><a href="#No-121-k-1" class="headerlink" title="No.121 : k = 1"></a>No.121 : k = 1</h3><p>按照建模的状态定义与状态转移方程，很容易给出k=1时的情况：</p>
+<ul>
+<li>T[i][1][0] = Math.max(T[i-1][1][0], T[i-1][1][1] + prices[i])</li>
+<li>T[i][1][1] = Math.max(T[i-1][1][1], T[i-1][1-1][0] - prices[i])=Math.max(T[i-1][1][1], - prices[i])</li>
+</ul>
+<p>这里我们在求第i天的状态的时候，只用到了第i-1天的状态，故只需要保存之前一天的状态即可，空间复杂度为O(1)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit_121</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> T_i10 = <span class="number">0</span>, T_i11 = Integer.MIN_VALUE;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</div><div class="line">            T_i10 = Math.max(T_i10,T_i11 + price);</div><div class="line">            T_i11 = Math.max(T_i11, <span class="number">0</span> - price);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> T_i10;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="No-122-k-Infinity"><a href="#No-122-k-Infinity" class="headerlink" title="No.122 : k = +Infinity"></a>No.122 : k = +Infinity</h3><p>同样，按照建模的方程，将k = +Infinity 代入：</p>
+<ul>
+<li>T[i][k][0] = Math.max(T[i-1][k][0], T[i-1][k][1] + prices[i])</li>
+<li>T[i][k][1] = Math.max(T[i-1][k][1], T[i-1][k-1][0] - prices[i])=Math.max(T[i-1][k][1], T[i-1][k][0] - prices[i])</li>
+</ul>
+<p>在循环的过程中，在修改T_ik0之前，需要临时保存一下，以便在求T_ik1的时候用到。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit_122</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</div><div class="line">        <span class="keyword">int</span> temp = T_ik0;</div><div class="line">        T_ik0 = Math.max(T_ik0, T_ik1 + price);</div><div class="line">        T_ik1 = Math.max(T_ik1, temp - price);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> T_ik0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="No-123-k-2"><a href="#No-123-k-2" class="headerlink" title="No.123 : k = 2"></a>No.123 : k = 2</h3><p>状态转移方程：</p>
+<ul>
+<li>T[i][k][0] = Math.max(T[i-1][k][0], T[i-1][k][1] + prices[i])</li>
+<li>T[i][k][1] = Math.max(T[i-1][k][1], T[i-1][k-1][0] - prices[i])</li>
+</ul>
+<p>由于允许k=2，那么每天的状态包括 T_i20，T_i21，T_i10，T_i11，利用上述方程求解即可，注意要从T_i20，T_i21开始然后求T_i10，T_i11。这个顺序一般不能改变，具体原因会在更一般的情况中说明(k等于给定的输入值)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit_123</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> T_i20 = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> T_i10 = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> T_i21 = Integer.MIN_VALUE;</div><div class="line">    <span class="keyword">int</span> T_i11 = Integer.MIN_VALUE;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</div><div class="line">        T_i20 = Math.max(T_i20, T_i21 + price);</div><div class="line">        T_i21 = Math.max(T_i21, T_i10 - price);</div><div class="line">        T_i10 = Math.max(T_i10, T_i11 + price);</div><div class="line">        T_i11 = Math.max(T_i11, -price);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> T_i20;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="No-188-k-任意合法的输入值"><a href="#No-188-k-任意合法的输入值" class="headerlink" title="No.188 : k = 任意合法的输入值"></a>No.188 : k = 任意合法的输入值</h3><p>这是最一般的情况了，每天的状态有[2*(k+1)]个，按照状态转移方程求解即可。同样，我们在求解第i天状态的时候，只需要用到i-1天的状态，那么在求每天的所有状态的时候按照k来遍历，顺序为k从大往小遍历，<br>这样就可以正确的利用到i-1天的状态了。如果还有印象的话，背包问题的简化写法也是异曲同工之妙。</p>
+<p>如果k值超过了股票天数的二分之一，那么此时k值就和k = +Infinity的情况一样了，因为一次有效的交易操作，需要2天的时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit_188</span><span class="params">(<span class="keyword">int</span> k1, <span class="keyword">int</span>[] prices)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (k1 == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (k1 &gt;= prices.length &gt;&gt;&gt; <span class="number">1</span>) &#123;<span class="comment">//相当于k等于无穷大的情况，就是leetcode_122题</span></div><div class="line">            <span class="keyword">int</span> T_ik0 = <span class="number">0</span>, T_ik1 = Integer.MIN_VALUE;</div><div class="line"></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</div><div class="line">                <span class="keyword">int</span> T_ik0_old = T_ik0;</div><div class="line">                T_ik0 = Math.max(T_ik0, T_ik1 + price);</div><div class="line">                T_ik1 = Math.max(T_ik1, T_ik0_old - price);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">return</span> T_ik0;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">int</span>[] T_ik0 =<span class="keyword">new</span> <span class="keyword">int</span>[k1+<span class="number">1</span>];</div><div class="line">        <span class="keyword">int</span>[] T_ik1 =<span class="keyword">new</span> <span class="keyword">int</span>[k1+<span class="number">1</span>];</div><div class="line">        Arrays.fill(T_ik1, Integer.MIN_VALUE);</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</div><div class="line">            <span class="comment">//类似背包问题的简化写法，从后往前遍历！</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span> ; k &lt;= k1; k++) &#123;</div><div class="line">                T_ik0[k] = T_ik0[k] &gt; T_ik1[k] + price ? T_ik0[k] : T_ik1[k] + price;</div><div class="line">                T_ik1[k] = T_ik1[k] &gt; T_ik0[k - <span class="number">1</span>] - price ? T_ik1[k] : T_ik0[k - <span class="number">1</span>] - price;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> T_ik0[k1];</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="No-309-k-Infinity-with-cooldown"><a href="#No-309-k-Infinity-with-cooldown" class="headerlink" title="No.309 : k = +Infinity with cooldown"></a>No.309 : k = +Infinity with cooldown</h3><p>建模的状态转移方程如下：</p>
+<ul>
+<li>T[i][k][0] = Math.max(T[i-1][k][0], T[i-1][k][1] + prices[i])</li>
+<li>T[i][k][1] = Math.max(T[i-1][k][1], T[i-1][k-1][0] - prices[i])</li>
+</ul>
+<p>由于加入了”cooldown”机制，需要对状态转移方程做出修改。对于第i天，如果我们希望购买股票，那么i-1天是不能卖股票的，需要利用到第i-2天的信息，所以修改后的状态转移方程为：</p>
+<ul>
+<li>T[i][k][0] = Math.max(T[i-1][k][0], T[i-1][k][1] + prices[i])</li>
+<li>T[i][k][1] = Math.max(T[i-1][k][1], T[i-2][k-1][0] - prices[i])</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit_309</span><span class="params">(<span class="keyword">int</span>[] prices)</span> </span>&#123;</div><div class="line">      <span class="keyword">int</span> T_ik0 = <span class="number">0</span>;</div><div class="line">      <span class="keyword">int</span> T_ik1 = Integer.MIN_VALUE;</div><div class="line">      <span class="keyword">int</span> pre_T_ik0 = <span class="number">0</span>;<span class="comment">//保存2天前的不持有股票的状态</span></div><div class="line"></div><div class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</div><div class="line">          <span class="keyword">int</span> temp = T_ik0;</div><div class="line">          T_ik0 = Math.max(T_ik0, T_ik1 + price);</div><div class="line">          T_ik1 = Math.max(T_ik1, pre_T_ik0 - price);</div><div class="line">          pre_T_ik0 = temp;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> T_ik0;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h3 id="No-714-k-Infinity-with-transaction-fee"><a href="#No-714-k-Infinity-with-transaction-fee" class="headerlink" title="No.714 : k = +Infinity with transaction fee"></a>No.714 : k = +Infinity with transaction fee</h3><p>与122题大同小异，区别只在于我们售出股票的时候，利润要减去transaction fee(也可以在购买的时候减去transaction fee)。同时为了防止整数溢出，我们用到了long来过渡。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit_714</span><span class="params">(<span class="keyword">int</span>[] prices, <span class="keyword">int</span> fee)</span> </span>&#123;</div><div class="line">    <span class="keyword">long</span> T_ik0 = <span class="number">0</span>;</div><div class="line">    <span class="keyword">long</span> T_ik1 = Integer.MIN_VALUE;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> price : prices) &#123;</div><div class="line">        <span class="keyword">long</span> temp = T_ik0;</div><div class="line">        T_ik0 = Math.max(T_ik0, T_ik1 + price - fee);</div><div class="line">        T_ik1 = Math.max(T_ik1, temp - price);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)T_ik0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>对于这类算法问题还是要多思考，多总结，最好还是兴趣为导向。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/动态规划/" rel="tag"><i class="fa fa-tag"></i> 动态规划</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/09/回调机制/" rel="next" title="回调机制">
+                <i class="fa fa-chevron-left"></i> 回调机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description">大道唯有自成</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态规划"><span class="nav-number">2.</span> <span class="nav-text">动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#状态"><span class="nav-number">2.1.</span> <span class="nav-text">状态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#学以致用"><span class="nav-number">3.</span> <span class="nav-text">学以致用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#建模"><span class="nav-number">3.1.</span> <span class="nav-text">建模</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">3.2.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#No-121-k-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">No.121 : k = 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#No-122-k-Infinity"><span class="nav-number">3.2.2.</span> <span class="nav-text">No.122 : k = +Infinity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#No-123-k-2"><span class="nav-number">3.2.3.</span> <span class="nav-text">No.123 : k = 2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#No-188-k-任意合法的输入值"><span class="nav-number">3.2.4.</span> <span class="nav-text">No.188 : k = 任意合法的输入值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#No-309-k-Infinity-with-cooldown"><span class="nav-number">3.2.5.</span> <span class="nav-text">No.309 : k = +Infinity with cooldown</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#No-714-k-Infinity-with-transaction-fee"><span class="nav-number">3.2.6.</span> <span class="nav-text">No.714 : k = +Infinity with transaction fee</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">记录学习生活的点滴</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
