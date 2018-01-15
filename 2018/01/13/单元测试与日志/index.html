@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="TestNG,log4j," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言最近在从零开始搭建一个基于SSM(SpringMVC + Spring + Mybatis)的web练手项目。一开始在做这个web项目的时候没有关注单元测试与日志这一方面的内容，导致项目在代码测试阶段效率极低，每次都要重启tomcat服务器部署代码然后测试结果，所以在完成了初步的SSM开发环境的搭建与后台基本逻辑代码的之后，我觉得应该抽出时间学一学单元测试与日志了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单元测试与日志">
+<meta property="og:url" content="http://yoursite.com/2018/01/13/单元测试与日志/index.html">
+<meta property="og:site_name" content="Qiu Homepage">
+<meta property="og:description" content="前言最近在从零开始搭建一个基于SSM(SpringMVC + Spring + Mybatis)的web练手项目。一开始在做这个web项目的时候没有关注单元测试与日志这一方面的内容，导致项目在代码测试阶段效率极低，每次都要重启tomcat服务器部署代码然后测试结果，所以在完成了初步的SSM开发环境的搭建与后台基本逻辑代码的之后，我觉得应该抽出时间学一学单元测试与日志了。">
+<meta property="og:image" content="http://yoursite.com/../../../../images/se/testng.png">
+<meta property="og:updated_time" content="2018-01-15T12:02:10.002Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单元测试与日志">
+<meta name="twitter:description" content="前言最近在从零开始搭建一个基于SSM(SpringMVC + Spring + Mybatis)的web练手项目。一开始在做这个web项目的时候没有关注单元测试与日志这一方面的内容，导致项目在代码测试阶段效率极低，每次都要重启tomcat服务器部署代码然后测试结果，所以在完成了初步的SSM开发环境的搭建与后台基本逻辑代码的之后，我觉得应该抽出时间学一学单元测试与日志了。">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/se/testng.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/13/单元测试与日志/"/>
+
+
+
+
+
+  <title>单元测试与日志 | Qiu Homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/13/单元测试与日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">单元测试与日志</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T21:19:13+08:00">
+                2018-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在从零开始搭建一个基于SSM(SpringMVC + Spring + Mybatis)的web练手项目。一开始在做这个web项目的时候没有关注单元测试与日志这一方面的内容，导致项目在代码测试阶段效率极低，每次都要重启tomcat服务器部署代码然后测试结果，所以在完成了初步的SSM开发环境的搭建与后台基本逻辑代码的之后，我觉得应该抽出时间学一学单元测试与日志了。<a id="more"></a></p>
+<h1 id="log4j"><a href="#log4j" class="headerlink" title="log4j"></a>log4j</h1><h2 id="什么是log4j"><a href="#什么是log4j" class="headerlink" title="什么是log4j"></a>什么是log4j</h2><p>官方科普：log4j是一个使用Java语言编写的，可靠、快速、灵活的日志框架，使用 Apache Software License授权，并且log4j是高度可配置的，在运行期使用外部的配置文件对其进行配置。它按照优先级别记录日志，并可将日志信息定向输出到各种介质。</p>
+<p>通俗来说：在一些简单的代码中，我们曾经使用过一种叫做”System.out debug”也称肉眼debug大法，直接在程序运行过程中在控制台输出我们关注的变量，通过判断输出的值是否满足程序条件来定位程序问题出在哪。既然大家理解了”System.out debug”大法，那么log4j可以理解为对system.out的优势替代，我们可以用它来记录程序运行的情况。</p>
+<h2 id="基本构件"><a href="#基本构件" class="headerlink" title="基本构件"></a>基本构件</h2><p>Log4j由三个重要的组件构成：</p>
+<ul>
+<li>logger(记录器)：程序中利用这个对象进行日志信息的输出</li>
+<li>appender(输出源)：定义了日志信息输出到哪里去</li>
+<li>layout(布局)：定义日志输出的格式</li>
+</ul>
+<p>还一个需要配置的是日志所记录信息的级别，我们可以给日志定义不同的级别来输出不同的信息：</p>
+<ul>
+<li>debug：调试信息</li>
+<li>info：系统运行的时候向程序调用者提示的信息</li>
+<li>warn：警告</li>
+<li>error：错误</li>
+<li>fatal：致命错误</li>
+</ul>
+<p>假设我们给日志设定为debug级别，那么它将记录debug,info,warn,error,fatal这5个基本的信息。如果定义为warn级别，那么error,fatal信息将不会被记录。</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ol>
+<li><p>得到记录器logger，记录器用于输出日志信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Logger <span class="title">getLogger</span><span class="params">()</span></span></div></pre></td></tr></table></figure>
+</li>
+<li><p>读取配置文件，配置文件中定义了日志的级别以及输出到文件还是控制台和输出的格式信息</p>
+</li>
+<li>当完成1，2之后，就可以在代码中插入记录日志的代码了，如下所示：<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Logger.debug(Object message);</div><div class="line">Logger.info(Object message);</div><div class="line">Logger.wanr(Object message);</div><div class="line">Logger.error(Object message);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果是在web项目中使用log4j，就要使用properties文件配置log4j，然后使用servlet加载log4j的properties配置文件，执行log4j的初始化过程。</p>
+<h1 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h1><h2 id="什么是单元测试"><a href="#什么是单元测试" class="headerlink" title="什么是单元测试"></a>什么是单元测试</h2><p>官方科普：软件测试可以分为单元测试，集成测试，功能测试，系统测试，其中单元测试与集成测试是由开发人员保障的。单元测试是开发者编写的一小段代码，用于检验目标代码的很小的，很明确功能是否正确。</p>
+<p>通俗来说，单元测试就是测试我们写的每个函数是不是没有bug的，因为只有防微杜渐，一点一点编写没有bug的代码，才可以保证在最后系统集成的时候不出现意想不到的bug。</p>
+<p>单元测试还有一个重要的功用：在一般情况下，一个功能函数或者模块可能会对其他模块由所依赖，比如在开发service层代码的时候需要用到dao层的方法。那么，在对service模块进行单元测试时，我们是希望屏蔽对dao层的依赖的，仅仅测试service层的功能。这时单元测试框架给我们提供了<em>模拟对象</em>,它根据外在模块的接口模拟特定的操作行为，这样就可以在假设关联模块dao层正确工作情况下，验证service模块的正确性了。</p>
+<h2 id="关于Assert"><a href="#关于Assert" class="headerlink" title="关于Assert"></a>关于Assert</h2><p>在介绍测试框架之前，需要先了解java的断言(assert)。关于用法很简单，就两种：</p>
+<ul>
+<li>assert condition ：这里condition是一个必须为真(true)的表达式。如果表达式的结果为true，那么断言为真，并且无任何作为。如果表达式为false，则断言失败，则会抛出一个AssertionError对象，用于表达系统运行错误。</li>
+<li>assert condition(expr) ：与上述功能一致，只是添加了expr用于在断言失败的时候输出信息。</li>
+</ul>
+<h2 id="TestNG框架"><a href="#TestNG框架" class="headerlink" title="TestNG框架"></a>TestNG框架</h2><p>官方科普：TestNG是一个设计用来简化广泛的测试需求的测试框架，借鉴了JUnit和NUnit，但引入了新的功能。相比于JUnit只适合做单元测试，TestNG还可以用于集成测试。</p>
+<p>通俗来说，TestNG就是一个测试的框架，同时符合测试驱动开发的编码风格，也就是说先想好测试用例，再开发，开发的目的就是要让测试用例通过。<br>再通俗一点，测试驱动开发就好比我们在leetcode上刷题，我们解题(开发)的目的就是要让leetcode提供的所有case(测试用例)都通过。</p>
+<h2 id="TestNG生命周期"><a href="#TestNG生命周期" class="headerlink" title="TestNG生命周期"></a>TestNG生命周期</h2><p>TestNG的测试用例的生命周期，如图所示：</p>
+<p><img src="../../../../images/se/testng.png" alt=""></p>
+<p>首先，类级初始化资源和方法级初始化资源2个方法用于搭建测试用例所需的资源环境，然后执行测试用例中的测试方法，最后，释放之前初始化的资源。其中，类级初始化，销毁资源在一个测试用例中只运行一次；方法级初始化，销毁资源在执行测试用例的每个测试方法中都会运行，以防测试方法之间互相影响。</p>
+<h2 id="TestNG使用"><a href="#TestNG使用" class="headerlink" title="TestNG使用"></a>TestNG使用</h2><p>为了方便使用断言Assert类，在测试类中需要 import static org.testing.Assert.* ；(注意要静态导入!)</p>
+<p>在使用TestNG做单元测试与JUnit大同小异，都是通过@Test注解的方式标注一个测试方法。比如，在@Test注解传入expected参数值，可以测试异常；在@Test注解中传入timeOut参数值，可以做超时测试；同时还支持参数化测试，将测试的参数一次性传入，统一进行测试不需要为每个参数都写一个测试方法，等等。单元测试的用法很简单就不再详细介绍了。</p>
+<p>目前为止，只用到了TestNG做单元测试的功能(与JUnit大部分重复)，关于模拟对象和TestNG的集成测试功能，若以后项目中用到，再拿来介绍。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TestNG/" rel="tag"><i class="fa fa-tag"></i> TestNG</a>
+          
+            <a href="/tags/log4j/" rel="tag"><i class="fa fa-tag"></i> log4j</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/07/看看HashMap源码/" rel="next" title="看看HashMap源码">
+                <i class="fa fa-chevron-left"></i> 看看HashMap源码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description">大道唯有自成</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#log4j"><span class="nav-number">2.</span> <span class="nav-text">log4j</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是log4j"><span class="nav-number">2.1.</span> <span class="nav-text">什么是log4j</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本构件"><span class="nav-number">2.2.</span> <span class="nav-text">基本构件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">2.3.</span> <span class="nav-text">使用方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单元测试"><span class="nav-number">3.</span> <span class="nav-text">单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是单元测试"><span class="nav-number">3.1.</span> <span class="nav-text">什么是单元测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Assert"><span class="nav-number">3.2.</span> <span class="nav-text">关于Assert</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TestNG框架"><span class="nav-number">3.3.</span> <span class="nav-text">TestNG框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TestNG生命周期"><span class="nav-number">3.4.</span> <span class="nav-text">TestNG生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TestNG使用"><span class="nav-number">3.5.</span> <span class="nav-text">TestNG使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">记录学习生活的点滴</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
