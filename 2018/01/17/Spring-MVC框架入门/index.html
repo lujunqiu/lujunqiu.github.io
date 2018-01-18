@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringMVC," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言前几天实验室大老板跑路到湖南大学了，实验室处于完全放羊的状态，我打算利用这个时间做一个短信验证登录的web项目来玩玩，也趁着这个机会，复习一下SpringMVC框架。现在我的状态就是一边看书整理，一边查阅资料，一边写项目代码，一边写博客。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring MVC框架入门">
+<meta property="og:url" content="http://yoursite.com/2018/01/17/Spring-MVC框架入门/index.html">
+<meta property="og:site_name" content="Qiu Homepage">
+<meta property="og:description" content="前言前几天实验室大老板跑路到湖南大学了，实验室处于完全放羊的状态，我打算利用这个时间做一个短信验证登录的web项目来玩玩，也趁着这个机会，复习一下SpringMVC框架。现在我的状态就是一边看书整理，一边查阅资料，一边写项目代码，一边写博客。">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/springmvc.png">
+<meta property="og:updated_time" content="2018-01-18T05:24:32.286Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring MVC框架入门">
+<meta name="twitter:description" content="前言前几天实验室大老板跑路到湖南大学了，实验室处于完全放羊的状态，我打算利用这个时间做一个短信验证登录的web项目来玩玩，也趁着这个机会，复习一下SpringMVC框架。现在我的状态就是一边看书整理，一边查阅资料，一边写项目代码，一边写博客。">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/web/springmvc.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/17/Spring-MVC框架入门/"/>
+
+
+
+
+
+  <title>Spring MVC框架入门 | Qiu Homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/17/Spring-MVC框架入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring MVC框架入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T11:41:27+08:00">
+                2018-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前几天实验室大老板跑路到湖南大学了，实验室处于完全放羊的状态，我打算利用这个时间做一个短信验证登录的web项目来玩玩，也趁着这个机会，复习一下SpringMVC框架。现在我的状态就是一边看书整理，一边查阅资料，一边写项目代码，一边写博客。<a id="more"></a></p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>官方科普：SpringMVC是一种基于Java的实现了MVC设计模式的请求驱动类型的轻量级Web框架，它使用了MVC架构模式的思想，将web层进行职责解耦，分为控制器(Controller)，模型(Model),视图(View)。</p>
+<p>通俗一点来说，用SpringMVC框架开发的web项目，前端与后端得到了一定的分离，实现了前端与后端代码的低耦合。所以对于SpringMVC而言，其最大的特点就是结构松散，比如我们几乎可以在SpringMVC中使用各类视图，包括JSON，JSP，XML等等。到底SpringMVC是如何做到这点的呢？接下来，看看SpringMVC的工作流程。</p>
+<h1 id="SpringMVC工作流程"><a href="#SpringMVC工作流程" class="headerlink" title="SpringMVC工作流程"></a>SpringMVC工作流程</h1><p>SpringMVC是一种基于Servlet的技术，它提供了控制器DispatcherServlet和相关组件，这些SpringMVC的组件一起协调工作，完成对web请求的响应，如图所示：</p>
+<p><img src="../../../../images/web/springmvc.png" alt=""></p>
+<ol>
+<li>客户端发出一个HTTP请求，Web服务器接收到这个请求。服务器检查HTTP请求的路径，如果匹配DispatchServlet的请求映射路径(web.xml中指定)，则Web容器将该请求转交给对应的DispatchServlet处理。</li>
+<li>DispatchServlet接收到这个请求后，将根据请求的信息(包括URL，HTTP方法，请求参数等等)以及HandlerMapping配置找到处理请求的处理器(Handler)。这里HandlerMapping可以简单理解为统一资源标识符URI与处理器Handler之间的映射关系。</li>
+<li>找到请求的处理器之后，通过HandlerAdapter对Handler进行封装，再以统一的适配器接口调用Handler。因为为了更加灵活的编码和AOP增强功能，SpringMVC会给处理器加入拦截器，这样就可以在处理器执行前后加入自己的代码，于是就构成了一个处理器的执行链，所以SpringMVC提供了处理器适配器HandlerAdapter，帮助我们运行对应的处理器以及我们添加进去的拦截器。</li>
+<li>处理器完成了请求的业务逻辑之后将返回一个ModelAndView对象给DispatchServlet，这里ModelAndView包含了视图的逻辑名和模型数据信息。</li>
+<li>得到了ModelAndView之后，DispatchServlet借助ViewResolver视图解析器将逻辑视图转换为真实视图。</li>
+<li>通过ViewResolver视图解析器得到了真实视图后，DispatchServlet使用这个真实视图对象对ModelAndView中的模型数据进行渲染。</li>
+<li>最终DispatchServlet将渲染过后的视图对象返回给请求的客户端，客户端得到的响应可能是一个普通的HTML页面，也可能是一个JSON串，甚至是一张图片等等不同的视图类型。</li>
+</ol>
+<p>以上就是SpringMVC响应请求的完整流程，这是一个松散的结构，SpringMVC框架已经完成了流程中大部分组件的开发，我们只需要熟悉这个流程，在这个框架的基础之上添加自己的逻辑代码就可以完成web项目的开发了。</p>
+<h1 id="SpringMVC初始化"><a href="#SpringMVC初始化" class="headerlink" title="SpringMVC初始化"></a>SpringMVC初始化</h1><p>SpringMVC的初始化分为Spring IoC容器的初始化与SpringMVC映射请求上下文的初始化,也就是在web.xml文件中定义的ContextLoaderListener与DispatcherServlet所做的初始化工作。</p>
+<h2 id="Spring-IoC初始化"><a href="#Spring-IoC初始化" class="headerlink" title="Spring IoC初始化"></a>Spring IoC初始化</h2><p>Java Web容器(Tomcat,Jetty等等)在生命周期中提供了ServletContextListener接口，通过这个接口可以在Web容器初始化和结束期中执行一定的逻辑。我们就是通过这个接口，完成对Spring IoC容器的初始化工作，同时也在结束期完成Spring IoC容器的回收。我们不需要自己实现这个接口，Spring已经为我们完成了这个接口的开发工作，只需要在web.xml文件中配置即可。在Spring IoC容器中，放置的往往是业务层与DAO层的对象，处理业务逻辑与数据访问工作。</p>
+<h2 id="映射请求上下文初始化"><a href="#映射请求上下文初始化" class="headerlink" title="映射请求上下文初始化"></a>映射请求上下文初始化</h2><p>映射请求上下文的初始化是通过DispatcherServlet初始化完成的。首先，DispatcherServlet是一个可以载入容器的Servlet，那么Web容器对Servlet的初始化就是调用init()方法。有兴趣可以看看DispatcherServlet源码中init()方法，这里只介绍其初始化的大致流程。</p>
+<p>DispatcherServlet在初始化的过程中，如果发现IoC容器没有初始化的时候就尝试先初始化IoC容器，然后再调用onRefresh()方法初始化SpringMVC的各个组件，也就是初始化SpringMVC的Web层的容器。在初始化SpringMVC的组件时，首先会通过反射查找并装配用户自己定义的组件，如果找不到，则装配在DispatcherServlet.properties配置文件中定义的默认组件。后续会详细介绍这些组件，很关键。</p>
+<h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><p>从上面的介绍可以知道，SpringMVC要初始化是两个容器：Ioc容器(业务层容器)与映射请求容器(Web层容器)。一般而言，IoC容器中放置Servcie层与Dao层对象给映射请求容器提供业务处理服务与数据访问的服务，映射请求容器通俗来说，里面放置Controller层对象，用于统筹请求的处理，转发，响应等等。在代码中的实现来看，Ioc容器与映射请求容器是父子容器的关系，这样一来映射请求容器就可以单向访问Ioc容器中的对象,也就是说”Web层容器”可以访问”业务层容器”，而”业务层容器”无法访问”Web层容器”，实现了良好的解耦。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本篇博客重点介绍了SpringMVC框架的整体工作流程与SpringMVC的初始化过程，后续将会详细介绍SpringMVC各个组件的功能以及组件的使用，从而还可以借助自定义组件完成我们预定的工作。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringMVC/" rel="tag"><i class="fa fa-tag"></i> SpringMVC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/13/单元测试与日志/" rel="next" title="单元测试与日志">
+                <i class="fa fa-chevron-left"></i> 单元测试与日志
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description">大道唯有自成</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringMVC工作流程"><span class="nav-number">3.</span> <span class="nav-text">SpringMVC工作流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringMVC初始化"><span class="nav-number">4.</span> <span class="nav-text">SpringMVC初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-IoC初始化"><span class="nav-number">4.1.</span> <span class="nav-text">Spring IoC初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#映射请求上下文初始化"><span class="nav-number">4.2.</span> <span class="nav-text">映射请求上下文初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区别"><span class="nav-number">4.3.</span> <span class="nav-text">区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">记录学习生活的点滴</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
