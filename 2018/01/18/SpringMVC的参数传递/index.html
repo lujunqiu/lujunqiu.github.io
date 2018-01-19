@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringMVC," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言从上一篇博客中介绍的SpringMVC工作流程中我们可以看到，SpringMVC控制器会接收HTTP请求，然后进行业务处理逻辑，最后返回数据模型给视图进行渲染。从这个角度来看，SpringMVC是一个消息传递与处理的框架。那么，SpringMVC将解决两个问题：HTTP请求中的信息是如何转换到控制器的处理方法入参的以及处理方法输出的模型数据又是如何传递给视图进行渲染的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC的参数传递">
+<meta property="og:url" content="http://yoursite.com/2018/01/18/SpringMVC的参数传递/index.html">
+<meta property="og:site_name" content="Qiu Homepage">
+<meta property="og:description" content="前言从上一篇博客中介绍的SpringMVC工作流程中我们可以看到，SpringMVC控制器会接收HTTP请求，然后进行业务处理逻辑，最后返回数据模型给视图进行渲染。从这个角度来看，SpringMVC是一个消息传递与处理的框架。那么，SpringMVC将解决两个问题：HTTP请求中的信息是如何转换到控制器的处理方法入参的以及处理方法输出的模型数据又是如何传递给视图进行渲染的。">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/springmvcDataBinder.png">
+<meta property="og:updated_time" content="2018-01-19T06:19:08.966Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC的参数传递">
+<meta name="twitter:description" content="前言从上一篇博客中介绍的SpringMVC工作流程中我们可以看到，SpringMVC控制器会接收HTTP请求，然后进行业务处理逻辑，最后返回数据模型给视图进行渲染。从这个角度来看，SpringMVC是一个消息传递与处理的框架。那么，SpringMVC将解决两个问题：HTTP请求中的信息是如何转换到控制器的处理方法入参的以及处理方法输出的模型数据又是如何传递给视图进行渲染的。">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/web/springmvcDataBinder.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/18/SpringMVC的参数传递/"/>
+
+
+
+
+
+  <title>SpringMVC的参数传递 | Qiu Homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/18/SpringMVC的参数传递/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringMVC的参数传递</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-18T15:19:04+08:00">
+                2018-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>从上一篇博客中介绍的SpringMVC工作流程中我们可以看到，SpringMVC控制器会接收HTTP请求，然后进行业务处理逻辑，最后返回数据模型给视图进行渲染。从这个角度来看，SpringMVC是一个消息传递与处理的框架。那么，SpringMVC将解决两个问题：<em>HTTP请求中的信息是如何转换到控制器的处理方法入参的以及处理方法输出的模型数据又是如何传递给视图进行渲染的。</em><a id="more"></a></p>
+<h1 id="请求参数传递"><a href="#请求参数传递" class="headerlink" title="请求参数传递"></a>请求参数传递</h1><h2 id="RequestMapping请求映射"><a href="#RequestMapping请求映射" class="headerlink" title="@RequestMapping请求映射"></a>@RequestMapping请求映射</h2><p>我们通过@Controller注解将一个POJO设定为一个能处理HTTP请求的控制。定义了控制器后就可以在控制器的类定义与控制器中的方法定义处标注@RequestMapping注解，用来提供映射信息。这样一来，DispatcherServlet截获HTTP请求后，就可以根据控制器的@RequestMapping提供的映射信息知道该HTTP请求所对应的请求处理方法。</p>
+<p>将HTTP请求映射到控制器的处理方法包含一系列的映射规则，具体可以通过请求的URL，请求参数，请求方法，请求头来进行请求的映射。这里就不详细介绍了，在实际使用的时候可以自行google，很简单。</p>
+<h2 id="请求处理方法入参"><a href="#请求处理方法入参" class="headerlink" title="请求处理方法入参"></a>请求处理方法入参</h2><p>借助@RequestMapping将HTTP请求映射到了对应的处理方法之后，SpringMVC要做的就是将HTTP请求中的信息绑定到处理方法的相应入参中，然后处理方法会进行业务处理，得到返回值。接下来看看SpringMVC是通过何种规则将HTTP请求信息绑定到处理方法的入参中的。</p>
+<h3 id="自动绑定入参"><a href="#自动绑定入参" class="headerlink" title="自动绑定入参"></a>自动绑定入参</h3><p>如果HTTP请求中的参数名字与入参名字相同，那么无须任何注解SpringMVC可以自动进行两者的绑定。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/params"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">params</span><span class="params">(String name , String note)</span></span>&#123;...&#125;</div></pre></td></tr></table></figure>
+<p>如果HTTP请求参数中有同名的参数name,note的话，那么SpringMVC会自动完成绑定。自动绑定必须要求HTTP请求参数名称与入参名称相同，如果不一致是无法获取的。</p>
+<p>另外，在没有任何注解的情况下SpringMVC提供了映射POJO的功能，比如，我们新建一个POJO。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Params</span></span>&#123;</div><div class="line"><span class="keyword">private</span> String name;</div><div class="line"><span class="keyword">private</span> String note;</div><div class="line"></div><div class="line"><span class="comment">/** setter and getter **/</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>请求方法的签名改成如下形式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/params"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">params</span><span class="params">(Params params)</span></span>&#123;...&#125;</div></pre></td></tr></table></figure>
+<p>显然入参POJO的属性名称与HTTP请求中的参数名称一一对应了(HTTP请求中有名为name，note的参数)，这样也可以在没有任何注解的情况下传递参数，SpringMVC会自动进行POJO的映射。</p>
+<h3 id="RequestParam获取参数"><a href="#RequestParam获取参数" class="headerlink" title="@RequestParam获取参数"></a>@RequestParam获取参数</h3><p>SpringMVC提供的自动参数绑定功能只适合于简单的情形，有时候前端的参数命名规则与后台不一致，不能使用自动绑定，那么就要通过注解指导SpringMVC进行参数的传递。</p>
+<p>通过在处理方法入参前使用@RequestParam注解，指定HTTP请求中的参数进行绑定，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/params"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">params</span><span class="params">(@RequestParam(<span class="string">"NAME"</span>)</span>String name , @<span class="title">RequestParam</span><span class="params">(<span class="string">"NOTE"</span>)</span>String note)</span>&#123;...&#125;</div></pre></td></tr></table></figure>
+<p>这时HTTP请求中有两个参数名为NAME与NOTE的参数，这样就可以通过@RequestParam注解进行入参的绑定了。注意，在使用@RequestParam注解的时候，默认是不允许参数为空，如果为空则抛出异常。如果允许参数为空，可以通过修改@RequestParam注解的配置项required=false来完成。</p>
+<p>与@RequestParam注解使用方法类似，我们还可以使用@CookieValue注解绑定HTTP请求中的Cookie值到方法入参，或者使用@RequestHeader注解绑定HTTP请求报头的属性值到处理方法入参。</p>
+<h3 id="获取请求的属性值"><a href="#获取请求的属性值" class="headerlink" title="获取请求的属性值"></a>获取请求的属性值</h3><p>SpringMVC提供了@RequestAttribute注解，帮助我们获取HTTP请求的属性值，传递给控制器处理方法的入参。同样的道理，@SessionAttribute注解可以获取HTTP会话Session对象的属性值，可以传递给处理方法入参，只需要在方法的入参前标注@RequestAttribute或者@SessionAttribute即可，用法都很简单。SpringMVC中还有一个看起来很类似的注解@SessionAttributes，这个注解只能对类进行标注，有什么用呢？通过这个注解可以将处理方法返回的数据模型中的数据缓存到Session中去，这样就可以不用传入HttpSession类型的入参来达到将数据缓存至Session会话中的目的了。</p>
+<h3 id="通过URL获取参数"><a href="#通过URL获取参数" class="headerlink" title="通过URL获取参数"></a>通过URL获取参数</h3><p>为了符合RESTFul风格(REpresentational State Transfer,简单来说就是URL定位资源，HTTP动作描述资源的操作)的网站设计，可以通过URL传递参数，进行资源的获取，比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/params/&#123;id&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">params</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>&#123;...&#125;</div></pre></td></tr></table></figure>
+<p>当通过URL …/params/1 来访问处理方法时，URL中的1就传递给了处理方法的入参id了。</p>
+<h3 id="通过ServletAPI访问请求参数"><a href="#通过ServletAPI访问请求参数" class="headerlink" title="通过ServletAPI访问请求参数"></a>通过ServletAPI访问请求参数</h3><p>虽然不推荐直接使用ServletAPI作为处理方法的入参，但是SpringMVC是允许我们这么操作的，SpringMVC会自动将Web层对应的Servlet对象传递给处理方法的入参，比如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/params"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">params</span><span class="params">(HttpServletRequest request,HttpSession session)</span></span>&#123;...&#125;</div></pre></td></tr></table></figure>
+<p>SpringMVC会自动将HTTP请求对应的ServletAPI的对象传递给处理方法的入参中。</p>
+<h3 id="使用HttpMessageConverter"><a href="#使用HttpMessageConverter" class="headerlink" title="使用HttpMessageConverter"></a>使用HttpMessageConverter<t></t></h3><p>HttpMessageConverter<t>是SpringMVC的一个接口，它负责将请求信息转换为一个对象<t>,或者将对象<t>输出为响应信息，SpringMVC提供了默认的该接口实现类作为其组件之一，如下所示(Spring 4.x版本)：</t></t></t></p>
+<ul>
+<li>StringHttpMessageConverter:将请求信息转换为字符串</li>
+<li>ByteArrayHttpMessageConverter:读/写二进制数据</li>
+<li>SourceHttpMessageConverter:读/写javax.xml.transform.Source类型的数据</li>
+<li>AllEncompassingFormHttpMessageConverter:读取xml表单数据</li>
+</ul>
+<p>如果需要装配其他类型的HttpMessageConverter，直接在Spring的Web层容器中定义即可使用。</p>
+<p>如何使用HttpMessageConverter<t>来传递参数呢？SpringMVC允许我们通过@RequestBody/@ResponseBody对处理方法进行标注。当控制器处理方法使用了@RequestBody/@ResponseBody时，SpringMVC首先根据请求头或响应头的Accept属性选择匹配的HttpMessageConverter，然后根据参数类型或泛型类型过滤得到匹配的HttpMessageConverter，如果找不到则报错。<br>这样一来，如果方法入参中标注了@RequestBody，SpringMVC将选择匹配的HttpMessageConverter将请求消息转换并绑定到方法的入参。如果处理方法标注了@ResponseBody，则SpringMVC选择匹配的HttpMessageConverter将方法返回值转换并输出到响应中。</t></p>
+<p>比如，我们想通过JSON来传递参数，我们只需要配置能处理JSON的HttpMessageConverter，Spring提供了实现类MappingJackson2HttpMessageConverter，我们在Spring Web层容器中为RequestMappingHandlerAdapter装配好这个HttpMessageConverter，并在HTTP请求中的Accept指定JSON类型，这样就可以使得处理方法与客户端通过JSON来交换数据了。</p>
+<p>除了使用@RequestBody/@ResponseBody，SpringMVC还提供了HttpEntity<t>和ResponseEntity<t>完成同样的工作，区别在于HttpEntity<t>和ResponseEntity<t>不仅仅可以访问请求和响应报文体，还可以访问请求和响应的报文头，有兴趣可以google。</t></t></t></t></p>
+<h1 id="请求参数的绑定"><a href="#请求参数的绑定" class="headerlink" title="请求参数的绑定"></a>请求参数的绑定</h1><p>通过上一节，我们已经知道了如何将HTTP请求中的参数绑定到控制器处理方法的入参中去了。但是我们知道HTTP请求中都是字符串类型的，而入参的类型不完全都是字符串，到底是如何完成这个数据绑定的工作的呢？其实当HTTP请求中的数据到达处理方法的之前，SpringMVC为我们做了许多中间工作，比如数据转换，数据格式化，数据校验等等，具体过程如下图所示：</p>
+<p><img src="../../../../images/web/springmvcDataBinder.png" alt=""></p>
+<p>SpringMVC中默认装配了一个核心组件DataBinder用来完成上述任务。如图所示，SpringMVC首先将ServletRequest对象以及处理方法的入参对象实例传递给DataBinder，DataBinder首先调用装配在Spring Web层容器中的ConverionServcie组件进行数据类型的转换和数据格式化工作，将ServletRequest中的数据填充到处理方法的入参对象实例中，然后调用Validator组件对已经绑定了请求参数的入参对象进行数据合法性校验，最后生成数据绑定的结果BindingResult对象。BindingResult对象包含了已经完成数据绑定的入参对象实例以及相应的校验结果，将它们一同传给处理方法。</p>
+<p>在上述过程中的每一个步骤SpringMVC都提供了默认的组件完成，也允许用户装配自定义的组件，具体细节可以等到用到的时候google一下，在理解了这些组件的作用之后再使用起来就很容易上手了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本篇博客回答了开头提出的第一个问题：HTTP请求中的信息是如何转换到控制器的处理方法入参的？SpringMVC内容很多，不可能面面俱到。我觉得对于框架的学习还是要熟能生巧，但是万变不离其宗在掌握了框架的流程与组件之间是如何配合的之后，使用起来就容易了。下篇博客将解决开头提出的第二个问题：处理方法输出的模型数据又是如何传递给视图进行渲染的？</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringMVC/" rel="tag"><i class="fa fa-tag"></i> SpringMVC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/17/Spring-MVC框架入门/" rel="next" title="SpringMVC框架入门">
+                <i class="fa fa-chevron-left"></i> SpringMVC框架入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/19/SpringMVC的模型数据/" rel="prev" title="SpringMVC的模型数据">
+                SpringMVC的模型数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description">大道唯有自成</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请求参数传递"><span class="nav-number">2.</span> <span class="nav-text">请求参数传递</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RequestMapping请求映射"><span class="nav-number">2.1.</span> <span class="nav-text">@RequestMapping请求映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求处理方法入参"><span class="nav-number">2.2.</span> <span class="nav-text">请求处理方法入参</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动绑定入参"><span class="nav-number">2.2.1.</span> <span class="nav-text">自动绑定入参</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RequestParam获取参数"><span class="nav-number">2.2.2.</span> <span class="nav-text">@RequestParam获取参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取请求的属性值"><span class="nav-number">2.2.3.</span> <span class="nav-text">获取请求的属性值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过URL获取参数"><span class="nav-number">2.2.4.</span> <span class="nav-text">通过URL获取参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过ServletAPI访问请求参数"><span class="nav-number">2.2.5.</span> <span class="nav-text">通过ServletAPI访问请求参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用HttpMessageConverter"><span class="nav-number">2.2.6.</span> <span class="nav-text">使用HttpMessageConverter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请求参数的绑定"><span class="nav-number">3.</span> <span class="nav-text">请求参数的绑定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">记录学习生活的点滴</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
