@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MyBatis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="MyBatis简介Mybatis与Hibernate都是持久层框架，这类框架的作用就是将数据库中的表和POJO映射起来，它们的本质就是Java对数据库的操作的抽象，所以我们也将这种框架称为对象关系映射框架(ORM,Object Relational Mapping)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis入门">
+<meta property="og:url" content="http://yoursite.com/2018/01/23/MyBatis入门/index.html">
+<meta property="og:site_name" content="Qiu Homepage">
+<meta property="og:description" content="MyBatis简介Mybatis与Hibernate都是持久层框架，这类框架的作用就是将数据库中的表和POJO映射起来，它们的本质就是Java对数据库的操作的抽象，所以我们也将这种框架称为对象关系映射框架(ORM,Object Relational Mapping)。">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/MyBatis.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/mybatis1.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/mybatis2.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/mybatis3.png">
+<meta property="og:updated_time" content="2018-01-24T08:47:21.937Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MyBatis入门">
+<meta name="twitter:description" content="MyBatis简介Mybatis与Hibernate都是持久层框架，这类框架的作用就是将数据库中的表和POJO映射起来，它们的本质就是Java对数据库的操作的抽象，所以我们也将这种框架称为对象关系映射框架(ORM,Object Relational Mapping)。">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/web/MyBatis.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/23/MyBatis入门/"/>
+
+
+
+
+
+  <title>MyBatis入门 | Qiu Homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/23/MyBatis入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MyBatis入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-23T16:25:53+08:00">
+                2018-01-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="MyBatis简介"><a href="#MyBatis简介" class="headerlink" title="MyBatis简介"></a>MyBatis简介</h1><p>Mybatis与Hibernate都是持久层框架，这类框架的作用就是将数据库中的表和POJO映射起来，它们的本质就是Java对数据库的操作的抽象，所以我们也将这种框架称为对象关系映射框架(ORM,Object Relational Mapping)。<a id="more"></a>它们的区别也很明显，Hibernate基本不需要编写SQL，它可以根据映射规则自动生成SQL语句，是一种全表映射。而MyBatis不屏蔽SQL，我们可以自己定制SQL，这样就提供给了我们足够的灵活性与优化的可能。总而言之，MyBatis相对于Hibernate来说具有性能高，响应快，开发灵活的特点。</p>
+<h1 id="MyBatis组件"><a href="#MyBatis组件" class="headerlink" title="MyBatis组件"></a>MyBatis组件</h1><p>MyBatis的核心组件分为4个部分：</p>
+<ul>
+<li>SqlSessionFactoryBuilder(构造器)：它会根据mybatis的配置文件(Configuration配置类)来生成SqlSessionFactory，这里采用的是分步构建的Builder模式</li>
+<li>SqlSessionFactory(工厂)：用于生成SqlSession，可以被认为是数据库连接池</li>
+<li>SqlSession(会话)：既可以直接发送SQL执行并返回结果，也可以获取映射器Mapper接口(动态代理的类)执行SQL得到返回结果，相当于数据库连接(Connection对象)</li>
+<li>Mapper(映射器)：由一个Java接口和XML文件构成：接口用于给出方法的入参以及返回值，XML给出SQL语句和映射规则。映射器的主要作用就是将SQL查询到的结果映射为一个POJO，或者将POJO的数据插入到数据库中</li>
+</ul>
+<p>注意，无论是映射器还是SqlSession都可以发送SQL到数据库执行，但是为了保证代码的可读性与可维护性，推荐使用Mapper接口编程来完成该操作。</p>
+<h1 id="如何使用MyBatis"><a href="#如何使用MyBatis" class="headerlink" title="如何使用MyBatis"></a>如何使用MyBatis</h1><p>首先，在MyBatis中有两种XML配置文件，一种是基础配置文件，它只有一个，用于配置一些MyBatis的上下文参数和运行环境；另一种是映射器的XML映射文件，它可以配置映射关系，SQL等等。简单来说，在使用MyBatis的时候，先给出MyBatis的配置文件用于生成SqlSession，然后再给出映射器Mapper的接口与相应的映射XML文件，最后就可以生成Mapper接口的动态代理类来发送SQL获取结果了。</p>
+<p><img src="../../../../images/web/MyBatis.png" alt=""></p>
+<h2 id="spring-mybatis"><a href="#spring-mybatis" class="headerlink" title="spring-mybatis"></a>spring-mybatis</h2><p>MyBatis框架上手很快，使用起来也很简单。MyBatis通常是在Spring容器中配置使用，Spring也对MyBatis提供了支持，接下来看一个在Spring中使用MyBatis的例子：</p>
+<p>该项目使用maven构建，IDEA中的工程结构如图：<br><img src="../../../../images/web/mybatis1.png" alt=""><br>所有的xml配置文件都放置在main目录下的resources中，所有的java代码都在main目录下的java文件中。</p>
+<p>在开发之前，需要做一些准备工作，在本地的mysql数据库中新建数据表t_person:<br><img src="../../../../images/web/mybatis2.png" alt=""><br>建完数据表之后数据表结构如图：<br><img src="../../../../images/web/mybatis3.png" alt=""></p>
+<p>然后，我们需要在maven的pom文件中导入相关的依赖包，在搭建SpringMVC+Spring+MyBatis项目的时候，很多问题都出现在pom文件中的依赖中，要不是导入包少了，要不是导入的包与包之间版本问题，所以要多加小心：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">      &lt;!-- log4j日志 --&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;log4j&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;log4j&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;1.2.17&lt;/version&gt;</div><div class="line">      &lt;/dependency&gt;</div><div class="line">      &lt;!--以下3个为spring的基础设施--&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;spring-context&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;5.0.2.RELEASE&lt;/version&gt;</div><div class="line">      &lt;/dependency&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;5.0.2.RELEASE&lt;/version&gt;</div><div class="line">      &lt;/dependency&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;5.0.2.RELEASE&lt;/version&gt;</div><div class="line">      &lt;/dependency&gt;</div><div class="line">      &lt;!--mybatis --&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;mybatis&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;3.4.5&lt;/version&gt;</div><div class="line">      &lt;/dependency&gt;</div><div class="line">      &lt;!--mybatis-spring spring对mybatis的支持 --&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;org.mybatis&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;1.3.1&lt;/version&gt;</div><div class="line">      &lt;/dependency&gt;</div><div class="line">      &lt;!-- dbcp2数据库连接池--&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;commons-dbcp2&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;2.1.1&lt;/version&gt;</div><div class="line">      &lt;/dependency&gt;</div><div class="line">      &lt;!-- mysql的连接驱动 --&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;mysql&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;6.0.6&lt;/version&gt;</div><div class="line">      &lt;/dependency&gt;</div><div class="line">  &lt;/dependencies&gt;</div></pre></td></tr></table></figure>
+<p>在导入以上依赖之后，我们就可以进行开发了。首先要完成的就是mybatis的全局配置文件,在resources目录下的mybatis-config.xml文件:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE configuration</span></div><div class="line">        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"</div><div class="line">        "http://mybatis.org/dtd/mybatis-3-config.dtd"&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">settings</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">setting</span> <span class="attr">name</span>=<span class="string">"logImpl"</span> <span class="attr">value</span>=<span class="string">"LOG4J"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">settings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mappers</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mapper</span> <span class="attr">resource</span>=<span class="string">"PersonMapper.xml"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mappers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>我们只配置了mybatis的日志是使用log4j来完成，log4j的属性文件在resources目录下，我们可以自行修改log4j的日志级别，为了更加详细了解过程，这次使用了DEBUG级别输出到控制台，另外还配置了映射器的映射文件。</p>
+<p>接下来就来完成映射器，映射器由接口与映射文件构成，先来看看PersonMapper接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">package</span> mybatis.spring.test.mapper;</div><div class="line"></div><div class="line"><span class="keyword">import</span> mybatis.spring.test.pojo.Person;</div><div class="line"><span class="keyword">import</span> org.apache.ibatis.annotations.Param;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Repository;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lujunqiu on 2018/1/23.</div><div class="line"> */</div><div class="line"> </div><div class="line"><span class="meta">@Repository</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">PersonMapper</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">insertPerson</span><span class="params">(Person person)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">getPerson</span><span class="params">(@Param(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">updatePerson</span><span class="params">(Person person)</span></span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">deletePerson</span><span class="params">(@Param(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>@Param(“id”)注解用于将函数的入参传入SQL语句，后面的博客会详细介绍入参的绑定与结果的绑定。另外这里的Person类对应于我们事先定义于数据库中的t_person表：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line">    <span class="keyword">private</span> String tel;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</div><div class="line">    </div><div class="line">    <span class="comment">/**getter and setter**/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>根据映射器接口，再来完成映射文件，位于resources目录下的PersonMapper文件，这是mybatis允许我们自己写SQL与映射规则的地方：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" &gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"mybatis.spring.test.mapper.PersonMapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insertPerson"</span> <span class="attr">useGeneratedKeys</span>=<span class="string">"true"</span> <span class="attr">keyProperty</span>=<span class="string">"id"</span> <span class="attr">parameterType</span>=<span class="string">"mybatis.spring.test.pojo.Person"</span>&gt;</span></div><div class="line">        INSERT INTO t_person(name,age,tel) VALUES (#&#123;name&#125;,#&#123;age&#125;,#&#123;tel&#125;)</div><div class="line">    <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">"deletePerson"</span> <span class="attr">parameterType</span>=<span class="string">"int"</span>&gt;</span></div><div class="line">        DELETE FROM t_person WHERE id=#&#123;id&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">delete</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updatePerson"</span> <span class="attr">parameterType</span>=<span class="string">"mybatis.spring.test.pojo.Person"</span>&gt;</span></div><div class="line">        UPDATE t_person set name = #&#123;name&#125;,age=#&#123;age&#125;,tel=#&#123;tel&#125; WHERE id = #&#123;id&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">update</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"getPerson"</span> <span class="attr">parameterType</span>=<span class="string">"int"</span> <span class="attr">resultType</span>=<span class="string">"mybatis.spring.test.pojo.Person"</span>&gt;</span></div><div class="line">        SELECT name,age,tel,id from t_person WHERE id = #&#123;id&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>mapper namespace表示的是该映射文件对应的接口的全限定包名，后面的SQL标签的id名对应与接口的方法名，注意不要弄错了。</p>
+<p>MyBatis在默认情况下提供自动映射，只要SQL中的列名能和POJO对应起来即可。这里的列名name，age，tel，id与POJO中的属性名name，age，tel，id名字对应，所以在SELECT返回结果时Mybatis可以帮助我们完成自动映射。</p>
+<p>至此，基本的构件就完成了。既然要在spring中配置mybatis，接下来就在spring容器中配置我们需要的组件，spring容器的配置文件是位于resources目录下的applicationContext.xml文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">       <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></div><div class="line">    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</div><div class="line">    http://www.springframework.org/schema/context</div><div class="line">    http://www.springframework.org/schema/context/spring-context-3.0.xsd"&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">context:annotation-config</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!--数据库连接池--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"org.apache.commons.dbcp2.BasicDataSource"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://localhost:3306/test"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"root"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"666666"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--Mybatis的基本构件SqlSessionFactory--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"SqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"configLocation"</span> <span class="attr">value</span>=<span class="string">"classpath:mybatis-config.xml"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--spring提供给mybatis用于扫描Mapper的工具，通过给Mapper接口标注就可以直接使用该接口--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--需要扫描的包--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"mybatis.spring.test.mapper"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"SqlSessionFactory"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!--使用@Repository注解标注Mapper--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"annotationClass"</span> <span class="attr">value</span>=<span class="string">"org.springframework.stereotype.Repository"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>我们使用了spring提供的Mapper扫描工具类，可以将@Repository注解标注的接口动态代理为Mapper，所以我们需要在PersonMapper接口前标注@Repository，这样spring就会将该Mapper加入容器给我们使用。通过这种办法，spring将mybatis中的SqlSession从我们代码中擦除了，就可以直接面向Mapper接口编程。</p>
+<p>现在开始测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> mybatis.spring.test.mapper.PersonMapper;</div><div class="line"><span class="keyword">import</span> mybatis.spring.test.pojo.Person;</div><div class="line"><span class="keyword">import</span> org.apache.log4j.Logger;</div><div class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</div><div class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created by lujunqiu on 2018/1/23.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        Logger logger = Logger.getLogger(test.class);</div><div class="line">        ApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</div><div class="line">        PersonMapper mapper = ctx.getBean(PersonMapper.class);</div><div class="line">        Person person = <span class="keyword">new</span> Person();</div><div class="line">        person.setAge(<span class="number">24</span>);</div><div class="line">        person.setName(<span class="string">"qiu"</span>);</div><div class="line">        person.setTel(<span class="string">"13212778355"</span>);</div><div class="line">		 mapper.insertPerson(person);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过mybatis向mysql数据库插入一条数据，控制台日志输出：</p>
+<p>[QC] DEBUG [main] org.mybatis.spring.SqlSessionUtils.getSqlSession(97) | <code>Creating a new SqlSession</code><br>[QC] DEBUG [main] org.mybatis.spring.transaction.SpringManagedTransaction.openConnection(87) | <code>JDBC Connection</code> [259564670, URL=jdbc:mysql://localhost:3306/test, UserName=root@localhost, MySQL Connector Java] will not be managed by Spring<br>[QC] DEBUG [main] org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(159) | ==&gt;  <code>Preparing: INSERT INTO t_person(name,age,tel) VALUES (?,?,?)</code><br>[QC] DEBUG [main] org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(159) | ==&gt; <code>Parameters: qiu(String), 24(Integer), 13212778355(String)</code><br>[QC] DEBUG [main] org.apache.ibatis.logging.jdbc.BaseJdbcLogger.debug(159) | &lt;==    Updates: 1<br>[QC] DEBUG [main] org.mybatis.spring.SqlSessionUtils.closeSqlSession(191) | <code>Closing non transactional SqlSession</code><br>[org.apache.ibatis.session.defaults.DefaultSqlSession@2a5c8d3f]<br>[QC] DEBUG [main] test.main(20) | 1</p>
+<p>通过日志可以看到mybatis执行SQL的过程，我们也可以去mysql中查看结果，同样的方法可以测试其他方法。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上介绍了MyBatis的基本组件以及一个利用自动映射的且只涉及简单的增，删，改，查的实例，后续将会详细介绍MyBatis的映射器等其他内容，方便我们使用MyBatis完成更加复杂的业务需求。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MyBatis/" rel="tag"><i class="fa fa-tag"></i> MyBatis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/19/SpringMVC的模型数据/" rel="next" title="SpringMVC的模型数据">
+                <i class="fa fa-chevron-left"></i> SpringMVC的模型数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description">大道唯有自成</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis简介"><span class="nav-number">1.</span> <span class="nav-text">MyBatis简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis组件"><span class="nav-number">2.</span> <span class="nav-text">MyBatis组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何使用MyBatis"><span class="nav-number">3.</span> <span class="nav-text">如何使用MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-mybatis"><span class="nav-number">3.1.</span> <span class="nav-text">spring-mybatis</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">记录学习生活的点滴</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
