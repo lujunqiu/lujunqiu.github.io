@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringMVC," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="重定向与转发SpringMVC为请求在控制器处理方法之间跳转的情况提供了重定向与转发机制，也就是说在SpringMVC中可以使用forward和redirect关键字在Controller中对原请求进行转发或重定向到其他的Controller。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC的转发与重定向">
+<meta property="og:url" content="http://yoursite.com/2018/01/25/SpringMVC的转发与重定向/index.html">
+<meta property="og:site_name" content="Qiu Homepage">
+<meta property="og:description" content="重定向与转发SpringMVC为请求在控制器处理方法之间跳转的情况提供了重定向与转发机制，也就是说在SpringMVC中可以使用forward和redirect关键字在Controller中对原请求进行转发或重定向到其他的Controller。">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/forward1.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/forward2.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/redirect1.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/redirect2.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/redirect3.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/redirect4.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/redirect5.png">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/redirect6.png">
+<meta property="og:updated_time" content="2018-01-26T08:36:34.581Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC的转发与重定向">
+<meta name="twitter:description" content="重定向与转发SpringMVC为请求在控制器处理方法之间跳转的情况提供了重定向与转发机制，也就是说在SpringMVC中可以使用forward和redirect关键字在Controller中对原请求进行转发或重定向到其他的Controller。">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/web/forward1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/25/SpringMVC的转发与重定向/"/>
+
+
+
+
+
+  <title>SpringMVC的转发与重定向 | Qiu Homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/SpringMVC的转发与重定向/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringMVC的转发与重定向</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T10:25:59+08:00">
+                2018-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaWeb/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaWeb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="重定向与转发"><a href="#重定向与转发" class="headerlink" title="重定向与转发"></a>重定向与转发</h1><p>SpringMVC为请求在控制器处理方法之间跳转的情况提供了重定向与转发机制，也就是说在SpringMVC中可以使用forward和redirect关键字在Controller中对原请求进行转发或重定向到其他的Controller。<br><a id="more"></a><br>在一般情况下，控制器处理方法返回字符串类型的值会被当成逻辑视图名处理，但如果字符串带”forward:”或”redirect:”前缀，则SpringMVC将当前请求转到另一个控制器进行处理：将”forward:”或”redirect:”当成指示符，其后的字符作为URL处理，区别在于redirect会让浏览器发起一个新的请求但属于同一个Session，而forwar请求与当前请求同属一个请求。</p>
+<h2 id="转发"><a href="#转发" class="headerlink" title="转发"></a>转发</h2><p>forward操作发生在服务器内部,在前一个控制器处理完毕后,直接进入下一个控制器处理, 并将最后的response发给浏览器。这种方式的特点是:</p>
+<ul>
+<li>转发前后是同一个request,后一个控制器处理方法可共享前一个控制器处理方法的参数与属性;</li>
+<li>因为是同一个request,拦截器只会拦截前一个URL,如果前一个URL在映射时未配置到拦截器拦截，则拦截后一个URL，即只拦截一次;</li>
+<li>最后返回到浏览器后,因为地址栏显示的是转发前的URL,所以刷新页面时会依次执行前后两个控制器;</li>
+</ul>
+<p>举个栗子：<br>控制器代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/a"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">inputData</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"a"</span>; <span class="comment">//Spring框架找到对应的View并渲染</span></div><div class="line">&#125;</div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/a"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">outputData</span><span class="params">(Model model , String name)</span></span>&#123;</div><div class="line">    model.addAttribute(<span class="string">"name"</span>, name);</div><div class="line">    <span class="comment">//转发到 /b 的Controller方法(即outputDataX)上</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"forward:/test/b"</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/b"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">outputDataX</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"b"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>前端界面a.jsp:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">%--</span></span></div><div class="line">  <span class="attr">Created</span> <span class="attr">by</span> <span class="attr">IntelliJ</span> <span class="attr">IDEA.</span></div><div class="line">  <span class="attr">User:</span> <span class="attr">qiu</span></div><div class="line">  <span class="attr">Date:</span> <span class="attr">18-1-26</span></div><div class="line">  <span class="attr">Time:</span> 上午<span class="attr">9:59</span></div><div class="line">  <span class="attr">To</span> <span class="attr">change</span> <span class="attr">this</span> <span class="attr">template</span> <span class="attr">use</span> <span class="attr">File</span> | <span class="attr">Settings</span> | <span class="attr">File</span> <span class="attr">Templates.</span></div><div class="line"><span class="attr">--</span>%&gt;</div><div class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/test/a"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"name"</span>/&gt;</span><span class="tag">&lt;<span class="name">button</span>&gt;</span>get<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>前端界面b.jsp:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">%--</span></span></div><div class="line">  <span class="attr">Created</span> <span class="attr">by</span> <span class="attr">IntelliJ</span> <span class="attr">IDEA.</span></div><div class="line">  <span class="attr">User:</span> <span class="attr">qiu</span></div><div class="line">  <span class="attr">Date:</span> <span class="attr">18-1-26</span></div><div class="line">  <span class="attr">Time:</span> 上午<span class="attr">10:00</span></div><div class="line">  <span class="attr">To</span> <span class="attr">change</span> <span class="attr">this</span> <span class="attr">template</span> <span class="attr">use</span> <span class="attr">File</span> | <span class="attr">Settings</span> | <span class="attr">File</span> <span class="attr">Templates.</span></div><div class="line"><span class="attr">--</span>%&gt;</div><div class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">$&#123;name&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在后面的例子中这2个前端界面是没有变化的，就不再重复说明了。</p>
+<p>运行服务器访问结果：<br><img src="../../../../images/web/forward1.png" alt=""></p>
+<p><img src="../../../../images/web/forward2.png" alt=""></p>
+<p>我们发现请求参数是可以通过转发操作共享的，并且浏览器的URL没有变化。</p>
+<h2 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h2><p>redirect操作大致流程是这样的：服务器端会首先发一个response给浏览器, 然后浏览器收到这个response后再发一个requeset给服务器, 然后服务器发新的response给浏览器。这种方式的特点是:</p>
+<ul>
+<li>在转发前后有两个不同的request对象,转发前后的两个控制器在request上的参数(request.getParameter())和request属性(request.getAttribute())不能共享;</li>
+<li>如果转发前后的两个控制器都配置在spring拦截器范围内,这样拦截器会拦截前后两个request,即会拦截两次;</li>
+<li>最后返回到浏览器后,因为地址栏显示的是转发后的URL,所以刷新页面时只会执行后面的URL映射的控制器处理方法；</li>
+</ul>
+<p>我们来测试一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/a"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">inputData</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"a"</span>; <span class="comment">//Spring框架找到对应的View并渲染</span></div><div class="line">&#125;</div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/a"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">outputData</span><span class="params">(HttpServletRequest request, String name)</span></span>&#123;</div><div class="line">    request.setAttribute(<span class="string">"name"</span>, name);</div><div class="line">    <span class="comment">//转发到 /b 的Controller方法(即outputDataX)上</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"redirect:/test/b"</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/b"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">outputDataX</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"b"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="../../../../images/web/redirect1.png" alt=""></p>
+<p><img src="../../../../images/web/redirect2.png" alt=""></p>
+<p>说明redirect操作是无法将原请求中的参数传递到重定向后的控制器方法中的，并且浏览器URL会变化。</p>
+<p><strong>如何才能在重定向操作中传递请求的参数呢？一种方法是拼接URL方法来传递，另外还可以使用HttpSession来传递参数。</strong></p>
+<h3 id="RedirectAttributes"><a href="#RedirectAttributes" class="headerlink" title="RedirectAttributes"></a>RedirectAttributes</h3><p>RedirectAttributes工具类来帮助我们传递参数，其本质是拼接URL来传递的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/a"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">inputData</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"a"</span>; <span class="comment">//Spring框架找到对应的View并渲染</span></div><div class="line">&#125;</div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/a"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">outputData</span><span class="params">(RedirectAttributes redirectAttributes, String name)</span></span>&#123;</div><div class="line">    redirectAttributes.addAttribute(<span class="string">"name"</span>, name);</div><div class="line">    <span class="comment">//转发到 /b 的Controller方法(即outputDataX)上</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"redirect:/test/b"</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/b"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">outputDataX</span><span class="params">(Model model,String name)</span></span>&#123;</div><div class="line">    model.addAttribute(<span class="string">"name"</span>, name);</div><div class="line">    <span class="keyword">return</span> <span class="string">"b"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="../../../../images/web/redirect3.png" alt=""></p>
+<p><img src="../../../../images/web/redirect4.png" alt=""></p>
+<p>通过RedirectAttributes我们得到了上次请求的参数，观察URL发现，其实RedirectAttributes类是帮助我们将原请求的参数写在了URL后面了。这里需要说明的是，使用RedirectAttributes类的addAttribute方法传递参数会将参数写在URL后面；使用RedirectAttributes类的addFlashAttribute方法传递参数不会体现在URL上面，会把该参数值暂时保存于session，待重定向URL获取该参数后从session中移除。</p>
+<h3 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h3><p>通过Session来传递重定向请求参数，请求参数不会出现在URL中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/a"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">inputData</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"a"</span>; <span class="comment">//Spring框架找到对应的View并渲染</span></div><div class="line">&#125;</div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/a"</span>, method=RequestMethod.POST)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">outputData</span><span class="params">(HttpSession session, String name)</span></span>&#123;</div><div class="line">    session.setAttribute(<span class="string">"name"</span>, name);</div><div class="line">    <span class="comment">//转发到 /b 的Controller方法(即outputDataX)上</span></div><div class="line">    <span class="keyword">return</span> <span class="string">"redirect:/test/b"</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/b"</span>, method=RequestMethod.GET)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">outputDataX</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"b"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果：<br><img src="../../../../images/web/redirect5.png" alt=""></p>
+<p><img src="../../../../images/web/redirect6.png" alt=""></p>
+<p>在实际编程的时候，直接在控制处理方法入参使用HttpSession类型的参数的话不利于调试，我们可以在类定义处使用@SessionAttributes注解来替代，将参数存入session会话中。<br>结合之前那篇讲SpringMVC的参数传递的博客来讲讲SpringMVC在处理@ModelAttributes与@SessionAttributes同时存在的情况下，流程是这样的：</p>
+<ol>
+<li>SpringMVC在调用控制器处理方法前，在请求线程中自动创建一个隐含的模型对象</li>
+<li>调用所有标注了@ModelAttribute的方法，并将方法返回值添加到隐含模型中</li>
+<li>查看Session中是否存在@SessionAttributes(“xxx”)所指定的xxx属性，如果有，则将其添加到隐含模型。如果隐含模型中已经有xxx属性，则该步操作会覆盖模型中已有的属性值</li>
+<li>对标注了@ModelAttribute(“xxx”)处理方法的入参按如下流程处理：<br>4.1  如果隐含模型拥有名为xxx的属性，则将其赋给该入参，再用请求消息填充该入参对象直接返回，否则转到4.2<br>4.2  如果xxx是会话属性，即在处理类定义处标注了@SessionAttributes(“xxx”)，则尝试从会话中获取该属性，并将其赋给该入参，然后再用请求消息填充该入参对象。如果在会话中找不到对应的属性，则抛出HttpSessionRequiredException异常。否则转到4.3<br>4.3  如果隐含模型中不存在xxx属性，且xxx也不是会话属性，则创建入参的对象实例，然后再用请求消息填充该入参</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Stack Overflow上有一个关于重定向与转发的回答，我觉得讲的挺概括的，这里我就直接搬运过来作为总结吧：</p>
+<p>Forward: is faster, the client browser is not involved, the browser displays the original URL, the request is transfered do the forwarded URL.<br>Redirect: is slower, the client browser is involved, the browser displays the redirected URL, it creates a new request to the redirected URL.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringMVC/" rel="tag"><i class="fa fa-tag"></i> SpringMVC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/23/MyBatis入门/" rel="next" title="MyBatis入门">
+                <i class="fa fa-chevron-left"></i> MyBatis入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description">大道唯有自成</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#重定向与转发"><span class="nav-number">1.</span> <span class="nav-text">重定向与转发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#转发"><span class="nav-number">1.1.</span> <span class="nav-text">转发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重定向"><span class="nav-number">1.2.</span> <span class="nav-text">重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RedirectAttributes"><span class="nav-number">1.2.1.</span> <span class="nav-text">RedirectAttributes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HttpSession"><span class="nav-number">1.2.2.</span> <span class="nav-text">HttpSession</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">记录学习生活的点滴</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
