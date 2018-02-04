@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="动态规划," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言近期一直在复习JavaEE方面的内容，好久没碰算法感觉脑子都快生锈了(我做的LeetCode题解已经12天没有commit了)。正好之前一直想总结一下关于动态规划的思路与理解，现在就趁着这个时间好好复习一下动态规划。当然不能纸上谈兵，我们就来解决动态规划中的一类经典问题——背包问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划——背包问题">
+<meta property="og:url" content="http://yoursite.com/2018/01/30/我所理解的背包问题/index.html">
+<meta property="og:site_name" content="Qiu Homepage">
+<meta property="og:description" content="前言近期一直在复习JavaEE方面的内容，好久没碰算法感觉脑子都快生锈了(我做的LeetCode题解已经12天没有commit了)。正好之前一直想总结一下关于动态规划的思路与理解，现在就趁着这个时间好好复习一下动态规划。当然不能纸上谈兵，我们就来解决动态规划中的一类经典问题——背包问题">
+<meta property="og:updated_time" content="2018-02-02T15:48:10.391Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动态规划——背包问题">
+<meta name="twitter:description" content="前言近期一直在复习JavaEE方面的内容，好久没碰算法感觉脑子都快生锈了(我做的LeetCode题解已经12天没有commit了)。正好之前一直想总结一下关于动态规划的思路与理解，现在就趁着这个时间好好复习一下动态规划。当然不能纸上谈兵，我们就来解决动态规划中的一类经典问题——背包问题">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/30/我所理解的背包问题/"/>
+
+
+
+
+
+  <title>动态规划——背包问题 | Qiu Homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/我所理解的背包问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">动态规划——背包问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T23:45:09+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近期一直在复习JavaEE方面的内容，好久没碰算法感觉脑子都快生锈了(我做的LeetCode题解已经12天没有commit了)。正好之前一直想总结一下关于动态规划的思路与理解，现在就趁着这个时间好好复习一下动态规划。当然不能纸上谈兵，我们就来解决动态规划中的一类经典问题——背包问题<a id="more"></a></p>
+<h1 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h1><p><strong>什么是背包问题？</strong></p>
+<p>简单来说背包问题要解决这样一类问题：有N件物品和一个容量为V的背包，并且N件物品中的第i件物品的费用是c[i]，价值是w[i]，那么将哪些物品装入背包可使物品价值总和最大并且物品重量不超过背包的容量。</p>
+<h2 id="0-1背包问题"><a href="#0-1背包问题" class="headerlink" title="0-1背包问题"></a>0-1背包问题</h2><p>分析：<strong>0-1背包问题的关键是每种物品仅有一件，可以选择放进背包或者不放进背包。</strong>按照这个思路，我们来定义动态规划的状态定义。<br>状态定义：f[i][v]表示前i件物品恰放入一个容量为v的背包可以获得的最大价值。<br>状态转移方程：f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]+w[i]}</p>
+<p>问题的解释：“将前i件物品放入容量为v的背包中”这个子问题，若只考虑第i件物品的策略（放或不放），那么就可以转化为一个只牵扯前i-1件物品的问题。如果不放第i件物品，那么问题就转化为“前i-1件物品放入容量为v的背包中”，价值为f[i-1][v]；如果放第i件物品，那么问题就转化为“前i-1件物品放入剩下的容量为v-c[i]的背包中”，此时能获得的最大价值就是f[i-1][v-c[i]]再加上通过放入第i件物品获得的价值w[i]。<br>伪代码(用一维数组代替与上述状态定义中的二维数组，两者只是形式不同而已，后面会解释为什么这么做)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">for i=1..N</div><div class="line">    for v=V..0   //使用降序循环，就可以用一维数组来描述状态，为了后续变种问题提供了方便</div><div class="line">        f[v]=max&#123;f[v],f[v-c[i]]+w[i]&#125;;</div></pre></td></tr></table></figure>
+<p>解析： <strong><em>f[v]=max{f[v],f[v-c[i]]}</em></strong> 就相当于我们的转移方程 <strong><em>f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]}</em></strong> ， 因为当前的f[v-c[i]]就相当于原来的f[i-1][v-c[i]]。但是如果将v的循环顺序从上面的逆序改成顺序的话，那么 <strong><em>f[v]=max{f[v],f[v-c[i]]}</em></strong> 就成了 <strong><em>f[i][v]=max{f[i-1][v],f[i][v-c[i]]}</em></strong> ，显然与本题意不符。这里一定要理解才能往下看，后续的背包问题的变种问题就是基于一维数组来解决的，这里就解释了使用一维数组的原理与可行性。</p>
+<p>状态转移方程定下来之后，完成动态规划还有一个任务就是要确定状态的初始值，也就是状态的初始化过程。关于状态的初始化是根据题目的要求来变的，有的题目要求“恰好装满背包”时的最优解，有的题目则并没有要求必须把背包装满。这两种问法的实现方法是在初始化的时候是不同的。<br>如果要求恰好装满背包，那么在初始化时除了f[0]为0其它f[1..V]均设为-∞，这样就可以保证最终得到的f[N]是一种恰好装满背包的最优解。如果并没有要求必须把背包装满，而是只希望价格尽量大，初始化时应该将f[0..V]全部设为0。<br>如何理解要求背包恰好装满情况下的初始化呢？“字面”来理解，如果要求恰好装满背包，那么只有在f[0]的时候，背包容量为0，这时可以认为背包是满的，最大价值有解且解为0，而其它f[1..V]在初始化的时候，背包是有容量的且背包未被装满，所以初始值为-∞，可以理解为此时无解。</p>
+<p>另外，如果要求输出这个最优值的方案的话，可以参照一般动态规划问题输出方案的方法：记录下每个状态的最优值是由状态转移方程的哪一项推出来的，换句话说，记录下每个状态是由哪一个状态推出来的，于是就可以从最终状态找到上一个状态，再从上一个状态接着向前推即可。<br>以0-1背包为例，方程为 <strong><em>f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]+w[i]}</em></strong>。 再用一个数组g[i][v]记录状态转移路线，如果g[i][v]==0表示f[i][v]的值是采用了方程的前一项（也即f[i][v]=f[i-1][v]），如果g[i][v]==1表示采用了方程的后一项（也即f[i][v]=f[i][v-c[i]]）。<br>输出方案的伪代码可以这样写：（设最终状态为f[N][V]）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">i=N</div><div class="line">v=<span class="function">V</span></div><div class="line"><span class="title">while</span><span class="params">(i&gt;<span class="number">0</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span>(g[i][v]==<span class="number">0</span>)</div><div class="line">        print <span class="string">"未选第i项物品"</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(g[i][v]==<span class="number">1</span>)</div><div class="line">        print <span class="string">"选了第i项物品"</span></div><div class="line">        v=v-c[i]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ps：本篇博客重点在于梳理关于动态规划解决背包问题的思路，有得只提供了伪代码，有兴趣的同学可以自己实现一下，很简单。</p>
+<h2 id="背包问题变种"><a href="#背包问题变种" class="headerlink" title="背包问题变种"></a>背包问题变种</h2><p>我们基于上述0-1背包问题来修改题目限制条件，看看有哪些变种的问题。</p>
+<h3 id="变种1-装满背包或者装至某一指定体积的方案总数"><a href="#变种1-装满背包或者装至某一指定体积的方案总数" class="headerlink" title="变种1:装满背包或者装至某一指定体积的方案总数"></a>变种1:装满背包或者装至某一指定体积的方案总数</h3><p>分析：要求得装满背包或者装至某一体积的方案总数，我们简单修改一下状态定义即可，就基于0-1背包问题来举例：<br>状态定义：f[i][v]表示前i件物品装满体积为v的背包的方案总数<br>状态转移： <strong><em>f[i][v]=sum(f[i-1][v],f[i-1][v-c[i]])</em></strong>; 前i件物品装满体积为v的背包方案数，分为2种，一种不包含第i件物品f[i-1][v]，还一种包含第i件物品f[i-i][v-c[i]]，相加即可。<br>初始化：f[0][0]=1;理解为将0件物品放入体积为0的背包的方案数为1。按照这种初始化与状态转移方程求解的话，f[N][V]就是用N件物品装满体积为V背包的方案数. </p>
+<p>我自己写了了一个基于0-1背包的问题的该变种问题的求解，用的是一维数组的形式，当然也可以按照状态转移方程写出二维数组的解法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">dp</span><span class="params">(<span class="keyword">int</span>[] f, <span class="keyword">int</span> v)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[v + <span class="number">1</span>];</div><div class="line">    dp[<span class="number">0</span>] = <span class="number">1</span>;<span class="comment">//将第0件物品装入体积为0的背包,只有一种方案,放入nothing</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; f.length; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = v; j - f[i] &gt;= <span class="number">0</span>; j--) &#123;<span class="comment">//每次放入之前检查背包容量是否足够</span></div><div class="line">            dp[j] = dp[j] + dp[j - f[i]];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[v];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="变种2-完全背包问题"><a href="#变种2-完全背包问题" class="headerlink" title="变种2:完全背包问题"></a>变种2:完全背包问题</h3><p>0-1背包问题一个关键点在于每种物品仅有一件，可以选择放进背包或者不放进背包。如果我们修改这个限制条件，那么问题变成这样：有N种物品(每种物品可以选任意件)和一个容量为V的背包，每种物品都有无限件可用。第i种物品的费用是c[i]，价值是w[i]。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。</p>
+<p>分析：这个问题非常类似于0-1背包问题，所不同的是每种物品有无限件，那么也就是从每种物品的角度考虑，与它相关的策略已并非取或不取两种，而是有V/c[i]+1种策略：取0件、取1件、取2件……等(最多V/c[i]件)。基于此，就可以将完全背包问题转化为0-1背包问题：考虑到第i种物品最多选V/c[i]件，于是可以把第i种物品转化为V/c[i]件费用及价值均不变的物品，然后求解这个扩展物品数量之后的0-1背包问题。于是我们仍然可以按照0-1背包时的思路，令f[i][v]表示前i种物品恰放入一个容量为v的背包的最大权值，同样写出状态转移方程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">f[i][v]=max&#123;f[i-1][v-k*c[i]]+k*w[i]|0&lt;=k*c[i]&lt;=v&#125;</div></pre></td></tr></table></figure></p>
+<p>方程的意义：将第i种物品拆分成V/c[i]件同样的物品，每件物品符合0-1背包的条件(取或者不取)，按照0-1背包的思路求解即可。<br>但是！上述解法虽然可行，但是比原来0-1背包问题多了一层循环，所以有人就提出了下面解法：<br>伪代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i=<span class="number">1</span>..N</div><div class="line">    <span class="keyword">for</span> v=<span class="number">0</span>..V <span class="comment">//与0-1背包不同只在于v的循环顺序，同样可以得到正确解</span></div><div class="line">        f[v]=max&#123;f[v],f[v-cost]+weight&#125;</div></pre></td></tr></table></figure>
+<p>这个伪代码与0-1背包问题的伪代码只有v的循环顺序不同而已，比上述转化为0-1背包的解法精练很多，至于这种解法的正确性，我也没怎么想明白。希望大家可以和我一起讨论这个问题，在博客的about me界面有我的联系方式，一起进步。</p>
+<h3 id="变种3-分组背包问题"><a href="#变种3-分组背包问题" class="headerlink" title="变种3:分组背包问题"></a>变种3:分组背包问题</h3><p>分组的背包问题：有N件物品和一个容量为V的背包。第i件物品的费用是c[i]，价值是w[i]。这些物品被划分为若干组，每组中的物品互相冲突，最多选一件。求解将哪些物品装入背包可使这些物品的费用总和不超过背包容量，且价值总和最大。</p>
+<p>分析：这个问题变成了每组物品有若干种策略，是选择本组的某一件，还是一件都不选。也就是说设f[k][v]表示前k组物品花费费用v能取得的最大权值，则有状态转移方程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">f[k][v]=max&#123;f[k-1][v],f[k-1][v-c[i]]+w[i]|物品i属于组k&#125;</div></pre></td></tr></table></figure>
+<p>使用一维数组的伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> 所有的组k</div><div class="line">    <span class="keyword">for</span> v=V..<span class="number">0</span></div><div class="line">        <span class="keyword">for</span> 所有的i属于组k</div><div class="line">            f[v]=max&#123;f[v],f[v-c[i]]+w[i]&#125;</div></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上就是关于背包问题的解法，重点在于理解0-1背包问题的一维数组解法，由此可以解决背包问题的其他变种问题。在之前的<a href="https://lujunqiu.github.io/2017/12/16/股票中的动态规划/" target="_blank" rel="external">股票中的动态规划</a>博客中已经介绍一些关于动态规划的理解，这里在另外一个角度理解动态规划(以下是我整理的知乎高票答案得到的，感谢知乎大牛的分享)：</p>
+<p>所有的决策类求最优解的问题都是在状态空间内找一个可以到达的最佳状态，搜索的方式是去遍历每一个点，而动态规划则是把状态空间变形，由此变成从初始到目标状态的最短路径问题。<br>依照上述的描述：假若你的问题的结论包含若干决策，则可以认为从初始状态到最终解的中间的决策流程是一个决策状态空间中的转移路线。但是前提是，你的状态描述可以完整且唯一地覆盖所有有效的状态空间中的所有点，且转移路线包含所有可能的路径。<br>这个描述是包含动态规划两大条件的。所谓无后效性，指状态间的转移与如何到达某状态无关。如果有关，意味着你的状态描述不能完整而唯一地包括每一个状态。如果你发现一个状态转移有后效性，很简单，把会引起后效性的参数作为状态描述的一部分放进去将其区分开来就可以了；最优子结构说明转移路线包含了所有可能的路径，如果不具备最优子结构，意味着有部分情况没有在转移中充分体现，增加转移的描述就可以了。最终所有的搜索问题都可以描述成状态空间内的状态转移方程，只是有可能状态数量是指数阶的，有可能不满足计算要求罢了。<br>于是从状态图的角度抽象，所有的动态规划问题都可以转变为状态空间内大量可行状态点和有效转移构成的图的从初始状态到最终状态的最短路问题，其本质就是图论中的最短路径问题。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/动态规划/" rel="tag"><i class="fa fa-tag"></i> 动态规划</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/26/MyBatis进阶/" rel="next" title="MyBatis进阶">
+                <i class="fa fa-chevron-left"></i> MyBatis进阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/01/Spring容器——面向Bean编程/" rel="prev" title="Spring容器——面向Bean编程">
+                Spring容器——面向Bean编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description">大道唯有自成</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背包问题"><span class="nav-number">2.</span> <span class="nav-text">背包问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-1背包问题"><span class="nav-number">2.1.</span> <span class="nav-text">0-1背包问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背包问题变种"><span class="nav-number">2.2.</span> <span class="nav-text">背包问题变种</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变种1-装满背包或者装至某一指定体积的方案总数"><span class="nav-number">2.2.1.</span> <span class="nav-text">变种1:装满背包或者装至某一指定体积的方案总数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变种2-完全背包问题"><span class="nav-number">2.2.2.</span> <span class="nav-text">变种2:完全背包问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变种3-分组背包问题"><span class="nav-number">2.2.3.</span> <span class="nav-text">变种3:分组背包问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">记录学习生活的点滴</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

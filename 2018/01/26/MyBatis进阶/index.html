@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MyBatis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言接着之前介绍Mybatis入门的内容，本篇博客将进一步学习mybatis框架的使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis进阶">
+<meta property="og:url" content="http://yoursite.com/2018/01/26/MyBatis进阶/index.html">
+<meta property="og:site_name" content="Qiu Homepage">
+<meta property="og:description" content="前言接着之前介绍Mybatis入门的内容，本篇博客将进一步学习mybatis框架的使用。">
+<meta property="og:image" content="http://yoursite.com/../../../../images/web/sql.png">
+<meta property="og:updated_time" content="2018-02-01T03:08:30.870Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MyBatis进阶">
+<meta name="twitter:description" content="前言接着之前介绍Mybatis入门的内容，本篇博客将进一步学习mybatis框架的使用。">
+<meta name="twitter:image" content="http://yoursite.com/../../../../images/web/sql.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/26/MyBatis进阶/"/>
+
+
+
+
+
+  <title>MyBatis进阶 | Qiu Homepage</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Qiu Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/26/MyBatis进阶/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Lujunqiu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Qiu Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MyBatis进阶</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T19:35:25+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>接着之前介绍<a href="https://lujunqiu.github.io/2018/01/23/MyBatis入门/" target="_blank" rel="external">Mybatis入门</a>的内容，本篇博客将进一步学习mybatis框架的使用。<a id="more"></a></p>
+<h1 id="MyBatis配置"><a href="#MyBatis配置" class="headerlink" title="MyBatis配置"></a>MyBatis配置</h1><p>在之前的入门篇中介绍的spring-mybatis的例子里，在mybatis配置文件中我们只使用到了mybatis的映射器配置与日志配置，没有用到mybatis的其他配置项，接下来来看看mybatis的配置文件提供了哪些可配置的属性。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">properties</span>/&gt;</span><span class="comment">&lt;!--属性--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">settings</span>/&gt;</span><span class="comment">&lt;!--设置--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">typeAliases</span>/&gt;</span><span class="comment">&lt;!--别名--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">typeHandlers</span>/&gt;</span><span class="comment">&lt;!--类型处理器--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">objectFactory</span>/&gt;</span><span class="comment">&lt;!--对象工厂--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">plugins</span>&gt;</span><span class="comment">&lt;!--插件--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">environments</span>&gt;</span><span class="comment">&lt;!--环境配置--&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">environment</span>&gt;</span><span class="comment">&lt;!--环境变量--&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">transactionManager</span>/&gt;</span><span class="comment">&lt;!--事务管理--&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">dataSource</span>/&gt;</span><span class="comment">&lt;!--数据源--&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">environment</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">environments</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">databaseIdProvider</span>/&gt;</span><span class="comment">&lt;!--数据库厂商标识--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">mappers</span>/&gt;</span><span class="comment">&lt;!--映射器--&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上述mybatis的配置文件中，列举了所有可配置的选项，并且这些配置项不能颠倒顺序，否则mybatis启动会报错。</p>
+<p>接下来简答介绍一些常用的配置项：</p>
+<ul>
+<li>properties属性：通过properties可以配置一些参数，允许将参数放在xml文件或者properties文件中，方便统一管理和修改系统参数。</li>
+<li>settings设置项：settings设置里面有很多可配置的地方，这些配置项直接影响mybatis的运行，但是大部分时间使用默认值即可，如果需要修改settings内配置项，可以查看mybatis官网相关的说明，官网的解释很详细且权威，传送门在这：<a href="http://www.mybatis.org/mybatis-3/configuration.html#settings" target="_blank" rel="external">点击</a></li>
+<li>typeHandler类型转换器：在typeHandler中，分为jdbcType和javaType，其中jdbcType用于描述数据库的数据类型，而javaType用于描述java的数据类型，那么typeHandler的作用就是完成jdbcType与javaType之间的互相转换的。大多数情况下，mybatis会自动探测并使用系统自定义的typeHandler进行处理，但是mybatis也允许用户自定义typeHandler，来完成用户特定的转换需求，例如枚举类型的转换。如何自定义typeHandler并使用自定义的typeHandler在官网上也有举例说明，这里就不赘述。</li>
+<li>environments环境配置：环境配置主要是配置数据库信息的，可以配置事务管理器与数据源信息，但是在实际中一般会将mybatis置于spring容器内使用，所以一般采用spring的数据源配置与数据库事务管理功能。</li>
+<li>mappers映射器：映射器是mybatis最核心的组件，mappers这个配置项主要用于引入映射器，一般通过映射器的映射xml文件来引入或者通过映射器的接口的全限定包名来引入。</li>
+</ul>
+<p>关于mybatis的配置，大多数的情况下使用默认的配置即可，如果需要自己定义一些配置，建议去官网上查看配置的详细情况，这里是大致列举了一些常用配置的作用而已。今天还惊喜的发现mybatis的参考文档竟然有中文版，当然如果觉得中文翻译的意思不准确可以直接看英文原版。</p>
+<h1 id="映射器"><a href="#映射器" class="headerlink" title="映射器"></a>映射器</h1><p>映射器是mybatis最核心的组件，它由一个接口加上xml文件组成。在映射器中可以配置参数，各类的SQL语句，缓存，级联等内容，并且可以通过映射规则映射到指定的POJO上。映射器的接口与映射xml文件配置使用，可以有效的消除jdbc底层代码。</p>
+<p>映射器的映射xml文件有以下几个元素：</p>
+<ul>
+<li>cache – 给定命名空间的缓存配置</li>
+<li>cache-ref – 其他命名空间缓存配置的引用</li>
+<li>resultMap – 描述如何从数据库结果集中来加载对象，它将提供映射规则</li>
+<li>sql – 可被其他语句引用的可重用语句块，可以定义一部分SQL，然后在其他地方引用</li>
+<li>insert – 映射插入语句，执行后返回一个整数，代表插入的条数</li>
+<li>update – 映射更新语句，执行后返回一个整数，代表更新的条数</li>
+<li>delete – 映射删除语句，执行后返回一个整数，代表删除的条数</li>
+<li>select – 映射查询语句，返回查询结果</li>
+</ul>
+<h2 id="select元素"><a href="#select元素" class="headerlink" title="select元素"></a>select元素</h2><p>映射器中的select元素代表SQL的select语句，用于查询。select元素中有以下常用的属性：</p>
+<ul>
+<li>id:在Mapper的命名空间中唯一的标识符。Mapper的命名空间与select元素的id将唯一定位对应的映射器接口的某个方法。</li>
+<li>parameterType：将会传入这条语句的参数类的完全限定名或别名，可以选择Java Bean，Map等参数类型传递给SQL。这个属性是可选的，mybatis可以通过TypeHandler推断出具体传入语句的参数。</li>
+<li>resultType：从这条语句中返回的期望类型的类的完全限定名或别名。注意如果是集合情形，那应该是集合可以包含的类型，而不能是集合本身。</li>
+<li>resultMap：映射集的引用，用于结果集的映射，完成结果的映射功能。注意resultType和resultMap不能同时使用。</li>
+<li>flushCache：将其设置为true，任何时候只要语句被调用，都会导致本地缓存和二级缓存都会被清空，默认值：false。</li>
+<li>useCache：将其设置为true，将会导致本条语句的结果被二级缓存，默认值：对select元素为true。</li>
+</ul>
+<p>来看看在之前的入门篇的例子中的select元素：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"getPerson"</span> <span class="attr">parameterType</span>=<span class="string">"int"</span> <span class="attr">resultType</span>=<span class="string">"mybatis.spring.test.pojo.Person"</span>&gt;</span></div><div class="line">    SELECT name,age,tel,id from t_person WHERE id = #&#123;id&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>当然还要配合映射器接口才能完成映射：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Person <span class="title">getPerson</span><span class="params">(@Param(<span class="string">"id"</span>)</span> <span class="keyword">int</span> id)</span>;</div></pre></td></tr></table></figure></p>
+<p>这里用到mybatis提供的自动映射功能，只要SQL的列名与POJO的属性名保持一致，同时在mybatis的配置文件中settings元素的autoMappingBehavior是开启的(默认是开启)即可完成自动映射。如果列名与属性名不一致的话，还可以通过SQL的别名机制来处理。比如说，假如原来列名为person_name，属性名为personName，那么在SQL中就可以这么写：select person_name as personName … 这样同样可以完成自动映射。</p>
+<p>在上述接口方法中，用到了@Param注解用于传递参数，这是mybatis为开发者提供的注解，可以通过它去定义映射器的参数名称，同时利用注解不仅仅可以传递一个参数也可以传递多个参数。除了使用注解，我们还可以用Java Bean来传递参数，将参数作为属性放入Bean中，传递参数给SQL的时候就只用传递一个Bean即可，SQL中可以直接引用Bean中的属性值。还是接着之前的例子来说明：</p>
+<p>先定义一个传递参数的Bean–PersonParams：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PersonParams</span></span>&#123;</div><div class="line">	<span class="keyword">private</span> String name;</div><div class="line">	<span class="keyword">private</span> String age;</div><div class="line">	</div><div class="line">	<span class="comment">/** setter and getter **/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>映射器接口定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;Person&gt; <span class="title">findPersonByBean</span><span class="params">(PersonParams personParam)</span></span>;</div></pre></td></tr></table></figure>
+<p>select元素：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findPersonByBean"</span> <span class="attr">parameterType</span>=<span class="string">"PersonParams类的全限定名"</span> <span class="attr">resultType</span>=<span class="string">"mybatis.spring.test.pojo.Person"</span>&gt;</span></div><div class="line">    SELECT name,age,tel,id from t_person WHERE name = #&#123;name&#125; and age = #&#123;age&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这里特别说明关于select元素返回一个对象或者对象集合的问题：</p>
+<ol>
+<li>返回数据类型由DAO中的接口和映射xml文件共同决定。另外，不论是返回单一对象还是对象列表，映射xml中的配置都是一样的，都是resultType=“<em> .</em> .<em>”类型或resultMap=”</em>resultMap-ref”*。</li>
+<li>每一次mybatis从数据库中select数据之后，都会检查数据条数和DAO中定义的返回值是否匹配。</li>
+<li>若返回一条数据，DAO中定义的返回值是一个对象或对象的List列表，则可以正常匹配，将查询的数据按照DAO中定义的返回值存放。</li>
+<li>若返回多条数据，DAO中定义的返回值是一个对象，则无法将多条数据映射为一个对象，此时mybatis报错。</li>
+</ol>
+<h2 id="resultMap元素"><a href="#resultMap元素" class="headerlink" title="resultMap元素"></a>resultMap元素</h2><p>通过resultType加上mybatis的自动映射可以应对大多数的结果集的映射需求，但是这种方法无法定义更多的属性，比如typeHandler，级联等。为了支持更加复杂的映射，mybatis提供了resultMap属性来完成SQL到Java Bean的映射关系定义。接下来，用resulyMap改写之前使用自动映射的select元素。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span> = <span class="string">"Map"</span> <span class="attr">type</span> = <span class="string">"mybatis.spring.test.pojo.Person"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"id"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"name"</span> <span class="attr">column</span>=<span class="string">"name"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"age"</span> <span class="attr">column</span>=<span class="string">"age"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">"tel"</span> <span class="attr">column</span>=<span class="string">"tel"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"getPerson"</span> <span class="attr">parameterType</span>=<span class="string">"int"</span> <span class="attr">resultMap</span>=<span class="string">"Map"</span>&gt;</span></div><div class="line">       SELECT name,age,tel,id from t_person WHERE id = #&#123;id&#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>子元素id代表主键，result代表属性，id和result元素的property属性代表POJO的属性名称，column代表SQL的列名，这样就将POJO的属性和SQL的列名进行一一对应了。</p>
+<p>上述例子只是一个简单的例子，那么一个完整的resultMap元素的构成有哪些？</p>
+<ul>
+<li>constructor：类在实例化时,用来注入结果到构造方法中</li>
+<li>id：表示哪个列是主键 </li>
+<li>result：注入到JavaBean属性的普通结果，配置POJO到SQL列名的映射关系</li>
+<li>association：一个复杂的类型关联;许多结果将包成这种类型</li>
+<li>collection：复杂类型的集</li>
+<li>discriminator：使用结果值来决定使用哪个结果映射</li>
+</ul>
+<p>constructor元素用于配置构造方法，一个POJO可能不存在没有参数的构造方法，就要使用construtor元素来配置了。</p>
+<p>id元素，result元素主要来定义POJO与SQL列名的映射规则，它们有如下属性：</p>
+<ul>
+<li>property:映射规则中的POJO的属性名，可以用导航式字段，例如需要访问Person类的Address属性的id，就可以写成Address.id</li>
+<li>column：对应的SQL的列名</li>
+<li>javaType：Java类型</li>
+<li>jdbcType：数据库类型</li>
+<li>typeHandler：类型处理器，允许使用自定义的类型处理器 </li>
+</ul>
+<p>其中association，collection和discriminator这些元素是与结果映射的级联相关的。Mybatis支持级联映射，简单来说，假如我们select一个person类，person类有一个属性为address，address也是一个POJO，也就是说需要再进行一次select才能查询到address类的信息。这里需要说明的是，级联不是必须的，级联可以便捷的获取关联数据，但是如果级联太多的话会影响执行效率，也就是著名的N+1问题(如果有N个关联关系完成了级联，那么只要再加入一个关联关系，就变成了N+1个，所有的级联SQL都会被执行，显然不是所有数据是我们感兴趣的，造成了资源的浪费与性能的浪费)。为了应对级联中的N+1问题，mybatis支持延迟加载，在select的时候并不是一次性取出所有的SQL结果来映射，对于那些不常用的级联数据等到需要的时候再取出。在mybatis的全局配置文件中可以设定延迟加载属性，同时在级联元素association和collection中的fetchType属性也可以定义延迟加载。</p>
+<h2 id="insert-update-delete"><a href="#insert-update-delete" class="headerlink" title="insert,update,delete"></a>insert,update,delete</h2><p>相比于select来说，insert,update,delete就很简单了，它们执行的结果返回的是整数，用以标识该SQL语句影响了数据库的记录行数，不需要进行结果集的映射。除此之外，insert元素是支持主键回填的，在inser语句中有一个属性useGeneratedKeys，用来控制是否使用数据库生成的主键来回填到POJO，默认值为false。当打开了主键回填之后，还要配置keyProperty或者keyColumn，告诉mybatis把生成的主键放入哪个属性中。至于在实际中用不用得到数据库生成的主键，我也不能完全肯定，这里只要知道mybatis是支持主键回填的即可，使用起来也很容易。</p>
+<h2 id="sql元素"><a href="#sql元素" class="headerlink" title="sql元素"></a>sql元素</h2><p>这个元素可以被用来定义可重用的SQL代码段，可以包含在其他语句中。 比如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"userColumns"</span>&gt;</span> $&#123;alias&#125;.id,$&#123;alias&#125;.username,$&#123;alias&#125;.password <span class="tag">&lt;/<span class="name">sql</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUsers"</span> <span class="attr">resultType</span>=<span class="string">"map"</span>&gt;</span></div><div class="line">  select</div><div class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"userColumns"</span>&gt;</span><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"alias"</span> <span class="attr">value</span>=<span class="string">"t1"</span>/&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span>,</div><div class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"userColumns"</span>&gt;</span><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"alias"</span> <span class="attr">value</span>=<span class="string">"t2"</span>/&gt;</span><span class="tag">&lt;/<span class="name">include</span>&gt;</span></div><div class="line">  from some_table t1</div><div class="line">    cross join some_table t2</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<h1 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h1><p>mybatis提供了对SQL语句动态的组装能力，大量的判断都可以在mybatis的映射xml里面配置，大大减少了代码量，提供了灵活性。</p>
+<p>mybatis的动态SQL包括以下几种元素，如图所示：</p>
+<p><img src="../../../../images/web/sql.png" alt=""></p>
+<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><p>if元素使用的场景适用于在SQL语句的where子句中动态地选择某几个判断条件作为SQL语句的一部分进行拼接。这里偷个懒，直接引用官方参考文档里的例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findActiveBlogWithTitleLike"</span></span></div><div class="line">     <span class="attr">resultType</span>=<span class="string">"Blog"</span>&gt;</div><div class="line">  SELECT * FROM BLOG </div><div class="line">  WHERE state = ‘ACTIVE’ </div><div class="line">  <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"title != null"</span>&gt;</span></div><div class="line">    AND title like #&#123;title&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>如果传入的参数title不是null，那么就将 AND title like #{title} 这子句拼接在where之后，这样就可以有条件地包含where子句的一部分。</p>
+<h2 id="choose-when-otherwise"><a href="#choose-when-otherwise" class="headerlink" title="choose(when,otherwise)"></a>choose(when,otherwise)</h2><p>if元素是单条件的，choose元素就是多条件的选择类似java里的switch语句，原理一样，还是接着上面的例子来举例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findActiveBlogLike"</span></span></div><div class="line">     <span class="attr">resultType</span>=<span class="string">"Blog"</span>&gt;</div><div class="line">  SELECT * FROM BLOG WHERE state = ‘ACTIVE’</div><div class="line">  <span class="tag">&lt;<span class="name">choose</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">"title != null"</span>&gt;</span></div><div class="line">      AND title like #&#123;title&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">when</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">when</span> <span class="attr">test</span>=<span class="string">"author != null and author.name != null"</span>&gt;</span></div><div class="line">      AND author_name like #&#123;author.name&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">when</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">otherwise</span>&gt;</span></div><div class="line">      AND featured = 1</div><div class="line">    <span class="tag">&lt;/<span class="name">otherwise</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">choose</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上述参考文档中的例子otherwise元素写的是 AND featured = 1 是为了解决前面的所有case都不满足的情况，我建议写成 AND 1 = 1  更好理解。<br>该动态SQL语句的功能：如果参数提供了“title”就按“title”查找，提供了“author”就按“author”查找，若两者都没有提供，就返回所有符合默认条件的查询结果集。</p>
+<h2 id="trim-where-set"><a href="#trim-where-set" class="headerlink" title="trim(where,set)"></a>trim(where,set)</h2><p>前面的例子中的where子句总会有一个默认的查询条件也就是例子中的 state = ‘ACTIVE’ ，如果state也设置成动态的呢？可以通过where,set元素来达到这个需求。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findActiveBlogLike"</span></span></div><div class="line">     <span class="attr">resultType</span>=<span class="string">"Blog"</span>&gt;</div><div class="line">  SELECT * FROM BLOG </div><div class="line">  <span class="tag">&lt;<span class="name">where</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"state != null"</span>&gt;</span></div><div class="line">         state = #&#123;state&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"title != null"</span>&gt;</span></div><div class="line">        AND title like #&#123;title&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"author != null and author.name != null"</span>&gt;</span></div><div class="line">        AND author_name like #&#123;author.name&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">where</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>同样如果是update子句，那么也就相应的set元素，如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateAuthorIfNecessary"</span>&gt;</span></div><div class="line">  update Author</div><div class="line">    <span class="tag">&lt;<span class="name">set</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null"</span>&gt;</span>username=#&#123;username&#125;,<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"password != null"</span>&gt;</span>password=#&#123;password&#125;,<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"email != null"</span>&gt;</span>email=#&#123;email&#125;,<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"bio != null"</span>&gt;</span>bio=#&#123;bio&#125;<span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></div><div class="line">  where id=#&#123;id&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>如果where,set都无法满足动态拼接SQL的需求，我们可以使用trim来自定义如何拼接SQL子句，where和set只是mybatis定义好的拼接SQL的方法而已，但这也已经可以满足大多数需求了。</p>
+<h2 id="foreach"><a href="#foreach" class="headerlink" title="foreach"></a>foreach</h2><p>动态 SQL 的另外一个常用的必要操作是需要对一个集合进行遍历，通常是在构建 IN 条件语句的时候。还是参考文档里买的例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectPostIn"</span> <span class="attr">resultType</span>=<span class="string">"domain.blog.Post"</span>&gt;</span></div><div class="line">  SELECT *</div><div class="line">  FROM POST P</div><div class="line">  WHERE ID in</div><div class="line">  <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">item</span>=<span class="string">"item"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">collection</span>=<span class="string">"list"</span></span></div><div class="line">      <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">separator</span>=<span class="string">","</span> <span class="attr">close</span>=<span class="string">")"</span>&gt;</div><div class="line">        #&#123;item&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>foreach元素允许指定一个集合，声明可以用在元素体内的集合项和索引变量，也允许你指定开闭匹配的字符串以及在迭代中间放置分隔符。我们可以将任何可迭代对象（如列表、集合等）和任何的字典或者数组对象传递给foreach作为集合参数。当使用可迭代对象或者数组时，index是当前迭代的次数，item的值是本次迭代获取的元素。当使用字典（或者Map.Entry对象的集合）时，index是键，item是值。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>提供一个最好的学习mybatis的教材：<a href="http://www.mybatis.org/mybatis-3/zh/index.html" target="_blank" rel="external">官方参考文档</a>。mybatis的使用很简单，很容易上手，按照参考文档多用就会很熟练了。至于mybatis的原理，看了mybatis的使用方法之后都能猜出来，肯定是动态代理了，映射器只提供了接口，mybatis内部将对接口进行动态代理，完成既定的逻辑。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MyBatis/" rel="tag"><i class="fa fa-tag"></i> MyBatis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/25/SpringMVC的转发与重定向/" rel="next" title="SpringMVC的转发与重定向">
+                <i class="fa fa-chevron-left"></i> SpringMVC的转发与重定向
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/30/我所理解的背包问题/" rel="prev" title="动态规划——背包问题">
+                动态规划——背包问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/author.jpg"
+                alt="Lujunqiu" />
+            
+              <p class="site-author-name" itemprop="name">Lujunqiu</p>
+              <p class="site-description motion-element" itemprop="description">大道唯有自成</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:26725432426@qq.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis配置"><span class="nav-number">2.</span> <span class="nav-text">MyBatis配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#映射器"><span class="nav-number">3.</span> <span class="nav-text">映射器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#select元素"><span class="nav-number">3.1.</span> <span class="nav-text">select元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resultMap元素"><span class="nav-number">3.2.</span> <span class="nav-text">resultMap元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#insert-update-delete"><span class="nav-number">3.3.</span> <span class="nav-text">insert,update,delete</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sql元素"><span class="nav-number">3.4.</span> <span class="nav-text">sql元素</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态SQL"><span class="nav-number">4.</span> <span class="nav-text">动态SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#if"><span class="nav-number">4.1.</span> <span class="nav-text">if</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#choose-when-otherwise"><span class="nav-number">4.2.</span> <span class="nav-text">choose(when,otherwise)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trim-where-set"><span class="nav-number">4.3.</span> <span class="nav-text">trim(where,set)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#foreach"><span class="nav-number">4.4.</span> <span class="nav-text">foreach</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lujunqiu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">  个人博客</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">记录学习生活的点滴</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
