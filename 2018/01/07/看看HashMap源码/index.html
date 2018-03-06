@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Qiu Homepage">
 <meta property="og:description" content="前言为什么突然想到要“看看HashMap源码”？当然是因为爱学习！算了，不装13了。其实主要原因是，之前在学习高并发的时候，我们知道HashMap在高并发环境是不安全的，而且有可能使cpu瘫痪。看到这里，我已经很感兴趣了，这玩意还能瘫痪cpu啊。然后了解到的原因是在高并发环境下，HashMap的链表有可能成环，那么get()操作会死循环。为什么会成环呢？如何才能成环呢？抱着这个想法就想”看看Has">
 <meta property="og:image" content="http://yoursite.com/../../../../images/se/hashmap.png">
-<meta property="og:updated_time" content="2018-01-11T02:07:04.106Z">
+<meta property="og:updated_time" content="2018-03-06T00:48:01.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="看看HashMap源码">
 <meta name="twitter:description" content="前言为什么突然想到要“看看HashMap源码”？当然是因为爱学习！算了，不装13了。其实主要原因是，之前在学习高并发的时候，我们知道HashMap在高并发环境是不安全的，而且有可能使cpu瘫痪。看到这里，我已经很感兴趣了，这玩意还能瘫痪cpu啊。然后了解到的原因是在高并发环境下，HashMap的链表有可能成环，那么get()操作会死循环。为什么会成环呢？如何才能成环呢？抱着这个想法就想”看看Has">
@@ -336,6 +336,25 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,939
+                </span>
+              
+
+              
+
+              
+            </div>
+          
 
           
 
@@ -380,7 +399,7 @@
 <p>分解来看，上述方法都做了些什么。</p>
 <p>首先判断当前HashMap的数组是否为空，如果为空，就调用resize()方法初始化一个长度为16的数组，并且获取到数组的长度n，代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ((tab = table) == <span class="keyword">null</span> || (n = tab.length) == <span class="number">0</span>)</div><div class="line">    n = (tab = resize()).length;</div></pre></td></tr></table></figure>
-<p>然后，根据数组的长度n-1的值与入参key的hash值按位与运算，算出hash值对应于数组中的位置，从tab中将这个位置上面的内容取出，判断为null时，在这个位置新增一个Node。但是，如果取到了数据，也就是这个hash值对应数组的位置上面已经有了键值对存在。那么，就判断这个Node(原先数组中的Node)，也就是p的hash值是否与传入的hash相等，然后接着判断key是否相等(这里判断key是否相等，用了一个或运算)。如果判断通过，表示要传入的key-val键值对就是tab[i]位置上面的键值对，直接替换即可，不用管后面是链表还是红黑树。如果不是的话，就将这个新的键值对插入链表或者红黑树中即可。<br>插入键值对分两种情况：如果数组元素是链表时，就遍历链表进行插入等操作，同时找到链表的尾部，将节点新增到尾部。如果链表的长度大于等于红黑树化的阈值-1，就将链表转成红黑树。如果数组元素是红黑树的话，就直接插入键值对Node即可。代码如下：</p>
+<p>然后，根据数组的长度n-1的值与入参key的hash值按位与运算，算出hash值对应于数组中的位置，从tab中将这个位置上面的内容取出，判断为null时，在这个位置新增一个Node。但是，如果取到了数据，也就是这个hash值对应数组的位置上面已经有了键值对存在。那么，就判断这个Node(原先数组中的Node)，也就是p的hash值是否与传入的hash相等，然后接着判断key是否相等(这里判断key是否相等，用了一个或运算)。如果判断通过，表示要传入的key-val键值对就是tab[i]位置上面的键值对，直接替换即可，不用管后面是链表还是红黑树。如果不是的话，就将这个新的键值对插入链表或者红黑树中即可。<br>插入键值对分两种情况：如果数组元素是链表时，就将节点新增到列表头部。如果链表的长度大于等于红黑树化的阈值-1，就将链表转成红黑树。如果数组元素是红黑树的话，就直接插入键值对Node即可。代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="keyword">null</span>)</div><div class="line">    tab[i] = newNode(hash, key, value, <span class="keyword">null</span>);</div><div class="line"><span class="keyword">else</span> &#123;</div><div class="line">    Node&lt;K,V&gt; e; K k;</div><div class="line">    <span class="keyword">if</span> (p.hash == hash &amp;&amp;</div><div class="line">        ((k = p.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">        e = p;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</div><div class="line">        e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="keyword">this</span>, tab, hash, key, value);</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> binCount = <span class="number">0</span>; ; ++binCount) &#123;</div><div class="line">            <span class="keyword">if</span> ((e = p.next) == <span class="keyword">null</span>) &#123;</div><div class="line">                p.next = newNode(hash, key, value, <span class="keyword">null</span>);</div><div class="line">                <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) <span class="comment">// -1 for 1st</span></div><div class="line">                    treeifyBin(tab, hash);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (e.hash == hash &amp;&amp;</div><div class="line">                ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            p = e;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123; <span class="comment">// existing mapping for key</span></div><div class="line">        V oldValue = e.value;</div><div class="line">        <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="keyword">null</span>)</div><div class="line">            e.value = value;</div><div class="line">        afterNodeAccess(e);</div><div class="line">        <span class="keyword">return</span> oldValue;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>最后，将修改次数加一，同时判断当前的键值对数量是否即将超过阈值，如果即将超过，需要进行resize()操作。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">++modCount;</div><div class="line">     <span class="keyword">if</span> (++size &gt; threshold)</div><div class="line">         resize();</div><div class="line">     afterNodeInsertion(evict);</div><div class="line">     <span class="keyword">return</span> <span class="keyword">null</span>;</div></pre></td></tr></table></figure>
